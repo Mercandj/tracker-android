@@ -4,19 +4,49 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.SupportMapFragment
+import android.widget.TextView
+import android.widget.Toast
 import com.mercandalli.tracker.R
+import com.mercandalli.tracker.location.CurrentLocation
+import com.mercandalli.tracker.location.CurrentLocationManager
+import com.mercandalli.tracker.main.TrackerApplication
+import com.mercandalli.tracker.main.TrackerComponent
 
 class SpeedView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
-    private var mapFragment: SupportMapFragment? = null
-    private var googleMap: GoogleMap? = null
+
+    private val appComponent: TrackerComponent = TrackerApplication.appComponent
+    private val currentLocationManager = appComponent.provideCurrentLocationManager()
+    private val currentLocationListener = createCurrentLocationListener()
+
+    private var textView: TextView? = null
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_speed, this)
+        textView = findViewById(R.id.view_speed_text_view)
+    }
 
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        currentLocationManager.registerCurrentLocationListener(currentLocationListener)
+    }
+
+    override fun onDetachedFromWindow() {
+        currentLocationManager.unregisterCurrentLocationListener(currentLocationListener)
+        super.onDetachedFromWindow()
+    }
+
+    private fun createCurrentLocationListener(): CurrentLocationManager.CurrentLocationListener {
+        return object : CurrentLocationManager.CurrentLocationListener {
+            override fun onCurrentLocationChanged(location: CurrentLocation?) {
+                if (location == null) {
+                    Toast.makeText(context, "No location", Toast.LENGTH_SHORT).show()
+                } else {
+                    textView!!.text = "" + location.speed
+                }
+            }
+        }
     }
 }

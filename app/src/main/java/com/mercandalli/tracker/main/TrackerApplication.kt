@@ -4,10 +4,10 @@ import android.app.Application
 
 class TrackerApplication : Application() {
 
-
     companion object {
         //platformStatic allow access it from java code
         @JvmStatic lateinit var appComponent: TrackerComponent
+
     }
 
     override fun onCreate() {
@@ -17,7 +17,7 @@ class TrackerApplication : Application() {
     }
 
     /**
-     * Set up the application dagger graph. See [ProfilerComponent].
+     * Set up the application dagger graph. See [TrackerComponent].
      */
     private fun setupGraph() {
         appComponent = DaggerTrackerComponent.builder()

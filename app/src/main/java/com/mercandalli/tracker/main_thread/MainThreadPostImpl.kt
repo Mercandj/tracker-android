@@ -6,7 +6,7 @@ import com.mercandalli.tracker.common.Preconditions
 /**
  * Simple [MainThreadPost] implementation.
  */
-internal class MainThreadPostImpl(
+class MainThreadPostImpl(
 
         /**
          * The main (UI) [Thread] used to be sure that the callbacks are on the main [Thread].

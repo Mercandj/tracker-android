@@ -2,7 +2,7 @@ package com.mercandalli.tracker.location
 
 interface CurrentLocationManager {
 
-    fun getCurrentLocation()
+    fun requestSingleUpdate()
 
     fun cancelRequestLocationUpdates()
 

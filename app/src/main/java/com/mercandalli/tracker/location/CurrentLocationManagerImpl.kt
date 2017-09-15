@@ -18,21 +18,19 @@ internal class CurrentLocationManagerImpl(
     private val criteria: Criteria = Criteria()
 
     init {
-        // Now first make a criteria with your requirements
-        // this is done to save the battery life of the device
-        // there are various other other criteria you can search for..
         criteria.accuracy = Criteria.ACCURACY_COARSE
         criteria.powerRequirement = Criteria.POWER_LOW
-        criteria.isAltitudeRequired = false
+        criteria.isAltitudeRequired = true
         criteria.isBearingRequired = false
         criteria.isSpeedRequired = false
         criteria.isCostAllowed = true
         criteria.horizontalAccuracy = Criteria.ACCURACY_HIGH
         criteria.verticalAccuracy = Criteria.ACCURACY_HIGH
+        criteria.speedAccuracy = Criteria.ACCURACY_HIGH
     }
 
     @SuppressLint("MissingPermission")
-    override fun getCurrentLocation() {
+    override fun requestSingleUpdate() {
         if (isLocationEnable()) {
             locationManager.requestSingleUpdate(criteria, locationListener, null)
         } else {

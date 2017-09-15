@@ -12,7 +12,7 @@ class CurrentLocation private constructor(
         val longitude: Double,
 
         @SerializedName("speed")
-        private val speed: Double,
+        val speed: Float,
 
         @SerializedName("altitude")
         val altitude: Double,
@@ -36,7 +36,7 @@ class CurrentLocation private constructor(
             return CurrentLocation(
                     location.latitude,
                     location.longitude,
-                    location.speed.toDouble(),
+                    location.speed,
                     location.altitude,
                     location.time)
         }

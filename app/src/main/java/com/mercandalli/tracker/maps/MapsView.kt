@@ -25,7 +25,6 @@ class MapsView @JvmOverloads constructor(
         mapFragment = supportFragmentManager.findFragmentById(R.id.view_maps_map) as SupportMapFragment?
         mapFragment!!.getMapAsync(createOnMapReadyCallback())
 
-
         findViewById<View>(R.id.view_maps_fab).setOnClickListener({
 
         })
