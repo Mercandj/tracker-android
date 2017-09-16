@@ -1,10 +1,9 @@
 package com.mercandalli.tracker.location
 
-import android.location.Location
-
+import com.google.android.gms.maps.model.LatLng
 import com.google.gson.annotations.SerializedName
 
-class CurrentLocation private constructor(
+class Location private constructor(
         @SerializedName("latitude")
         val latitude: Double,
 
@@ -21,7 +20,7 @@ class CurrentLocation private constructor(
         val timestamp: Long) {
 
     override fun toString(): String {
-        return "CurrentLocation{" +
+        return "Location{" +
                 "latitude=" + latitude +
                 ", longitude=" + longitude +
                 ", speed=" + speed +
@@ -30,10 +29,14 @@ class CurrentLocation private constructor(
                 '}'
     }
 
+    fun toLatLng(): LatLng {
+        return LatLng(latitude, longitude)
+    }
+
     companion object {
 
-        internal fun create(location: Location): CurrentLocation {
-            return CurrentLocation(
+        internal fun create(location: android.location.Location): Location {
+            return Location(
                     location.latitude,
                     location.longitude,
                     location.speed,
