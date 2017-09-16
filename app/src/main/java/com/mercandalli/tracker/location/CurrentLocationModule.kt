@@ -9,13 +9,13 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class CurrentLocationModule(
-        private val application: TrackerApplication,
-        private val mainThreadPost: MainThreadPost) {
+class CurrentLocationModule {
 
     @Provides
     @Singleton
-    fun provideCurrentLocationManager(): CurrentLocationManager {
+    fun provideCurrentLocationManager(
+            mainThreadPost: MainThreadPost,
+            application: TrackerApplication): CurrentLocationManager {
         val locationManager = application.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return CurrentLocationManagerImpl(
                 locationManager,

@@ -13,17 +13,17 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(modules = arrayOf(
-        CurrentLocationModule::class,
         MainThreadModule::class,
+        CurrentLocationModule::class,
         NetworkModule::class,
         PushModule::class,
         TrackerModule::class)
 )
 interface TrackerComponent {
 
-    fun provideCurrentLocationManager(): CurrentLocationManager
-
     fun provideMainThreadPost(): MainThreadPost
+
+    fun provideCurrentLocationManager(): CurrentLocationManager
 
     fun provideOkHttpClient(): OkHttpClient
 

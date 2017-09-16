@@ -3,6 +3,7 @@ package com.mercandalli.tracker.speed
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -16,7 +17,6 @@ class SpeedView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
-
     private val appComponent: TrackerComponent = TrackerApplication.appComponent
     private val currentLocationManager = appComponent.provideCurrentLocationManager()
     private val currentLocationListener = createCurrentLocationListener()
@@ -26,6 +26,10 @@ class SpeedView @JvmOverloads constructor(
     init {
         LayoutInflater.from(context).inflate(R.layout.view_speed, this)
         textView = findViewById(R.id.view_speed_text_view)
+
+        findViewById<View>(R.id.view_speed_fab).setOnClickListener {
+            currentLocationManager.requestSingleUpdate()
+        }
     }
 
     override fun onAttachedToWindow() {
@@ -44,7 +48,7 @@ class SpeedView @JvmOverloads constructor(
                 if (location == null) {
                     Toast.makeText(context, "No location", Toast.LENGTH_SHORT).show()
                 } else {
-                    textView!!.text = "" + location.speed
+                    textView!!.text = location.toString()
                 }
             }
         }
