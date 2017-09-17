@@ -3,7 +3,6 @@ package com.mercandalli.tracker.location
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
-import java.util.*
 
 @Entity(tableName = "location")
 class LocationEntity constructor(
@@ -31,7 +30,7 @@ class LocationEntity constructor(
     companion object {
         fun create(location: Location): LocationEntity {
             return LocationEntity(
-                    UUID.randomUUID().toString(),
+                    0.toString() + "-" + location.timestamp,
                     0,
                     location.latitude,
                     location.longitude,

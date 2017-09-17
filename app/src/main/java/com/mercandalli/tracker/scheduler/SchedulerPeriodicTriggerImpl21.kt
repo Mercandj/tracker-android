@@ -17,7 +17,7 @@ internal class SchedulerPeriodicTriggerImpl21(
 ) : SchedulerPeriodicTrigger {
 
     private val JOB_INFO_ID: Int = 13
-    private val PLANNED_SCHEDULED_TIMER_INTERVAL = TimeUnit.HOURS.toMillis(1)
+    private val PLANNED_SCHEDULED_TIMER_INTERVAL = TimeUnit.MINUTES.toMillis(10)
     private val scheduleListeners = ArrayList<SchedulerPeriodicTrigger.ScheduleListener>()
     private var isSetup = false
 

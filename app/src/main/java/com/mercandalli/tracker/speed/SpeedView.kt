@@ -12,11 +12,14 @@ import com.mercandalli.tracker.location.Location
 import com.mercandalli.tracker.location.LocationRepository
 import com.mercandalli.tracker.main.TrackerApplication
 import com.mercandalli.tracker.main.TrackerComponent
+import java.text.SimpleDateFormat
+import java.util.*
 
 class SpeedView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
+    private val sdf = SimpleDateFormat("dd-MM-yy HH:mm:ss.SSS")
     private val appComponent: TrackerComponent = TrackerApplication.appComponent
     private val locationManager = appComponent.provideLocationManager()
     private val locationRepository = appComponent.provideLocationRepository()
@@ -59,8 +62,14 @@ class SpeedView @JvmOverloads constructor(
         if (location == null) {
             Toast.makeText(context, "No location", Toast.LENGTH_SHORT).show()
         } else {
-            val positions = locationRepository.getLocations().size
-            textView!!.text = ("Positions: " + positions.toString() + "\n\n" + location.toString())
+            val str = StringBuilder("Positions: ")
+            val locations = locationRepository.getLocations()
+            val size = locations.size
+            str.append(size).append("\n\n").append(location.toString()).append("\n\n")
+            for (i in 0..Math.min(size - 1, 20)) {
+                str.append(sdf.format(Date(locations[i].timestamp))).append("\n")
+            }
+            textView!!.text = str.toString()
         }
     }
 }
