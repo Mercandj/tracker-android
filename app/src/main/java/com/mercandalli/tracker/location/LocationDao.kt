@@ -11,6 +11,6 @@ interface LocationDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun save(location: LocationEntity)
 
-    @Query("SELECT * FROM location ORDER BY timestamp ASC")
+    @Query("SELECT * FROM location ORDER BY timestamp DESC")
     fun load(): List<LocationEntity>
 }

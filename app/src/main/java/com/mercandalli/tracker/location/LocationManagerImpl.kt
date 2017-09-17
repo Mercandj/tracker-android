@@ -7,10 +7,12 @@ import android.os.Bundle
 import com.mercandalli.tracker.main_thread.MainThreadPost
 import java.util.*
 
+
 internal class LocationManagerImpl(
         private val locationManager: android.location.LocationManager,
         private val locationRepository: LocationRepository,
-        private val mainThreadPost: MainThreadPost) : LocationManager {
+        private val mainThreadPost: MainThreadPost,
+        private val delegate: Delegate) : LocationManager {
 
     private val locationListener = createLocationListener()
     private val locationListeners = ArrayList<LocationManager.LocationListener>()
@@ -57,6 +59,10 @@ internal class LocationManagerImpl(
         locationManager.removeUpdates(locationListener)
     }
 
+    override fun startLocationSetting() {
+        delegate.startLocationSettings()
+    }
+
     override fun isLocationEnable(): Boolean {
         return locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)
     }
@@ -100,5 +106,9 @@ internal class LocationManagerImpl(
         val currentLocation = Location.create(location)
         locationRepository.putLocation(currentLocation)
         notifyCurrentLocation(currentLocation)
+    }
+
+    interface Delegate {
+        fun startLocationSettings()
     }
 }

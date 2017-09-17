@@ -32,7 +32,8 @@ class SpeedView @JvmOverloads constructor(
         textView = findViewById(R.id.view_speed_text_view)
 
         findViewById<View>(R.id.view_speed_fab).setOnClickListener {
-            locationManager.requestLocationUpdates()
+            // locationManager.requestLocationUpdates()
+            locationManager.startLocationSetting(true)
         }
     }
 

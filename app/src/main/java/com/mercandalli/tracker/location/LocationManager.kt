@@ -8,6 +8,8 @@ interface LocationManager {
 
     fun stopLocationUpdates()
 
+    fun startLocationSetting()
+
     fun isLocationEnable(): Boolean
 
     fun registerLocationListener(listener: LocationListener)

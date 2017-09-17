@@ -2,6 +2,7 @@ package com.mercandalli.tracker.maps
 
 import android.content.Context
 import android.graphics.Color
+import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -44,6 +45,15 @@ class MapsView @JvmOverloads constructor(
         findViewById<View>(R.id.view_maps_fab).setOnClickListener({
             syncMarkers()
         })
+    }
+
+
+    fun onSaveInstanceState(outState: Bundle?) {
+        mapFragment?.onSaveInstanceState(outState)
+    }
+
+    fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+
     }
 
     private fun createOnMapReadyCallback(): OnMapReadyCallback {
@@ -99,5 +109,10 @@ class MapsView @JvmOverloads constructor(
             markers.add(marker)
             googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(location.toLatLng(), 18f))
         }
+    }
+
+    fun removeMap() {
+        val supportFragmentManager = (context as AppCompatActivity).supportFragmentManager
+        supportFragmentManager.beginTransaction().remove(mapFragment).commit()
     }
 }

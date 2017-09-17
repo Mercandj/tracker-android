@@ -51,13 +51,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
-        super.onSaveInstanceState(outState)
-
         val childAt = container!!.getChildAt(0)
         when (childAt) {
             is SpeedView -> outState!!.putInt(KEY_CURRENT_VIEW, 0)
             is MapsView -> outState!!.putInt(KEY_CURRENT_VIEW, 1)
         }
+        super.onSaveInstanceState(outState)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
@@ -73,6 +72,7 @@ class MainActivity : AppCompatActivity() {
         if (speedView == null) {
             speedView = SpeedView(this)
         }
+        mapsView?.removeMap()
         container?.removeAllViews()
         container?.addView(speedView)
     }
