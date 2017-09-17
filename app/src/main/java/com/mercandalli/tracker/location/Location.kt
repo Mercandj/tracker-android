@@ -3,7 +3,7 @@ package com.mercandalli.tracker.location
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.annotations.SerializedName
 
-class Location private constructor(
+class Location internal constructor(
         @SerializedName("latitude")
         val latitude: Double,
 

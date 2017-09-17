@@ -59,7 +59,8 @@ class SpeedView @JvmOverloads constructor(
         if (location == null) {
             Toast.makeText(context, "No location", Toast.LENGTH_SHORT).show()
         } else {
-            textView!!.text = location.toString()
+            val positions = locationRepository.getLocations().size
+            textView!!.text = ("Positions: " + positions.toString() + "\n\n" + location.toString())
         }
     }
 }

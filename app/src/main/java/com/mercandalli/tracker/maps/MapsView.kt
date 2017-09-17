@@ -1,6 +1,7 @@
 package com.mercandalli.tracker.maps
 
 import android.content.Context
+import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -13,10 +14,12 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
 import com.mercandalli.tracker.R
 import com.mercandalli.tracker.location.LocationRepository
 import com.mercandalli.tracker.main.TrackerApplication
 import com.mercandalli.tracker.main.TrackerComponent
+
 
 class MapsView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -29,8 +32,7 @@ class MapsView @JvmOverloads constructor(
     private val locationManager = appComponent.provideLocationManager()
     private val locationRepository = appComponent.provideLocationRepository()
     private val locationRepositoryListener = createLocationRepositoryListener()
-
-    private val markers: MutableList<Marker> = ArrayList()
+    private val markers = ArrayList<Marker>()
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_maps, this)
@@ -40,13 +42,13 @@ class MapsView @JvmOverloads constructor(
         mapFragment!!.getMapAsync(createOnMapReadyCallback())
 
         findViewById<View>(R.id.view_maps_fab).setOnClickListener({
-
+            syncMarkers()
         })
     }
 
     private fun createOnMapReadyCallback(): OnMapReadyCallback {
         return OnMapReadyCallback {
-            this.googleMap = googleMap
+            this.googleMap = it
             syncMarkers()
         }
     }
@@ -80,17 +82,21 @@ class MapsView @JvmOverloads constructor(
             marker.remove()
         }
         val locations = locationRepository.getLocations()
+
+        val options = PolylineOptions().width(5f).color(Color.BLUE).geodesic(true)
         for (location in locations) {
+            options.add(location.toLatLng())
+        }
+        googleMap!!.addPolyline(options)
+
+        val location = locationRepository.getLocation()
+        if (location != null) {
             val title = "" + location.timestamp
             val marker = googleMap!!.addMarker(MarkerOptions()
                     .position(location.toLatLng())
                     .title(title)
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)))
             markers.add(marker)
-        }
-
-        val location = locationRepository.getLocation()
-        if (location != null) {
             googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(location.toLatLng(), 18f))
         }
     }
