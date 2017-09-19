@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -7,13 +8,61 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_space_2">
+        android:layout_marginBottom="@dimen/default_space"
+        android:layout_marginEnd="@dimen/default_space_2"
+        android:layout_marginStart="@dimen/default_space_2"
+        android:layout_marginTop="@dimen/default_space_2">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/default_space_2"
-            android:text="@string/view_device_title" />
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/default_space_1_5"
+                android:layout_marginStart="@dimen/default_space_1_5"
+                android:layout_marginTop="@dimen/default_space"
+                android:text="@string/view_device_specs_title"
+                android:textColor="@color/color_text_title_1"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="0.4dp"
+                android:layout_marginTop="@dimen/default_space"
+                android:background="#999999" />
+
+            <TextView
+                android:id="@+id/view_device_specs_device_manufacturer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/default_space_1_5"
+                android:layout_marginStart="@dimen/default_space_1_5"
+                android:layout_marginTop="@dimen/default_space"
+                tools:text="Samsung" />
+
+            <TextView
+                android:id="@+id/view_device_specs_device_model"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/default_space_1_5"
+                android:layout_marginStart="@dimen/default_space_1_5"
+                android:layout_marginTop="@dimen/default_space_half"
+                tools:text="Galaxy Nexus" />
+
+            <TextView
+                android:id="@+id/view_device_specs_device_os_version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/default_space_1_5"
+                android:layout_marginEnd="@dimen/default_space_1_5"
+                android:layout_marginStart="@dimen/default_space_1_5"
+                android:layout_marginTop="@dimen/default_space_half"
+                tools:text="14" />
+
+        </LinearLayout>
 
     </android.support.v7.widget.CardView>
 

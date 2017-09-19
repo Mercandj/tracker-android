@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/default_space"
+        android:layout_marginEnd="@dimen/default_space_2"
+        android:layout_marginStart="@dimen/default_space_2"
+        android:layout_marginTop="@dimen/default_space">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/default_space"
+                android:layout_marginTop="@dimen/default_space">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/default_space_1_5"
+                    android:layout_marginStart="@dimen/default_space_1_5"
+                    android:text="@string/view_device_applications_preview_title"
+                    android:textColor="@color/color_text_title_1"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="@dimen/default_space_1_5"
+                    android:layout_marginStart="@dimen/default_space_1_5"
+                    android:text="@string/more"
+                    android:textColor="@color/color_accent_dark"
+                    android:textSize="@dimen/text_size_s"
+                    android:textStyle="bold" />
+
+            </FrameLayout>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="0.4dp"
+                android:background="#999999" />
+
+            <TextView
+                android:id="@+id/view_device_applications_preview_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/default_space_1_5"
+                android:layout_marginEnd="@dimen/default_space_1_5"
+                android:layout_marginStart="@dimen/default_space_1_5"
+                android:layout_marginTop="@dimen/default_space"
+                tools:text="14" />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</merge>

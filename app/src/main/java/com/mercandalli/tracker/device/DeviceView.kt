@@ -19,6 +19,7 @@ class DeviceView @JvmOverloads constructor(
 
     private val appComponent: TrackerComponent = TrackerApplication.appComponent
     private val deviceSpecsManager = appComponent.provideDeviceSpecsManager()
+    private val deviceApplicationsManager = appComponent.provideDeviceApplicationManager()
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_device, this)
@@ -28,6 +29,7 @@ class DeviceView @JvmOverloads constructor(
         recyclerView!!.adapter = deviceRecyclerAdapter
 
         deviceRecyclerAdapter.setDeviceSpecs(deviceSpecsManager.getDeviceSpecs())
+        deviceRecyclerAdapter.setDeviceApplications(deviceApplicationsManager.getDeviceApplications())
     }
 
     private fun createLayoutManager(context: Context): RecyclerView.LayoutManager {

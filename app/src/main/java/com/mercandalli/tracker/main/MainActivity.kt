@@ -48,6 +48,8 @@ class MainActivity : AppCompatActivity() {
                 })
 
         ActivityCompat.requestPermissions(this, PERMISSION_REQUIRED, PERMISSION_REQUEST_CODE)
+
+        TrackerApplication.appComponent.provideDeviceApplicationManager().getDeviceApplications()
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {

@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:parentTag="android.widget.LinearLayout">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_space_2"
-        android:text="@string/view_device_title" />
+        android:layout_marginEnd="@dimen/default_space_2"
+        android:layout_marginStart="@dimen/default_space_2"
+        android:layout_marginTop="@dimen/default_space_2"
+        android:text="@string/view_device_title"
+        android:textColor="@color/color_text_title_1"
+        android:textSize="@dimen/text_size_xl"
+        android:textStyle="bold" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/view_device_list"
