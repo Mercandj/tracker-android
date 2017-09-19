@@ -14,8 +14,6 @@ class TrackerApplication : Application() {
         super.onCreate()
 
         setupGraph()
-
-        setupScheduler()
     }
 
     /**
@@ -25,16 +23,5 @@ class TrackerApplication : Application() {
         appComponent = DaggerTrackerComponent.builder()
                 .trackerModule(TrackerModule(this))
                 .build()
-    }
-
-    private fun setupScheduler() {
-        val schedulerPeriodicTrigger = appComponent.provideSchedulerPeriodicTrigger()
-        val scheduleListener = object : SchedulerPeriodicTrigger.ScheduleListener {
-            override fun onTriggered() {
-                appComponent.provideLocationManager().requestSingleUpdate()
-            }
-        }
-        schedulerPeriodicTrigger.registerScheduleListener(scheduleListener)
-        schedulerPeriodicTrigger.setup()
     }
 }

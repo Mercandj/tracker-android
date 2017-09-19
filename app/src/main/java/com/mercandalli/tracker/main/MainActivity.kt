@@ -7,8 +7,8 @@ import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.ViewGroup
 import com.mercandalli.tracker.R
+import com.mercandalli.tracker.device.DeviceView
 import com.mercandalli.tracker.maps.MapsView
-import com.mercandalli.tracker.speed.SpeedView
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
             Manifest.permission.ACCESS_FINE_LOCATION)
 
     private var container: ViewGroup? = null
-    private var speedView: SpeedView? = null
+    private var speedView: DeviceView? = null
     private var mapsView: MapsView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.activity_main_toolbar))
 
-        speedView = SpeedView(this)
+        speedView = DeviceView(this)
         container = findViewById(R.id.activity_main_container)
         container?.addView(speedView)
 
@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle?) {
         val childAt = container!!.getChildAt(0)
         when (childAt) {
-            is SpeedView -> outState!!.putInt(KEY_CURRENT_VIEW, 0)
+            is DeviceView -> outState!!.putInt(KEY_CURRENT_VIEW, 0)
             is MapsView -> outState!!.putInt(KEY_CURRENT_VIEW, 1)
         }
         super.onSaveInstanceState(outState)
@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun onBottomBarSpeedClicked() {
         if (speedView == null) {
-            speedView = SpeedView(this)
+            speedView = DeviceView(this)
         }
         mapsView?.removeMap()
         container?.removeAllViews()

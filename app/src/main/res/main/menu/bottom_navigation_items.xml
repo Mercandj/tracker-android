@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/action_ongle_0"
-        android:icon="@drawable/ic_important_devices_black_24dp"
+        android:icon="@drawable/ic_smartphone_black_24dp"
         android:title="@string/onglet_0" />
     <item
         android:id="@+id/action_ongle_1"

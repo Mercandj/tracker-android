@@ -1,5 +1,7 @@
 package com.mercandalli.tracker.main
 
+import com.mercandalli.tracker.device_specs.DeviceSpecsManager
+import com.mercandalli.tracker.device_specs.DeviceSpecsModule
 import com.mercandalli.tracker.location.LocationManager
 import com.mercandalli.tracker.location.LocationModule
 import com.mercandalli.tracker.location.LocationRepository
@@ -16,6 +18,7 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(modules = arrayOf(
+        DeviceSpecsModule::class,
         LocationModule::class,
         MainThreadModule::class,
         NetworkModule::class,
@@ -24,6 +27,8 @@ import javax.inject.Singleton
         TrackerModule::class)
 )
 interface TrackerComponent {
+
+    fun provideDeviceSpecsManager(): DeviceSpecsManager
 
     fun provideLocationManager(): LocationManager
 
