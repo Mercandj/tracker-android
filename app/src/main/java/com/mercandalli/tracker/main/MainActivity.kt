@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
+import android.view.Menu
+import android.view.MenuItem
 import android.view.ViewGroup
 import com.mercandalli.tracker.R
 import com.mercandalli.tracker.device.DeviceView
@@ -48,8 +50,6 @@ class MainActivity : AppCompatActivity() {
                 })
 
         ActivityCompat.requestPermissions(this, PERMISSION_REQUIRED, PERMISSION_REQUEST_CODE)
-
-        TrackerApplication.appComponent.provideDeviceApplicationManager().getDeviceApplications()
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
@@ -61,6 +61,7 @@ class MainActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
     }
 
+
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
         super.onRestoreInstanceState(savedInstanceState)
         val i = savedInstanceState!!.getInt(KEY_CURRENT_VIEW)
@@ -68,6 +69,26 @@ class MainActivity : AppCompatActivity() {
             0 -> onBottomBarSpeedClicked()
             1 -> onBottomBarMapsClicked()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        super.onCreateOptionsMenu(menu)
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val itemId = item.itemId
+        if (itemId == R.id.menu_main_item_permissions) {
+            val deviceApplicationManager = TrackerApplication.appComponent.provideDeviceApplicationManager()
+            if (deviceApplicationManager.needUsageStatsPermission()) {
+                deviceApplicationManager.requestUsagePermission()
+            }
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun onBottomBarSpeedClicked() {

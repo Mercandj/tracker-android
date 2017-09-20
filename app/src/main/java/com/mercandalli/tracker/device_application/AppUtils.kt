@@ -121,7 +121,8 @@ object AppUtils {
                         packageInfo.versionCode,
                         packageInfo.versionName,
                         packageInfo.firstInstallTime,
-                        packageInfo.lastUpdateTime))
+                        packageInfo.lastUpdateTime,
+                        0))
             }
         }
         for (packageInfo in userApp) {
@@ -133,7 +134,8 @@ object AppUtils {
                         packageInfo.versionCode,
                         packageInfo.versionName,
                         packageInfo.firstInstallTime,
-                        packageInfo.lastUpdateTime))
+                        packageInfo.lastUpdateTime,
+                        0))
             }
         }
         return list

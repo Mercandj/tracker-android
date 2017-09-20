@@ -1,5 +1,13 @@
 package com.mercandalli.tracker.device_application
 
+import android.app.ActivityManager
+import android.app.usage.UsageStatsManager
+import android.content.Context
+import android.content.Intent
+import android.os.Build
+import android.provider.Settings
+import android.support.annotation.RequiresApi
+import com.mercandalli.tracker.device_application.DeviceApplicationManagerImpl.Delegate
 import com.mercandalli.tracker.main.TrackerApplication
 import dagger.Module
 import dagger.Provides
@@ -11,6 +19,18 @@ class DeviceApplicationModule {
     @Singleton
     @Provides
     fun provideDeviceApplicationManager(application: TrackerApplication): DeviceApplicationManager {
-        return DeviceApplicationManagerImpl(application.packageManager)
+        val activityManager = application.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val usageStatsManager = application.getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
+        return DeviceApplicationManagerImpl(
+                application.packageManager,
+                activityManager,
+                usageStatsManager,
+                object : Delegate {
+                    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+                    override fun requestUsagePermission() {
+                        val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
+                        application.startActivity(intent)
+                    }
+                })
     }
 }

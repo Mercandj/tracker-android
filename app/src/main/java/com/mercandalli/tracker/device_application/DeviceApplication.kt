@@ -28,7 +28,10 @@ class DeviceApplication internal constructor(
         val installedAt: Long,
 
         @SerializedName("updated_at")
-        val updatedAt: Long) {
+        val updatedAt: Long,
+
+        @SerializedName("nb_launch")
+        val nbLaunch: Int) {
 
     @Retention
     @StringDef(PRE_INSTALL, USER_INSTALL)
@@ -43,6 +46,7 @@ class DeviceApplication internal constructor(
                 ", versionName='" + versionName + '\'' +
                 ", installedAt='" + installedAt + '\'' +
                 ", updatedAt='" + updatedAt + '\'' +
+                ", nbLaunch='" + nbLaunch + '\'' +
                 '}'
     }
 
