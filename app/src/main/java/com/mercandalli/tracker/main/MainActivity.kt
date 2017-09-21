@@ -1,15 +1,23 @@
 package com.mercandalli.tracker.main
 
 import android.Manifest
+import android.annotation.TargetApi
+import android.app.PictureInPictureParams
+import android.content.res.Configuration
+import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
+import android.util.Rational
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import com.mercandalli.tracker.R
 import com.mercandalli.tracker.device.DeviceView
+import com.mercandalli.tracker.device_specs.DeviceCpuView
 import com.mercandalli.tracker.maps.MapsView
 
 class MainActivity : AppCompatActivity() {
@@ -29,6 +37,7 @@ class MainActivity : AppCompatActivity() {
     private var container: ViewGroup? = null
     private var speedView: DeviceView? = null
     private var mapsView: MapsView? = null
+    private var deviceCpuView: DeviceCpuView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         container = findViewById(R.id.activity_main_container)
         container?.addView(speedView)
 
-        findViewById<BottomNavigationView>(R.id.bottom_navigation).setOnNavigationItemSelectedListener(
+        findViewById<BottomNavigationView>(R.id.activity_main_bottom_navigation).setOnNavigationItemSelectedListener(
                 BottomNavigationView.OnNavigationItemSelectedListener { item ->
                     when (item.itemId) {
                         R.id.action_ongle_0 -> onBottomBarSpeedClicked()
@@ -61,7 +70,6 @@ class MainActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
     }
 
-
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
         super.onRestoreInstanceState(savedInstanceState)
         val i = savedInstanceState!!.getInt(KEY_CURRENT_VIEW)
@@ -78,9 +86,14 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val itemId = item.itemId
+        if (itemId == R.id.menu_main_item_picture_in_picture) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                minimize()
+            }
+            return true
+        }
         if (itemId == R.id.menu_main_item_permissions) {
             val deviceApplicationManager = TrackerApplication.appComponent.provideDeviceApplicationManager()
             if (deviceApplicationManager.needUsageStatsPermission()) {
@@ -89,6 +102,25 @@ class MainActivity : AppCompatActivity() {
             return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onPictureInPictureModeChanged(isInPictureInPictureMode: Boolean, newConfig: Configuration?) {
+        super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
+        val toolbarAndBottomBarVisibility = if (isInPictureInPictureMode) View.GONE else View.VISIBLE
+        findViewById<View>(R.id.activity_main_toolbar).visibility = toolbarAndBottomBarVisibility
+        findViewById<View>(R.id.activity_main_bottom_navigation).visibility = toolbarAndBottomBarVisibility
+
+        if (isInPictureInPictureMode) {
+            if (deviceCpuView == null) {
+                deviceCpuView = DeviceCpuView(this)
+            }
+            findViewById<FrameLayout>(R.id.activity_main_root).addView(deviceCpuView,
+                    FrameLayout.LayoutParams(
+                            FrameLayout.LayoutParams.MATCH_PARENT,
+                            FrameLayout.LayoutParams.MATCH_PARENT))
+        } else {
+            findViewById<FrameLayout>(R.id.activity_main_root).removeView(deviceCpuView)
+        }
     }
 
     private fun onBottomBarSpeedClicked() {
@@ -106,5 +138,15 @@ class MainActivity : AppCompatActivity() {
         }
         container?.removeAllViews()
         container?.addView(mapsView)
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    private fun minimize() {
+        val pictureInPictureParamsBuilder = PictureInPictureParams.Builder()
+        val dimensionX = resources.getDimension(R.dimen.activity_main_pic_width).toInt()
+        val dimensionY = resources.getDimension(R.dimen.activity_main_pic_height).toInt()
+        val aspectRatio = Rational(dimensionX, dimensionY)
+        pictureInPictureParamsBuilder.setAspectRatio(aspectRatio)
+        enterPictureInPictureMode(pictureInPictureParamsBuilder.build())
     }
 }
