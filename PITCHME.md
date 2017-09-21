@@ -69,7 +69,7 @@ override fun onPictureInPictureModeChanged(
 
 ### Demo
 
-![Video](http://mercandalli.com/tmp/pip.mp4)
+![Video](https://youtu.be/HRJFT3urgGI)
 
 <span style="color:gray; font-size:0.5em;">Source: github.com/googlesamples/android-PictureInPicture</span>
 </br>
