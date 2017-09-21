@@ -69,7 +69,8 @@ override fun onPictureInPictureModeChanged(
 
 ### Demo
 
-![Video](config/picture-in-picture-presentation/pip.mp4)
+![Video](http://mercandalli.com/tmp/pip.mp4)
 
 <span style="color:gray; font-size:0.5em;">Source: github.com/googlesamples/android-PictureInPicture</span>
+</br>
 <span style="color:gray; font-size:0.5em;">Pres Source: github.com/Mercandj/tracker-android</span>
