@@ -4,5 +4,6 @@
     <string name="onglet_0">You</string>
     <string name="onglet_1">Maps</string>
     <string name="more">MORE</string>
+    <string name="main_toolbar_picture_in_picture">Picture in picture</string>
     <string name="main_toolbar_permissions">Permissions</string>
 </resources>

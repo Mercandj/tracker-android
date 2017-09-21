@@ -6,6 +6,20 @@
 	</a>
 </p>
 
+----
 
+## Description
+
+* Provide stats on your phone usage
+* Monitor other phones usages
+
+
+----
+
+## Techno
+
+### Picture in picture
+
+https://gitpitch.com/Mercandj/tracker-android
 
 

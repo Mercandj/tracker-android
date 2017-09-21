@@ -20,4 +20,7 @@
     <dimen name="text_size_xl">18sp</dimen>
     <dimen name="text_size_xxl">22sp</dimen>
     <dimen name="text_size_xxxl">26sp</dimen>
+
+    <dimen name="activity_main_pic_width">150dp</dimen>
+    <dimen name="activity_main_pic_height">200dp</dimen>
 </resources>
