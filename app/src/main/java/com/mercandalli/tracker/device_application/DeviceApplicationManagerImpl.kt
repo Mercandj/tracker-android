@@ -6,6 +6,7 @@ import android.app.usage.UsageStatsManager
 import android.content.pm.PackageManager
 import android.os.Build
 import android.support.annotation.RequiresApi
+import com.mercandalli.tracker.main_thread.MainThreadPost
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -13,30 +14,25 @@ internal class DeviceApplicationManagerImpl constructor(
         private val packageManager: PackageManager,
         private val activityManager: ActivityManager,
         private val usageStatsManager: UsageStatsManager,
+        private val mainThreadPost: MainThreadPost,
         private val delegate: Delegate) : DeviceApplicationManager {
 
-    override fun getDeviceApplications(): List<DeviceApplication> {
-        val sortingNativeFromUserApp = AppUtils.sortingNativeFromUserApp(packageManager, true)
+    private val deviceApplicationsListeners = ArrayList<DeviceApplicationManager.DeviceApplicationsListener>()
+    private val deviceApplications = ArrayList<DeviceApplication>()
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val queryUsageStats = createUsageStats()
-
-            val result = ArrayList<DeviceApplication>()
-            for (deviceApplication in sortingNativeFromUserApp) {
-                val nbLaunch = queryUsageStats.count { it.packageName == deviceApplication.`package` }
-                result.add(DeviceApplication(
-                        deviceApplication.kindInstallation,
-                        deviceApplication.androidAppName,
-                        deviceApplication.`package`,
-                        deviceApplication.versionCode,
-                        deviceApplication.versionName,
-                        deviceApplication.installedAt,
-                        deviceApplication.updatedAt,
-                        nbLaunch))
+    init {
+        Thread(Runnable {
+            val deviceApplicationsSync = getDeviceApplicationsSync()
+            synchronized(deviceApplications) {
+                deviceApplications.clear()
+                deviceApplications.addAll(deviceApplicationsSync)
+                notifyDeviceApplicationsListener()
             }
-            return result.sortedWith(compareBy({ it.nbLaunch }, { it.installedAt }))
-        }
-        return sortingNativeFromUserApp.sortedWith(compareBy({ it.installedAt }))
+        }).start()
+    }
+
+    override fun getDeviceApplications(): List<DeviceApplication> {
+        return deviceApplications
     }
 
     override fun needUsageStatsPermission(): Boolean {
@@ -50,6 +46,42 @@ internal class DeviceApplicationManagerImpl constructor(
         delegate.requestUsagePermission()
     }
 
+    override fun registerDeviceApplicationsListener(listener: DeviceApplicationManager.DeviceApplicationsListener) {
+        if (deviceApplicationsListeners.contains(listener)) {
+            return
+        }
+        deviceApplicationsListeners.add(listener)
+    }
+
+    override fun unregisterDeviceApplicationsListener(listener: DeviceApplicationManager.DeviceApplicationsListener) {
+        deviceApplicationsListeners.remove(listener)
+    }
+
+    private fun getDeviceApplicationsSync(): List<DeviceApplication> {
+        val sortingNativeFromUserApp = AppUtils.sortingNativeFromUserApp(packageManager, true)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val queryUsageStats: List<UsageStats> = createUsageStats()
+
+            val result = ArrayList<DeviceApplication>()
+            for (deviceApplication in sortingNativeFromUserApp) {
+                val nbLaunch = queryUsageStats.count { it.packageName == deviceApplication.`package` }
+                result.add(DeviceApplication(
+                        deviceApplication.kindInstallation,
+                        deviceApplication.androidAppName,
+                        deviceApplication.`package`,
+                        deviceApplication.versionCode,
+                        deviceApplication.versionName,
+                        deviceApplication.installedAt,
+                        deviceApplication.updatedAt,
+                        nbLaunch,
+                        deviceApplication.icon))
+            }
+            return result.sortedWith(compareBy({ it.nbLaunch }, { it.installedAt })).reversed()
+        }
+        return sortingNativeFromUserApp.sortedWith(compareByDescending({ it.installedAt }))
+    }
+
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun createUsageStats(): List<UsageStats> {
         val calendar = Calendar.getInstance()
@@ -60,6 +92,18 @@ internal class DeviceApplicationManagerImpl constructor(
                 UsageStatsManager.INTERVAL_YEARLY,
                 startTime,
                 endTime)
+    }
+
+    private fun notifyDeviceApplicationsListener() {
+        if (!mainThreadPost.isOnMainThread) {
+            mainThreadPost.post(Runnable { notifyDeviceApplicationsListener() })
+            return
+        }
+        synchronized(deviceApplicationsListeners) {
+            for (listener in deviceApplicationsListeners) {
+                listener.onDeviceApplicationsChanged()
+            }
+        }
     }
 
     interface Delegate {

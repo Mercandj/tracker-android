@@ -7,4 +7,13 @@ interface DeviceApplicationManager {
     fun needUsageStatsPermission(): Boolean
 
     fun requestUsagePermission()
+
+    fun registerDeviceApplicationsListener(listener: DeviceApplicationsListener)
+
+    fun unregisterDeviceApplicationsListener(listener: DeviceApplicationsListener)
+
+    interface DeviceApplicationsListener {
+
+        fun onDeviceApplicationsChanged()
+    }
 }

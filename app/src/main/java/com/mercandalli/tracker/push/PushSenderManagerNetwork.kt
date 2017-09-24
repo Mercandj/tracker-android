@@ -9,9 +9,9 @@ import java.util.*
 
 /* package */ internal class PushSenderManagerNetwork(
         private val okHttpClient: OkHttpClient,
+        private val gson: Gson,
         apiKey: String) : PushSenderManager {
     private val headers: Headers
-    private val gson = Gson()
 
     init {
         Preconditions.checkNotNull(okHttpClient)

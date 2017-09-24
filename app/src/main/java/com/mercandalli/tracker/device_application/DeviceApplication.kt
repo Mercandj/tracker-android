@@ -1,6 +1,8 @@
 package com.mercandalli.tracker.device_application
 
+import android.graphics.drawable.Drawable
 import android.support.annotation.StringDef
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -31,7 +33,10 @@ class DeviceApplication internal constructor(
         val updatedAt: Long,
 
         @SerializedName("nb_launch")
-        val nbLaunch: Int) {
+        val nbLaunch: Int,
+
+        @Expose
+        val icon: Drawable) {
 
     @Retention
     @StringDef(PRE_INSTALL, USER_INSTALL)
@@ -47,6 +52,7 @@ class DeviceApplication internal constructor(
                 ", installedAt='" + installedAt + '\'' +
                 ", updatedAt='" + updatedAt + '\'' +
                 ", nbLaunch='" + nbLaunch + '\'' +
+                ", icon='" + icon + '\'' +
                 '}'
     }
 

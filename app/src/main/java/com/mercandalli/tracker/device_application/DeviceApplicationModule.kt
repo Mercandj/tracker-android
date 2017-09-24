@@ -9,6 +9,7 @@ import android.provider.Settings
 import android.support.annotation.RequiresApi
 import com.mercandalli.tracker.device_application.DeviceApplicationManagerImpl.Delegate
 import com.mercandalli.tracker.main.TrackerApplication
+import com.mercandalli.tracker.main_thread.MainThreadPost
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -18,13 +19,16 @@ class DeviceApplicationModule {
 
     @Singleton
     @Provides
-    fun provideDeviceApplicationManager(application: TrackerApplication): DeviceApplicationManager {
+    fun provideDeviceApplicationManager(
+            application: TrackerApplication,
+            mainThreadPost: MainThreadPost): DeviceApplicationManager {
         val activityManager = application.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         val usageStatsManager = application.getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
         return DeviceApplicationManagerImpl(
                 application.packageManager,
                 activityManager,
                 usageStatsManager,
+                mainThreadPost,
                 object : Delegate {
                     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
                     override fun requestUsagePermission() {

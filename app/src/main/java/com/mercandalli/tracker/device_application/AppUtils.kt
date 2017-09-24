@@ -71,7 +71,7 @@ object AppUtils {
      * into {#mPackageInfoList}.
      *
      * @param packageManager   A simple [PackageManager].
-     * @param simpleDateFormat A simple [SimpleDateFormat] like
+     * @param onlyUserInstalledApp Only apps from manual installation.
      * `new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())`.
      */
     fun sortingNativeFromUserApp(
@@ -93,6 +93,7 @@ object AppUtils {
             }
         }
         return createAppInstalledList(
+                packageManager,
                 packageInfoInstalledSystemList,
                 packageInfoList,
                 onlyUserInstalledApp)
@@ -108,36 +109,38 @@ object AppUtils {
      * @return A list of [DeviceApplication].
      */
     private fun createAppInstalledList(
+            packageManager: PackageManager,
             nativeApp: List<PackageInfo>,
             userApp: List<PackageInfo>,
             onlyUserInstalledApp: Boolean): List<DeviceApplication> {
         val list = ArrayList<DeviceApplication>()
         if (!onlyUserInstalledApp) {
-            for (packageInfo in nativeApp) {
-                list.add(DeviceApplication(
+            nativeApp.mapTo(list) {
+                DeviceApplication(
                         DeviceApplication.PRE_INSTALL,
-                        packageInfo.applicationInfo.name,
-                        packageInfo.packageName,
-                        packageInfo.versionCode,
-                        packageInfo.versionName,
-                        packageInfo.firstInstallTime,
-                        packageInfo.lastUpdateTime,
-                        0))
+                        it.applicationInfo.loadLabel(packageManager).toString(),
+                        it.packageName,
+                        it.versionCode,
+                        it.versionName,
+                        it.firstInstallTime,
+                        it.lastUpdateTime,
+                        0,
+                        it.applicationInfo.loadIcon(packageManager))
             }
         }
-        for (packageInfo in userApp) {
-            if (packageInfo.applicationInfo.name != null) {
-                list.add(DeviceApplication(
-                        DeviceApplication.USER_INSTALL,
-                        packageInfo.applicationInfo.name,
-                        packageInfo.packageName,
-                        packageInfo.versionCode,
-                        packageInfo.versionName,
-                        packageInfo.firstInstallTime,
-                        packageInfo.lastUpdateTime,
-                        0))
-            }
-        }
+        userApp.filter { it.applicationInfo.name != null }
+                .mapTo(list) {
+                    DeviceApplication(
+                            DeviceApplication.USER_INSTALL,
+                            it.applicationInfo.loadLabel(packageManager).toString(),
+                            it.packageName,
+                            it.versionCode,
+                            it.versionName,
+                            it.firstInstallTime,
+                            it.lastUpdateTime,
+                            0,
+                            it.applicationInfo.loadIcon(packageManager))
+                }
         return list
     }
-}// Non-instantiable.
+}

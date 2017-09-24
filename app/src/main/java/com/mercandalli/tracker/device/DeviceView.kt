@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import com.mercandalli.tracker.R
+import com.mercandalli.tracker.device_application.DeviceApplicationManager.DeviceApplicationsListener
 import com.mercandalli.tracker.main.TrackerApplication
 import com.mercandalli.tracker.main.TrackerComponent
 
@@ -20,6 +21,7 @@ class DeviceView @JvmOverloads constructor(
     private val appComponent: TrackerComponent = TrackerApplication.appComponent
     private val deviceSpecsManager = appComponent.provideDeviceSpecsManager()
     private val deviceApplicationsManager = appComponent.provideDeviceApplicationManager()
+    private val deviceApplicationsListener = createDeviceApplicationsListener()
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_device, this)
@@ -29,7 +31,25 @@ class DeviceView @JvmOverloads constructor(
         recyclerView!!.adapter = deviceRecyclerAdapter
 
         deviceRecyclerAdapter.setDeviceSpecs(deviceSpecsManager.getDeviceSpecs())
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        deviceApplicationsManager.registerDeviceApplicationsListener(deviceApplicationsListener)
         deviceRecyclerAdapter.setDeviceApplications(deviceApplicationsManager.getDeviceApplications())
+    }
+
+    override fun onDetachedFromWindow() {
+        deviceApplicationsManager.unregisterDeviceApplicationsListener(deviceApplicationsListener)
+        super.onDetachedFromWindow()
+    }
+
+    private fun createDeviceApplicationsListener(): DeviceApplicationsListener {
+        return object : DeviceApplicationsListener {
+            override fun onDeviceApplicationsChanged() {
+                deviceRecyclerAdapter.setDeviceApplications(deviceApplicationsManager.getDeviceApplications())
+            }
+        }
     }
 
     private fun createLayoutManager(context: Context): RecyclerView.LayoutManager {

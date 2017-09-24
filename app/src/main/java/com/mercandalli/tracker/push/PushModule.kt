@@ -1,5 +1,6 @@
 package com.mercandalli.tracker.push
 
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -10,9 +11,12 @@ class PushModule {
 
     @Singleton
     @Provides
-    internal fun providePushSenderManager(okHttpClient: OkHttpClient): PushSenderManager {
+    internal fun providePushSenderManager(
+            okHttpClient: OkHttpClient,
+            gson: Gson): PushSenderManager {
         return PushSenderManagerNetwork(
                 okHttpClient,
+                gson,
                 CLOUD_MESSAGING_API_KEY)
     }
 

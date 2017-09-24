@@ -1,9 +1,11 @@
 package com.mercandalli.tracker.main
 
+import com.google.gson.Gson
 import com.mercandalli.tracker.device_application.DeviceApplicationManager
 import com.mercandalli.tracker.device_application.DeviceApplicationModule
 import com.mercandalli.tracker.device_specs.DeviceSpecsManager
 import com.mercandalli.tracker.device_specs.DeviceSpecsModule
+import com.mercandalli.tracker.gson.GsonModule
 import com.mercandalli.tracker.location.LocationManager
 import com.mercandalli.tracker.location.LocationModule
 import com.mercandalli.tracker.location.LocationRepository
@@ -22,6 +24,7 @@ import javax.inject.Singleton
 @Component(modules = arrayOf(
         DeviceApplicationModule::class,
         DeviceSpecsModule::class,
+        GsonModule::class,
         LocationModule::class,
         MainThreadModule::class,
         NetworkModule::class,
@@ -34,6 +37,8 @@ interface TrackerComponent {
     fun provideDeviceApplicationManager(): DeviceApplicationManager
 
     fun provideDeviceSpecsManager(): DeviceSpecsManager
+
+    fun provideGson(): Gson
 
     fun provideLocationManager(): LocationManager
 

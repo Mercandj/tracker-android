@@ -11,7 +11,6 @@ import com.mercandalli.tracker.device_application.DeviceApplicationsPreviewCard
 import com.mercandalli.tracker.device_specs.DeviceSpecs
 import com.mercandalli.tracker.device_specs.DeviceSpecsCard
 
-
 internal class DeviceRecyclerAdapter : ListDelegationAdapter<List<Any>>() {
 
     private var deviceSpecs: DeviceSpecs? = null
