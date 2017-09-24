@@ -4,6 +4,8 @@ interface DeviceApplicationManager {
 
     fun getDeviceApplications(): List<DeviceApplication>
 
+    fun refreshDeviceApplications()
+
     fun needUsageStatsPermission(): Boolean
 
     fun requestUsagePermission()

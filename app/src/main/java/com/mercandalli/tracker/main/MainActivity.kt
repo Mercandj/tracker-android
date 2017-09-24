@@ -7,7 +7,6 @@ import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
-import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.Rational
 import android.view.Menu
@@ -19,6 +18,7 @@ import com.mercandalli.tracker.R
 import com.mercandalli.tracker.device.DeviceView
 import com.mercandalli.tracker.device_specs.DeviceCpuView
 import com.mercandalli.tracker.maps.MapsView
+import com.mercandalli.tracker.permission.PermissionActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -51,14 +51,15 @@ class MainActivity : AppCompatActivity() {
         findViewById<BottomNavigationView>(R.id.activity_main_bottom_navigation).setOnNavigationItemSelectedListener(
                 BottomNavigationView.OnNavigationItemSelectedListener { item ->
                     when (item.itemId) {
-                        R.id.action_ongle_0 -> onBottomBarSpeedClicked()
-                        R.id.action_ongle_1 -> onBottomBarMapsClicked()
+                        R.id.action_ongle_0 -> onBottomBarYouClicked()
+                        R.id.action_ongle_1 -> onBottomBarTargetClicked()
+                        //R.id.action_ongle_2 -> onBottomBarMapsClicked()
                         else -> throw IllegalStateException("Wrong id")
                     }
                     return@OnNavigationItemSelectedListener true
                 })
 
-        ActivityCompat.requestPermissions(this, PERMISSION_REQUIRED, PERMISSION_REQUEST_CODE)
+        //ActivityCompat.requestPermissions(this, PERMISSION_REQUIRED, PERMISSION_REQUEST_CODE)
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
@@ -74,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         super.onRestoreInstanceState(savedInstanceState)
         val i = savedInstanceState!!.getInt(KEY_CURRENT_VIEW)
         when (i) {
-            0 -> onBottomBarSpeedClicked()
+            0 -> onBottomBarYouClicked()
             1 -> onBottomBarMapsClicked()
         }
     }
@@ -95,10 +96,13 @@ class MainActivity : AppCompatActivity() {
             return true
         }
         if (itemId == R.id.menu_main_item_permissions) {
+            /*
             val deviceApplicationManager = TrackerApplication.appComponent.provideDeviceApplicationManager()
             if (deviceApplicationManager.needUsageStatsPermission()) {
                 deviceApplicationManager.requestUsagePermission()
             }
+            */
+            PermissionActivity.start(this)
             return true
         }
         return super.onOptionsItemSelected(item)
@@ -123,13 +127,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun onBottomBarSpeedClicked() {
+    private fun onBottomBarYouClicked() {
         if (speedView == null) {
             speedView = DeviceView(this)
         }
         mapsView?.removeMap()
         container?.removeAllViews()
         container?.addView(speedView)
+    }
+
+    private fun onBottomBarTargetClicked() {
+
     }
 
     private fun onBottomBarMapsClicked() {

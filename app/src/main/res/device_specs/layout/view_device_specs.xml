@@ -9,8 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/default_space"
-        android:layout_marginEnd="@dimen/default_space_2"
-        android:layout_marginStart="@dimen/default_space_2"
+        android:layout_marginEnd="@dimen/default_space_1_5"
+        android:layout_marginStart="@dimen/default_space_1_5"
         android:layout_marginTop="@dimen/default_space_2">
 
         <LinearLayout
@@ -20,10 +20,10 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/default_space_4"
                 android:layout_marginEnd="@dimen/default_space_1_5"
                 android:layout_marginStart="@dimen/default_space_1_5"
-                android:layout_marginTop="@dimen/default_space"
+                android:gravity="center_vertical"
                 android:text="@string/view_device_specs_title"
                 android:textColor="@color/color_text_title_1"
                 android:textStyle="bold" />
@@ -31,7 +31,6 @@
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="0.4dp"
-                android:layout_marginTop="@dimen/default_space"
                 android:background="#999999" />
 
             <TextView

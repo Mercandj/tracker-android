@@ -37,8 +37,8 @@
         <activity
             android:name=".main.MainActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
-            android:supportsPictureInPicture="true"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:supportsPictureInPicture="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,6 +47,12 @@
             </intent-filter>
 
         </activity>
+
+        <activity
+            android:name=".permission.PermissionActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:label="@string/activity_permission_title"
+            android:supportsPictureInPicture="false" />
 
         <service
             android:name=".scheduler.JobSchedulerService"

@@ -3,9 +3,11 @@ package com.mercandalli.tracker.device_application
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.mercandalli.tracker.R
+import com.mercandalli.tracker.main.TrackerApplication
 
 class DeviceApplicationsPreviewCard @kotlin.jvm.JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -24,6 +26,9 @@ class DeviceApplicationsPreviewCard @kotlin.jvm.JvmOverloads constructor(
         app2 = findViewById(R.id.view_device_applications_preview_app_2)
         app3 = findViewById(R.id.view_device_applications_preview_app_3)
         app4 = findViewById(R.id.view_device_applications_preview_app_4)
+        findViewById<View>(R.id.view_device_applications_preview_refresh).setOnClickListener {
+            TrackerApplication.appComponent.provideDeviceApplicationManager().refreshDeviceApplications()
+        }
     }
 
     internal fun setDeviceApplications(deviceApplications: List<DeviceApplication>) {

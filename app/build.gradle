@@ -29,7 +29,8 @@ android {
                     'src/main/res/device_application',
                     'src/main/res/device_specs',
                     'src/main/res/main',
-                    'src/main/res/maps'
+                    'src/main/res/maps',
+                    'src/main/res/permission'
             ]
         }
     }

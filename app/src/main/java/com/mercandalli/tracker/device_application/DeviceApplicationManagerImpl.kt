@@ -21,6 +21,14 @@ internal class DeviceApplicationManagerImpl constructor(
     private val deviceApplications = ArrayList<DeviceApplication>()
 
     init {
+        refreshDeviceApplications()
+    }
+
+    override fun getDeviceApplications(): List<DeviceApplication> {
+        return deviceApplications
+    }
+
+    override fun refreshDeviceApplications() {
         Thread(Runnable {
             val deviceApplicationsSync = getDeviceApplicationsSync()
             synchronized(deviceApplications) {
@@ -29,10 +37,6 @@ internal class DeviceApplicationManagerImpl constructor(
                 notifyDeviceApplicationsListener()
             }
         }).start()
-    }
-
-    override fun getDeviceApplications(): List<DeviceApplication> {
-        return deviceApplications
     }
 
     override fun needUsageStatsPermission(): Boolean {
@@ -61,11 +65,12 @@ internal class DeviceApplicationManagerImpl constructor(
         val sortingNativeFromUserApp = AppUtils.sortingNativeFromUserApp(packageManager, true)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val queryUsageStats: List<UsageStats> = createUsageStats()
+            val queryUsageStats: Map<String, UsageStats> = createUsageStats()
 
             val result = ArrayList<DeviceApplication>()
             for (deviceApplication in sortingNativeFromUserApp) {
-                val nbLaunch = queryUsageStats.count { it.packageName == deviceApplication.`package` }
+                val usageStats = queryUsageStats[deviceApplication.`package`]
+                val totalTimeInForeground = usageStats?.totalTimeInForeground ?: 0
                 result.add(DeviceApplication(
                         deviceApplication.kindInstallation,
                         deviceApplication.androidAppName,
@@ -74,22 +79,21 @@ internal class DeviceApplicationManagerImpl constructor(
                         deviceApplication.versionName,
                         deviceApplication.installedAt,
                         deviceApplication.updatedAt,
-                        nbLaunch,
+                        totalTimeInForeground,
                         deviceApplication.icon))
             }
-            return result.sortedWith(compareBy({ it.nbLaunch }, { it.installedAt })).reversed()
+            return result.sortedWith(compareBy({ it.totalTimeInForeground }, { it.installedAt })).reversed()
         }
         return sortingNativeFromUserApp.sortedWith(compareByDescending({ it.installedAt }))
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    private fun createUsageStats(): List<UsageStats> {
+    private fun createUsageStats(): Map<String, UsageStats> {
         val calendar = Calendar.getInstance()
         val endTime = calendar.timeInMillis
-        calendar.add(Calendar.YEAR, -1)
+        calendar.add(Calendar.MONTH, -1)
         val startTime = calendar.timeInMillis
-        return usageStatsManager.queryUsageStats(
-                UsageStatsManager.INTERVAL_YEARLY,
+        return usageStatsManager.queryAndAggregateUsageStats(
                 startTime,
                 endTime)
     }
