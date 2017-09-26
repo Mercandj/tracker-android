@@ -5,7 +5,7 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "com.mercandalli.tracker"
         minSdkVersion 14
@@ -25,7 +25,6 @@ android {
             // Split resources.
             // https://medium.com/google-developer-experts/android-project-structure-alternative-way-29ce766682f0#.sjnhetuhb
             res.srcDirs = [
-                    'src/main/res/common',
                     'src/main/res/device',
                     'src/main/res/device_application',
                     'src/main/res/device_specs',
