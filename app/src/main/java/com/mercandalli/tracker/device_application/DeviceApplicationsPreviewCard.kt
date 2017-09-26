@@ -18,6 +18,10 @@ class DeviceApplicationsPreviewCard @kotlin.jvm.JvmOverloads constructor(
     private val app2: DeviceApplicationCard
     private val app3: DeviceApplicationCard
     private val app4: DeviceApplicationCard
+    private val permission: View
+    private val refresh: View
+    private val deviceStatsPermissionListener = createDeviceStatsPermissionListener()
+    private val deviceApplicationManager = TrackerApplication.appComponent.provideDeviceApplicationManager()
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_device_applications_preview, this)
@@ -26,9 +30,25 @@ class DeviceApplicationsPreviewCard @kotlin.jvm.JvmOverloads constructor(
         app2 = findViewById(R.id.view_device_applications_preview_app_2)
         app3 = findViewById(R.id.view_device_applications_preview_app_3)
         app4 = findViewById(R.id.view_device_applications_preview_app_4)
-        findViewById<View>(R.id.view_device_applications_preview_refresh).setOnClickListener {
-            TrackerApplication.appComponent.provideDeviceApplicationManager().refreshDeviceApplications()
+        permission = findViewById(R.id.view_device_applications_preview_permission)
+        refresh = findViewById(R.id.view_device_applications_preview_refresh)
+        permission.setOnClickListener {
+            deviceApplicationManager.requestUsagePermission()
         }
+        refresh.setOnClickListener {
+            deviceApplicationManager.refreshDeviceApplications()
+        }
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        deviceApplicationManager.registerDeviceStatsPermissionListener(deviceStatsPermissionListener)
+        syncPermissionVisibility()
+    }
+
+    override fun onDetachedFromWindow() {
+        deviceApplicationManager.unregisterDeviceStatsPermissionListener(deviceStatsPermissionListener)
+        super.onDetachedFromWindow()
     }
 
     internal fun setDeviceApplications(deviceApplications: List<DeviceApplication>) {
@@ -40,5 +60,19 @@ class DeviceApplicationsPreviewCard @kotlin.jvm.JvmOverloads constructor(
         app2.setDeviceApplication(deviceApplications[1])
         app3.setDeviceApplication(deviceApplications[2])
         app4.setDeviceApplication(deviceApplications[3])
+    }
+
+    private fun syncPermissionVisibility() {
+        val needUsageStatsPermission = deviceApplicationManager.needUsageStatsPermission()
+        permission.visibility = if (needUsageStatsPermission) View.VISIBLE else View.GONE
+        refresh.visibility = if (needUsageStatsPermission) View.GONE else View.VISIBLE
+    }
+
+    private fun createDeviceStatsPermissionListener(): DeviceApplicationManager.DeviceStatsPermissionListener {
+        return object : DeviceApplicationManager.DeviceStatsPermissionListener {
+            override fun onDeviceStatsPermissionChanged() {
+                syncPermissionVisibility()
+            }
+        }
     }
 }

@@ -51,6 +51,15 @@
                         android:textSize="@dimen/text_size_s"
                         android:textStyle="bold" />
 
+                    <ImageView
+                        android:id="@+id/view_device_applications_preview_permission"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="?selectableItemBackground"
+                        android:paddingEnd="@dimen/default_space"
+                        android:paddingStart="@dimen/default_space"
+                        android:src="@drawable/ic_lock_open_black_24dp" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -63,7 +72,6 @@
                         android:textStyle="bold" />
 
                 </LinearLayout>
-
 
             </FrameLayout>
 

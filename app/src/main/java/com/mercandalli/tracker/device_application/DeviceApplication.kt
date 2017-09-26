@@ -35,6 +35,9 @@ class DeviceApplication internal constructor(
         @SerializedName("total_time_in_foreground")
         val totalTimeInForeground: Long,
 
+        @SerializedName("last_launch")
+        val lastLaunch: Long,
+
         @Expose
         val icon: Drawable) {
 
@@ -52,6 +55,7 @@ class DeviceApplication internal constructor(
                 ", installedAt='" + installedAt + '\'' +
                 ", updatedAt='" + updatedAt + '\'' +
                 ", totalTimeInForeground='" + totalTimeInForeground + '\'' +
+                ", lastLaunch='" + lastLaunch + '\'' +
                 ", icon='" + icon + '\'' +
                 '}'
     }

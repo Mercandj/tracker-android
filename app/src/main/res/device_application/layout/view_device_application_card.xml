@@ -33,10 +33,24 @@
         android:singleLine="true"
         android:textColor="#545454"
         android:textSize="12sp"
-        tools:text="App" />
+        tools:text="Tracker Droid" />
 
     <TextView
-        android:id="@+id/view_application_card_subtitle"
+        android:id="@+id/view_application_card_total_usage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginEnd="4dp"
+        android:layout_marginStart="4dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"
+        android:textColor="#545454"
+        android:textSize="10sp"
+        tools:text="22h 28m 21s" />
+
+    <TextView
+        android:id="@+id/view_application_card_last_launch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -48,6 +62,6 @@
         android:singleLine="true"
         android:textColor="#545454"
         android:textSize="10sp"
-        tools:text="App" />
+        tools:text="22h44 26/09" />
 
 </merge>

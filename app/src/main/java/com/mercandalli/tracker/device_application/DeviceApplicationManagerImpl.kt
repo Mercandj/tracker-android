@@ -18,7 +18,9 @@ internal class DeviceApplicationManagerImpl constructor(
         private val delegate: Delegate) : DeviceApplicationManager {
 
     private val deviceApplicationsListeners = ArrayList<DeviceApplicationManager.DeviceApplicationsListener>()
+    private val deviceStatsPermissionListeners = ArrayList<DeviceApplicationManager.DeviceStatsPermissionListener>()
     private val deviceApplications = ArrayList<DeviceApplication>()
+    private var needStatsPermission = needUsageStatsPermission()
 
     init {
         refreshDeviceApplications()
@@ -34,7 +36,7 @@ internal class DeviceApplicationManagerImpl constructor(
             synchronized(deviceApplications) {
                 deviceApplications.clear()
                 deviceApplications.addAll(deviceApplicationsSync)
-                notifyDeviceApplicationsListener()
+                notifyDeviceApplicationsListeners()
             }
         }).start()
     }
@@ -43,7 +45,12 @@ internal class DeviceApplicationManagerImpl constructor(
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return false
         }
-        return createUsageStats().isEmpty()
+        val needStatsPermission = createUsageStats().isEmpty()
+        if (this.needStatsPermission != needStatsPermission) {
+            this.needStatsPermission = needStatsPermission
+            notifyDeviceStatsPermissionListeners()
+        }
+        return needStatsPermission
     }
 
     override fun requestUsagePermission() {
@@ -61,6 +68,17 @@ internal class DeviceApplicationManagerImpl constructor(
         deviceApplicationsListeners.remove(listener)
     }
 
+    override fun registerDeviceStatsPermissionListener(listener: DeviceApplicationManager.DeviceStatsPermissionListener) {
+        if (deviceStatsPermissionListeners.contains(listener)) {
+            return
+        }
+        deviceStatsPermissionListeners.add(listener)
+    }
+
+    override fun unregisterDeviceStatsPermissionListener(listener: DeviceApplicationManager.DeviceStatsPermissionListener) {
+        deviceStatsPermissionListeners.remove(listener)
+    }
+
     private fun getDeviceApplicationsSync(): List<DeviceApplication> {
         val sortingNativeFromUserApp = AppUtils.sortingNativeFromUserApp(packageManager, true)
 
@@ -71,6 +89,7 @@ internal class DeviceApplicationManagerImpl constructor(
             for (deviceApplication in sortingNativeFromUserApp) {
                 val usageStats = queryUsageStats[deviceApplication.`package`]
                 val totalTimeInForeground = usageStats?.totalTimeInForeground ?: 0
+                val lastLaunch = usageStats?.lastTimeUsed ?: 0
                 result.add(DeviceApplication(
                         deviceApplication.kindInstallation,
                         deviceApplication.androidAppName,
@@ -80,6 +99,7 @@ internal class DeviceApplicationManagerImpl constructor(
                         deviceApplication.installedAt,
                         deviceApplication.updatedAt,
                         totalTimeInForeground,
+                        lastLaunch,
                         deviceApplication.icon))
             }
             return result.sortedWith(compareBy({ it.totalTimeInForeground }, { it.installedAt })).reversed()
@@ -98,14 +118,26 @@ internal class DeviceApplicationManagerImpl constructor(
                 endTime)
     }
 
-    private fun notifyDeviceApplicationsListener() {
+    private fun notifyDeviceApplicationsListeners() {
         if (!mainThreadPost.isOnMainThread) {
-            mainThreadPost.post(Runnable { notifyDeviceApplicationsListener() })
+            mainThreadPost.post(Runnable { notifyDeviceApplicationsListeners() })
             return
         }
         synchronized(deviceApplicationsListeners) {
             for (listener in deviceApplicationsListeners) {
                 listener.onDeviceApplicationsChanged()
+            }
+        }
+    }
+
+    private fun notifyDeviceStatsPermissionListeners() {
+        if (!mainThreadPost.isOnMainThread) {
+            mainThreadPost.post(Runnable { notifyDeviceStatsPermissionListeners() })
+            return
+        }
+        synchronized(deviceStatsPermissionListeners) {
+            for (listener in deviceStatsPermissionListeners) {
+                listener.onDeviceStatsPermissionChanged()
             }
         }
     }

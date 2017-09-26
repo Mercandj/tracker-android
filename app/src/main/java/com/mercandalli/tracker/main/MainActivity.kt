@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
             Manifest.permission.ACCESS_FINE_LOCATION)
 
     private var container: ViewGroup? = null
-    private var speedView: DeviceView? = null
+    private var deviceView: DeviceView? = null
     private var mapsView: MapsView? = null
     private var deviceCpuView: DeviceCpuView? = null
 
@@ -44,9 +44,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.activity_main_toolbar))
 
-        speedView = DeviceView(this)
+        deviceView = DeviceView(this)
         container = findViewById(R.id.activity_main_container)
-        container?.addView(speedView)
+        container?.addView(deviceView)
 
         findViewById<BottomNavigationView>(R.id.activity_main_bottom_navigation).setOnNavigationItemSelectedListener(
                 BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -60,6 +60,11 @@ class MainActivity : AppCompatActivity() {
                 })
 
         //ActivityCompat.requestPermissions(this, PERMISSION_REQUIRED, PERMISSION_REQUEST_CODE)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        TrackerApplication.appComponent.provideDeviceApplicationManager().needUsageStatsPermission()
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
@@ -128,12 +133,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onBottomBarYouClicked() {
-        if (speedView == null) {
-            speedView = DeviceView(this)
+        if (deviceView == null) {
+            deviceView = DeviceView(this)
         }
         mapsView?.removeMap()
         container?.removeAllViews()
-        container?.addView(speedView)
+        container?.addView(deviceView)
     }
 
     private fun onBottomBarTargetClicked() {

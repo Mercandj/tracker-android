@@ -125,6 +125,7 @@ object AppUtils {
                         it.firstInstallTime,
                         it.lastUpdateTime,
                         0,
+                        0,
                         it.applicationInfo.loadIcon(packageManager))
             }
         }
@@ -138,6 +139,7 @@ object AppUtils {
                             it.versionName,
                             it.firstInstallTime,
                             it.lastUpdateTime,
+                            0,
                             0,
                             it.applicationInfo.loadIcon(packageManager))
                 }
