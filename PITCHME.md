@@ -3,7 +3,7 @@
 #### Picture in picture
 <span style="color:gray">Android 8.0</span>
 <br>
-<span style="color:gray; font-size:0.5em;">22-09-2017</span>
+<span style="color:gray; font-size:0.5em;">29-09-2017</span>
 
 ---
 
