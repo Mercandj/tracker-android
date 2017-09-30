@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
 import android.net.Uri
 import android.widget.Toast
 import java.text.SimpleDateFormat
@@ -78,24 +79,33 @@ object AppUtils {
             packageManager: PackageManager,
             onlyUserInstalledApp: Boolean): List<DeviceApplication> {
 
-        val packageInfoList = packageManager.getInstalledPackages(
+        val apps = packageManager.getInstalledPackages(
                 PackageManager.GET_META_DATA or PackageManager.GET_UNINSTALLED_PACKAGES)
-        val packageInfoInstalledSystemList = ArrayList<PackageInfo>()
+        val userApps = ArrayList<PackageInfo>()
+        val nativeApps = ArrayList<PackageInfo>()
 
-        for (i in packageInfoList.indices.reversed()) {
-            val packageInfo = packageInfoList[i]
-            if (packageManager.getLaunchIntentForPackage(packageInfo.packageName) == null) {
-                packageInfoList.remove(packageInfo)
-            }
+
+        val mainIntent = Intent(Intent.ACTION_MAIN, null)
+        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER)
+
+        val resolvedInfos = packageManager.queryIntentActivities(mainIntent, 0)
+        Collections.sort(resolvedInfos, ResolveInfo.DisplayNameComparator(packageManager))
+
+        for (i in apps.indices.reversed()) {
+            val packageInfo = apps[i]
             if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0 || packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_UPDATED_SYSTEM_APP != 0) {
-                packageInfoInstalledSystemList.add(packageInfo)
-                packageInfoList.remove(packageInfo)
+                nativeApps.add(packageInfo)
             }
+
+            resolvedInfos
+                    .filter { packageInfo.packageName == it.activityInfo.applicationInfo.packageName }
+                    .forEach { userApps.add(packageInfo) }
         }
+
         return createAppInstalledList(
                 packageManager,
-                packageInfoInstalledSystemList,
-                packageInfoList,
+                nativeApps,
+                userApps,
                 onlyUserInstalledApp)
     }
 
@@ -129,20 +139,19 @@ object AppUtils {
                         it.applicationInfo.loadIcon(packageManager))
             }
         }
-        userApp.filter { it.applicationInfo.name != null }
-                .mapTo(list) {
-                    DeviceApplication(
-                            DeviceApplication.USER_INSTALL,
-                            it.applicationInfo.loadLabel(packageManager).toString(),
-                            it.packageName,
-                            it.versionCode,
-                            it.versionName,
-                            it.firstInstallTime,
-                            it.lastUpdateTime,
-                            0,
-                            0,
-                            it.applicationInfo.loadIcon(packageManager))
-                }
+        userApp.mapTo(list) {
+            DeviceApplication(
+                    DeviceApplication.USER_INSTALL,
+                    it.applicationInfo.loadLabel(packageManager).toString(),
+                    it.packageName,
+                    it.versionCode,
+                    it.versionName,
+                    it.firstInstallTime,
+                    it.lastUpdateTime,
+                    0,
+                    0,
+                    it.applicationInfo.loadIcon(packageManager))
+        }
         return list
     }
 }

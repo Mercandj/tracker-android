@@ -1,3 +1,4 @@
 <resources>
+    <string name="activity_device_applications_title">Apps</string>
     <string name="view_device_applications_preview_title">Device applications</string>
 </resources>

@@ -40,7 +40,8 @@ internal class DeviceRecyclerAdapter : ListDelegationAdapter<List<Any>>() {
         notifyDataSetChanged()
     }
 
-    class DeviceSpecsAdapterDelegate : AbsListItemAdapterDelegate<Any, Any, DeviceSpecsViewHolder>() {
+    private class DeviceSpecsAdapterDelegate :
+            AbsListItemAdapterDelegate<Any, Any, DeviceSpecsViewHolder>() {
 
         override fun isForViewType(o: Any, list: List<Any>, i: Int): Boolean {
             return o is DeviceSpecs
@@ -62,13 +63,16 @@ internal class DeviceRecyclerAdapter : ListDelegationAdapter<List<Any>>() {
         }
     }
 
-    class DeviceSpecsViewHolder(private val view: DeviceSpecsCard) : RecyclerView.ViewHolder(view) {
+    private class DeviceSpecsViewHolder(
+            private val view: DeviceSpecsCard) :
+            RecyclerView.ViewHolder(view) {
         fun bind(deviceSpecs: DeviceSpecs) {
             view.setDeviceSpecs(deviceSpecs)
         }
     }
 
-    class DeviceApplicationsPreviewAdapterDelegate : AbsListItemAdapterDelegate<Any, Any, DeviceApplicationsPreviewViewHolder>() {
+    private class DeviceApplicationsPreviewAdapterDelegate :
+            AbsListItemAdapterDelegate<Any, Any, DeviceApplicationsPreviewViewHolder>() {
 
         private val LIST_DEVICE_APPLICATION = object : TypeToken<List<DeviceApplication>>() {
         }.rawType
@@ -88,12 +92,14 @@ internal class DeviceRecyclerAdapter : ListDelegationAdapter<List<Any>>() {
         }
 
         override fun onBindViewHolder(
-                model: Any, deviceSpecsViewHolder: DeviceApplicationsPreviewViewHolder, list: List<Any>) {
-            deviceSpecsViewHolder.bind(model as List<DeviceApplication>)
+                model: Any, deviceApplicationsPreviewViewHolder: DeviceApplicationsPreviewViewHolder, list: List<Any>) {
+            deviceApplicationsPreviewViewHolder.bind(model as List<DeviceApplication>)
         }
     }
 
-    class DeviceApplicationsPreviewViewHolder(private val view: DeviceApplicationsPreviewCard) : RecyclerView.ViewHolder(view) {
+    private class DeviceApplicationsPreviewViewHolder(
+            private val view: DeviceApplicationsPreviewCard) :
+            RecyclerView.ViewHolder(view) {
         fun bind(deviceApplications: List<DeviceApplication>) {
             view.setDeviceApplications(deviceApplications)
         }

@@ -16,7 +16,7 @@ class DeviceView @JvmOverloads constructor(
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
     private var recyclerView: RecyclerView? = null
-    private val deviceRecyclerAdapter = createRecyclerAdapter()
+    private val recyclerAdapter = createRecyclerAdapter()
 
     private val appComponent: TrackerComponent = TrackerApplication.appComponent
     private val deviceSpecsManager = appComponent.provideDeviceSpecsManager()
@@ -28,15 +28,15 @@ class DeviceView @JvmOverloads constructor(
         orientation = VERTICAL
         recyclerView = findViewById(R.id.view_device_list)
         recyclerView!!.layoutManager = createLayoutManager(context)
-        recyclerView!!.adapter = deviceRecyclerAdapter
+        recyclerView!!.adapter = recyclerAdapter
 
-        deviceRecyclerAdapter.setDeviceSpecs(deviceSpecsManager.getDeviceSpecs())
+        recyclerAdapter.setDeviceSpecs(deviceSpecsManager.getDeviceSpecs())
     }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         deviceApplicationsManager.registerDeviceApplicationsListener(deviceApplicationsListener)
-        deviceRecyclerAdapter.setDeviceApplications(deviceApplicationsManager.getDeviceApplications())
+        recyclerAdapter.setDeviceApplications(deviceApplicationsManager.getDeviceApplications())
     }
 
     override fun onDetachedFromWindow() {
@@ -47,7 +47,7 @@ class DeviceView @JvmOverloads constructor(
     private fun createDeviceApplicationsListener(): DeviceApplicationsListener {
         return object : DeviceApplicationsListener {
             override fun onDeviceApplicationsChanged() {
-                deviceRecyclerAdapter.setDeviceApplications(deviceApplicationsManager.getDeviceApplications())
+                recyclerAdapter.setDeviceApplications(deviceApplicationsManager.getDeviceApplications())
             }
         }
     }

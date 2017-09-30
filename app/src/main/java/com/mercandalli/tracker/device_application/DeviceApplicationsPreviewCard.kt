@@ -38,6 +38,9 @@ class DeviceApplicationsPreviewCard @kotlin.jvm.JvmOverloads constructor(
         refresh.setOnClickListener {
             deviceApplicationManager.refreshDeviceApplications()
         }
+        findViewById<View>(R.id.view_device_applications_preview_more).setOnClickListener {
+            DeviceApplicationsActivity.start(context)
+        }
     }
 
     override fun onAttachedToWindow() {

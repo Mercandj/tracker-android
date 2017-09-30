@@ -61,6 +61,7 @@
                         android:src="@drawable/ic_lock_open_black_24dp" />
 
                     <TextView
+                        android:id="@+id/view_device_applications_preview_more"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"

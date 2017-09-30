@@ -49,6 +49,12 @@
         </activity>
 
         <activity
+            android:name=".device_application.DeviceApplicationsActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:label="@string/activity_device_applications_title"
+            android:supportsPictureInPicture="false" />
+
+        <activity
             android:name=".permission.PermissionActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:label="@string/activity_permission_title"

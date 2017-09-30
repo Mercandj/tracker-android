@@ -3,6 +3,7 @@ package com.mercandalli.tracker.device_application
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -35,8 +36,19 @@ class DeviceApplicationCard @kotlin.jvm.JvmOverloads constructor(
     internal fun setDeviceApplication(deviceApplications: DeviceApplication) {
         icon.setImageDrawable(deviceApplications.icon)
         title.text = deviceApplications.androidAppName
-        totalUsage.text = getDurationBreakdown(deviceApplications.totalTimeInForeground)
-        lastLaunch.text = simpleDateFormat.format(deviceApplications.lastLaunch)
+
+        if (deviceApplications.totalTimeInForeground == 0L) {
+            totalUsage.visibility = View.GONE
+        } else {
+            totalUsage.visibility = View.VISIBLE
+            totalUsage.text = getDurationBreakdown(deviceApplications.totalTimeInForeground)
+        }
+        if (deviceApplications.lastLaunch == 0L) {
+            lastLaunch.visibility = View.GONE
+        } else {
+            lastLaunch.visibility = View.VISIBLE
+            lastLaunch.text = simpleDateFormat.format(deviceApplications.lastLaunch)
+        }
     }
 
     /**
