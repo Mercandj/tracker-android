@@ -1,3 +1,5 @@
 <resources>
     <string name="activity_permission_title">Permissions</string>
+    <string name="activity_permission_applications_stats_enable">Applications stats permission is enable</string>
+    <string name="activity_permission_applications_stats_disable">Applications stats permission is disable</string>
 </resources>

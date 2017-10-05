@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout android:id="@+id/activity_main_root"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -17,6 +17,22 @@
         android:layout_height="match_parent"
         android:layout_marginTop="?android:attr/actionBarSize"
         android:orientation="vertical">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/activity_permission_applications_stats_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_space_1_5"
+            android:foreground="?selectableItemBackground">
+
+            <TextView
+                android:id="@+id/activity_permission_applications_stats_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_space_2"
+                tools:text="@string/activity_permission_applications_stats_enable" />
+
+        </android.support.v7.widget.CardView>
 
     </LinearLayout>
 

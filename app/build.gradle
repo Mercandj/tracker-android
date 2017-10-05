@@ -64,9 +64,9 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.1'
     implementation 'com.google.dagger:dagger:2.11'
     kapt 'com.google.dagger:dagger-compiler:2.11'
-    implementation 'com.google.android.gms:play-services-maps:11.4.0'
-    implementation 'com.google.firebase:firebase-core:11.4.0'
-    implementation "com.google.firebase:firebase-messaging:11.4.0"
+    implementation 'com.google.android.gms:play-services-maps:11.4.2'
+    implementation 'com.google.firebase:firebase-core:11.4.2'
+    implementation "com.google.firebase:firebase-messaging:11.4.2"
 
     // Third party
     implementation "com.squareup.okhttp3:okhttp:3.8.1"

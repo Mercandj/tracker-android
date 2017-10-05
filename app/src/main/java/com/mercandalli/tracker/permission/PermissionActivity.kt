@@ -5,13 +5,15 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
+import android.widget.TextView
 import com.mercandalli.tracker.R
 import com.mercandalli.tracker.common.Preconditions
+import com.mercandalli.tracker.main.TrackerApplication
 
 class PermissionActivity : AppCompatActivity() {
 
     companion object {
-
         fun start(context: Context) {
             Preconditions.checkNotNull(context)
             val intent = Intent(context, PermissionActivity::class.java)
@@ -22,10 +24,33 @@ class PermissionActivity : AppCompatActivity() {
         }
     }
 
+    private var applicationsStatsTextView: TextView? = null
+    private val appComponent = TrackerApplication.appComponent
+    private val deviceApplicationManager = appComponent.provideDeviceApplicationManager()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_permission)
         setSupportActionBar(findViewById(R.id.activity_permission_toolbar))
 
+        applicationsStatsTextView = findViewById(R.id.activity_permission_applications_stats_text)
+        syncApplicationsStatsTextView()
+
+        findViewById<View>(R.id.activity_permission_applications_stats_card).setOnClickListener {
+            deviceApplicationManager.requestUsagePermission()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        syncApplicationsStatsTextView()
+    }
+
+    private fun syncApplicationsStatsTextView() {
+        applicationsStatsTextView!!.text = if (deviceApplicationManager.needUsageStatsPermission()) {
+            getString(R.string.activity_permission_applications_stats_disable)
+        } else {
+            getString(R.string.activity_permission_applications_stats_enable)
+        }
     }
 }
