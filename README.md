@@ -13,6 +13,15 @@
 * Provide stats on your phone usage
 * Monitor other phones usages
 
+----
+
+## Firebase storage
+
+```
+- user
+   - <android-device-id>
+      - device-specs.json
+```
 
 ----
 

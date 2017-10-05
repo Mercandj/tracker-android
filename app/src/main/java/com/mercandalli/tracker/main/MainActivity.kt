@@ -59,6 +59,8 @@ class MainActivity : AppCompatActivity() {
                     return@OnNavigationItemSelectedListener true
                 })
 
+        TrackerApplication.appComponent.provideUserManager().sendDeviceSpecs()
+
         //ActivityCompat.requestPermissions(this, PERMISSION_REQUIRED, PERMISSION_REQUEST_CODE)
     }
 

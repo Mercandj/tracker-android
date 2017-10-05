@@ -22,5 +22,5 @@
     -->
     <!-- Account from jonathan.mercandalli@gmail.com -->
     <!--<string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAvAvmollCh-5etlDt-xD5T1YUSDBkYyzw</string>-->
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false"> AIzaSyAQ3fkMsxjlNuTjYd9tzhvDnU3DZfDp21k</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AAAAFnjUxws:APA91bGesReILlGlDKySySV0GWNxy4PMOboBdOB398p7Z-3o81A8a5l2E7fSgSz8u7ElJDqOOA4Kix_WBZndmSFJbadJmlC5gKQlRe5ChzK_FkdE4sgm9nOcdXtPLM5hFNd0K29pzJkV</string>
 </resources>

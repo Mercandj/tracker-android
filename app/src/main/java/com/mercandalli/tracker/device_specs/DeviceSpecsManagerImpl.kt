@@ -5,8 +5,8 @@ import com.mercandalli.tracker.common.Closer
 import java.io.*
 import java.util.regex.Pattern
 
-
-internal class DeviceSpecsManagerImpl : DeviceSpecsManager {
+internal class DeviceSpecsManagerImpl constructor(
+        private val deviceId: String) : DeviceSpecsManager {
 
     private val deviceSpecs: DeviceSpecs
 
@@ -23,6 +23,7 @@ internal class DeviceSpecsManagerImpl : DeviceSpecsManager {
         val deviceModel = Build.MODEL
         val deviceOsVersion = Build.VERSION.SDK_INT
         return DeviceSpecs(
+                deviceId,
                 deviceManufacturer,
                 deviceModel,
                 deviceOsVersion)

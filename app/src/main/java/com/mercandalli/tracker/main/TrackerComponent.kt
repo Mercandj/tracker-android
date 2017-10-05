@@ -16,6 +16,8 @@ import com.mercandalli.tracker.push.PushModule
 import com.mercandalli.tracker.push.PushSenderManager
 import com.mercandalli.tracker.scheduler.SchedulerModule
 import com.mercandalli.tracker.scheduler.SchedulerPeriodicTrigger
+import com.mercandalli.tracker.user.UserManager
+import com.mercandalli.tracker.user.UserModule
 import dagger.Component
 import okhttp3.OkHttpClient
 import javax.inject.Singleton
@@ -30,7 +32,8 @@ import javax.inject.Singleton
         NetworkModule::class,
         PushModule::class,
         SchedulerModule::class,
-        TrackerModule::class)
+        TrackerModule::class,
+        UserModule::class)
 )
 interface TrackerComponent {
 
@@ -53,4 +56,6 @@ interface TrackerComponent {
     fun provideSchedulerPeriodicTrigger(): SchedulerPeriodicTrigger
 
     fun provideTrackerApplication(): TrackerApplication
+
+    fun provideUserManager(): UserManager
 }

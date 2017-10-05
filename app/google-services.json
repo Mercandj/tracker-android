@@ -1,33 +1,27 @@
 {
   "project_info": {
-    "project_number": "875547464563",
-    "firebase_url": "https://tracker-android-a3267.firebaseio.com",
-    "project_id": "tracker-android-a3267",
-    "storage_bucket": "tracker-android-a3267.appspot.com"
+    "project_number": "96516491019",
+    "firebase_url": "https://tracker-32412.firebaseio.com",
+    "project_id": "tracker-32412",
+    "storage_bucket": "tracker-32412.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:875547464563:android:2de0c4055e47094d",
+        "mobilesdk_app_id": "1:96516491019:android:2de0c4055e47094d",
         "android_client_info": {
           "package_name": "com.mercandalli.tracker"
         }
       },
       "oauth_client": [
         {
-          "client_id": "875547464563-07isasgc2c6et6e2p03onrd0t16gh9rq.apps.googleusercontent.com",
+          "client_id": "96516491019-f93dt4lad2g0mmvonoq8pheiklm0dos8.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCHHmyWVGa62lt-A01g66l5u4RxeVdWQDo"
-        },
-        {
-          "current_key": "AIzaSyDr1FmIdF_6EHKJgLmjmdW9v-D-QI1BMbE"
-        },
-        {
-          "current_key": "AIzaSyAuOdf8kWrvWwq9idxo6QmMmTrNbH8nP_k"
+          "current_key": "AIzaSyDgsXGBcfDTT0Af5X7CFE08q9qNpNkIR8E"
         }
       ],
       "services": {
