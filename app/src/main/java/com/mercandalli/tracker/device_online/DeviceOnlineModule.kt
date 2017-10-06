@@ -1,8 +1,9 @@
 package com.mercandalli.tracker.device_online
 
-import com.google.firebase.storage.FirebaseStorage
 import com.google.gson.Gson
 import com.mercandalli.tracker.device_specs.DeviceSpecsManager
+import com.mercandalli.tracker.firebase.FirebaseDatabaseManager
+import com.mercandalli.tracker.firebase.FirebaseStorageManager
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -14,12 +15,14 @@ class DeviceOnlineModule {
     @Provides
     fun provideDeviceOnlineManager(
             gson: Gson,
-            deviceSpecsManager: DeviceSpecsManager): DeviceOnlineManager {
-        val firebaseStorage = FirebaseStorage.getInstance()
+            deviceSpecsManager: DeviceSpecsManager,
+            firebaseStorageManager: FirebaseStorageManager,
+            firebaseDatabaseManager: FirebaseDatabaseManager): DeviceOnlineManager {
         val deviceSpecsConvertor = DeviceSpecsConverter(gson)
         val deviceFamiliesConvertor = DeviceFamiliesConverter(gson)
         return DeviceOnlineManagerImpl(
-                firebaseStorage,
+                firebaseStorageManager,
+                firebaseDatabaseManager,
                 deviceSpecsConvertor,
                 deviceFamiliesConvertor,
                 deviceSpecsManager)

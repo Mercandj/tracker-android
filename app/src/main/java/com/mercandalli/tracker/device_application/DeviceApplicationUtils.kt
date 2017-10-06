@@ -15,7 +15,7 @@ import java.util.*
 /**
  * Static methods related to the applications.
  */
-object AppUtils {
+object DeviceApplicationUtils {
 
     fun launchAppOrStore(
             context: Context,
@@ -64,7 +64,6 @@ object AppUtils {
             intent.addCategory(Intent.CATEGORY_DEFAULT)
             context.startActivity(intent)
         }
-
     }
 
     /**
@@ -79,11 +78,9 @@ object AppUtils {
             packageManager: PackageManager,
             onlyUserInstalledApp: Boolean): List<DeviceApplication> {
 
-        val apps = packageManager.getInstalledPackages(
-                PackageManager.GET_META_DATA or PackageManager.GET_UNINSTALLED_PACKAGES)
+        val apps = packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
         val userApps = ArrayList<PackageInfo>()
         val nativeApps = ArrayList<PackageInfo>()
-
 
         val mainIntent = Intent(Intent.ACTION_MAIN, null)
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER)

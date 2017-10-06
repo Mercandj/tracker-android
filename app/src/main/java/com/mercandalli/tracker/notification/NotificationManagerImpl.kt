@@ -81,7 +81,6 @@ internal class NotificationManagerImpl(
                 context.getString(R.string.app_name),
                 R.drawable.ic_whatshot_red_24dp, null,
                 Color.RED,
-                42,
                 id
         )
     }
@@ -104,7 +103,6 @@ internal class NotificationManagerImpl(
                 smallIcon,
                 largeIcon,
                 light,
-                notificationId,
                 channelId))
     }
 
@@ -116,10 +114,8 @@ internal class NotificationManagerImpl(
             @DrawableRes smallIcon: Int,
             largeIcon: Bitmap?,
             @ColorInt light: Int,
-            notificationId: Int,
             channelId: String): Notification {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as android.app.NotificationManager
         val contentIntent = PendingIntent.getActivity(context, 0, intent, 0)
 
         val builder = NotificationCompat.Builder(context, channelId)

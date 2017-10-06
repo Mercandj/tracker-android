@@ -1,6 +1,5 @@
 package com.mercandalli.tracker.device_specs
 
-import android.provider.Settings.Secure
 import com.mercandalli.tracker.main.TrackerApplication
 import dagger.Module
 import dagger.Provides
@@ -13,7 +12,8 @@ class DeviceSpecsModule {
     @Singleton
     @Provides
     fun provideDeviceSpecsManager(application: TrackerApplication): DeviceSpecsManager {
-        val androidId = Secure.getString(application.getContentResolver(), Secure.ANDROID_ID)
-        return DeviceSpecsManagerImpl(androidId)
+        val deviceId = DeviceSpecsUtils.getDeviceId(application)
+        val deviceEmulator = DeviceSpecsUtils.isEmulator()
+        return DeviceSpecsManagerImpl(deviceId, deviceEmulator)
     }
 }

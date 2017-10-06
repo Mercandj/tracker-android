@@ -91,6 +91,7 @@ internal class DeviceRecyclerAdapter : ListDelegationAdapter<List<Any>>() {
             return DeviceApplicationsPreviewViewHolder(deviceApplicationsPreviewCard)
         }
 
+        @Suppress("UNCHECKED_CAST")
         override fun onBindViewHolder(
                 model: Any, deviceApplicationsPreviewViewHolder: DeviceApplicationsPreviewViewHolder, list: List<Any>) {
             deviceApplicationsPreviewViewHolder.bind(model as List<DeviceApplication>)

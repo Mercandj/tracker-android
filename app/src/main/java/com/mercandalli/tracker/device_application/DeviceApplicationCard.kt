@@ -54,11 +54,11 @@ class DeviceApplicationCard @kotlin.jvm.JvmOverloads constructor(
     /**
      * Convert a millisecond duration to a string format
      *
-     * @param millis A duration to convert to a string form
+     * @param millisParam A duration to convert to a string form
      * @return A string of the form "X Days Y Hours Z Minutes A Seconds".
      */
-    private fun getDurationBreakdown(millis: Long): String {
-        var millis = millis
+    private fun getDurationBreakdown(millisParam: Long): String {
+        var millis = millisParam
         if (millis < 0) {
             throw IllegalArgumentException("Duration must be greater than zero!")
         }

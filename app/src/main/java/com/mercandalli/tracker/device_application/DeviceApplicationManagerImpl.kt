@@ -80,7 +80,7 @@ internal class DeviceApplicationManagerImpl constructor(
     }
 
     private fun getDeviceApplicationsSync(): List<DeviceApplication> {
-        val sortingNativeFromUserApp = AppUtils.sortingNativeFromUserApp(packageManager, true)
+        val sortingNativeFromUserApp = DeviceApplicationUtils.sortingNativeFromUserApp(packageManager, true)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val queryUsageStats: Map<String, UsageStats> = createUsageStats()

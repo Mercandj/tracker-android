@@ -10,6 +10,9 @@ import com.mercandalli.tracker.device_online.DeviceOnlineManager
 import com.mercandalli.tracker.device_online.DeviceOnlineModule
 import com.mercandalli.tracker.device_specs.DeviceSpecsManager
 import com.mercandalli.tracker.device_specs.DeviceSpecsModule
+import com.mercandalli.tracker.firebase.FirebaseDatabaseManager
+import com.mercandalli.tracker.firebase.FirebaseModule
+import com.mercandalli.tracker.firebase.FirebaseStorageManager
 import com.mercandalli.tracker.gson.GsonModule
 import com.mercandalli.tracker.location.LocationManager
 import com.mercandalli.tracker.location.LocationModule
@@ -32,6 +35,7 @@ import javax.inject.Singleton
         CloudMessagingModule::class,
         DeviceApplicationModule::class,
         DeviceSpecsModule::class,
+        FirebaseModule::class,
         GsonModule::class,
         LocationModule::class,
         MainThreadModule::class,
@@ -53,6 +57,10 @@ interface TrackerComponent {
     fun provideDeviceOnlineManager(): DeviceOnlineManager
 
     fun provideDeviceSpecsManager(): DeviceSpecsManager
+
+    fun provideFirebaseDatabaseManager(): FirebaseDatabaseManager
+
+    fun provideFirebaseStorageManager(): FirebaseStorageManager
 
     fun provideGson(): Gson
 
