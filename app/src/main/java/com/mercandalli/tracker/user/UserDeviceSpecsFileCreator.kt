@@ -6,7 +6,7 @@ import com.mercandalli.tracker.device_specs.DeviceSpecs
 class UserDeviceSpecsFileCreator constructor(
         private val gson: Gson) {
 
-    fun toData(deviceSpecs: DeviceSpecs) : ByteArray {
+    fun toData(deviceSpecs: DeviceSpecs): ByteArray {
         val userDeviceSpecsRequest = UserDeviceSpecsRequest(
                 deviceSpecs.deviceManufacturer,
                 deviceSpecs.deviceModel,

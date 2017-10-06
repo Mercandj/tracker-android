@@ -15,7 +15,7 @@ class UserModule {
     fun provideUserManager(
             gson: Gson,
             deviceSpecsManager: DeviceSpecsManager): UserManager {
-        val firebaseStorage = FirebaseStorage.getInstance("gs://tracker-32412.appspot.com")
+        val firebaseStorage = FirebaseStorage.getInstance(/*"gs://tracker-32412.appspot.com"*/)
         val userDeviceSpecsFileCreator = UserDeviceSpecsFileCreator(gson)
         return UserManagerImpl(
                 firebaseStorage,

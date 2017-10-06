@@ -2,7 +2,7 @@ package com.mercandalli.tracker.user
 
 import com.google.gson.annotations.SerializedName
 
-class UserDeviceSpecsRequest internal constructor(
+data class UserDeviceSpecsRequest(
         @SerializedName("device-manufacturer")
         val deviceManufacturer: String,
         @SerializedName("device-model")

@@ -6,8 +6,10 @@ import com.google.firebase.storage.StorageReference
 import com.mercandalli.tracker.device_specs.DeviceSpecsManager
 
 
+
+
 internal class UserManagerImpl constructor(
-        firebaseStorage: FirebaseStorage,
+        private val firebaseStorage: FirebaseStorage,
         private val userDeviceSpecsFileCreator: UserDeviceSpecsFileCreator,
         private val deviceSpecsManager: DeviceSpecsManager) : UserManager {
 
