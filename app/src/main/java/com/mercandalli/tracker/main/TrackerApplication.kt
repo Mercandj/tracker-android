@@ -1,7 +1,6 @@
 package com.mercandalli.tracker.main
 
 import android.app.Application
-import com.mercandalli.tracker.scheduler.SchedulerPeriodicTrigger
 
 class TrackerApplication : Application() {
 
@@ -14,6 +13,8 @@ class TrackerApplication : Application() {
         super.onCreate()
 
         setupGraph()
+
+        appComponent.provideCloudMessagingIdManager().getCloudMessagingId()
     }
 
     /**

@@ -21,11 +21,13 @@ internal class DeviceSpecsManagerImpl constructor(
     private fun createDeviceSpecsSync(): DeviceSpecs {
         val deviceManufacturer = Build.MANUFACTURER
         val deviceModel = Build.MODEL
+        val deviceHardware = Build.HARDWARE
         val deviceOsVersion = Build.VERSION.SDK_INT
         return DeviceSpecs(
                 deviceId,
                 deviceManufacturer,
                 deviceModel,
+                deviceHardware,
                 deviceOsVersion)
     }
 

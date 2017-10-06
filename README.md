@@ -18,7 +18,9 @@
 ## Firebase storage
 
 ```
-- user
+- device-family
+  - device-family.json
+- device
    - <android-device-id>
       - device-specs.json
 ```

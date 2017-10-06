@@ -1,8 +1,13 @@
 package com.mercandalli.tracker.main
 
 import com.google.gson.Gson
+import com.mercandalli.tracker.cloud_messaging.CloudMessagingIdManager
+import com.mercandalli.tracker.cloud_messaging.CloudMessagingManager
+import com.mercandalli.tracker.cloud_messaging.CloudMessagingModule
 import com.mercandalli.tracker.device_application.DeviceApplicationManager
 import com.mercandalli.tracker.device_application.DeviceApplicationModule
+import com.mercandalli.tracker.device_online.DeviceOnlineManager
+import com.mercandalli.tracker.device_online.DeviceOnlineModule
 import com.mercandalli.tracker.device_specs.DeviceSpecsManager
 import com.mercandalli.tracker.device_specs.DeviceSpecsModule
 import com.mercandalli.tracker.gson.GsonModule
@@ -12,32 +17,40 @@ import com.mercandalli.tracker.location.LocationRepository
 import com.mercandalli.tracker.main_thread.MainThreadModule
 import com.mercandalli.tracker.main_thread.MainThreadPost
 import com.mercandalli.tracker.network.NetworkModule
+import com.mercandalli.tracker.notification.NotificationManager
+import com.mercandalli.tracker.notification.NotificationModule
 import com.mercandalli.tracker.push.PushModule
 import com.mercandalli.tracker.push.PushSenderManager
 import com.mercandalli.tracker.scheduler.SchedulerModule
 import com.mercandalli.tracker.scheduler.SchedulerPeriodicTrigger
-import com.mercandalli.tracker.user.UserManager
-import com.mercandalli.tracker.user.UserModule
 import dagger.Component
 import okhttp3.OkHttpClient
 import javax.inject.Singleton
 
 @Singleton
 @Component(modules = arrayOf(
+        CloudMessagingModule::class,
         DeviceApplicationModule::class,
         DeviceSpecsModule::class,
         GsonModule::class,
         LocationModule::class,
         MainThreadModule::class,
         NetworkModule::class,
+        NotificationModule::class,
         PushModule::class,
         SchedulerModule::class,
         TrackerModule::class,
-        UserModule::class)
+        DeviceOnlineModule::class)
 )
 interface TrackerComponent {
 
+    fun provideCloudMessagingIdManager(): CloudMessagingIdManager
+
+    fun provideCloudMessagingManager(): CloudMessagingManager
+
     fun provideDeviceApplicationManager(): DeviceApplicationManager
+
+    fun provideDeviceOnlineManager(): DeviceOnlineManager
 
     fun provideDeviceSpecsManager(): DeviceSpecsManager
 
@@ -49,6 +62,8 @@ interface TrackerComponent {
 
     fun provideMainThreadPost(): MainThreadPost
 
+    fun provideNotificationManager(): NotificationManager
+
     fun provideOkHttpClient(): OkHttpClient
 
     fun providePushSenderManager(): PushSenderManager
@@ -56,6 +71,4 @@ interface TrackerComponent {
     fun provideSchedulerPeriodicTrigger(): SchedulerPeriodicTrigger
 
     fun provideTrackerApplication(): TrackerApplication
-
-    fun provideUserManager(): UserManager
 }

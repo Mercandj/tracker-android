@@ -21,7 +21,6 @@ import com.mercandalli.tracker.location.LocationRepository
 import com.mercandalli.tracker.main.TrackerApplication
 import com.mercandalli.tracker.main.TrackerComponent
 
-
 class MapsView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
@@ -47,6 +46,18 @@ class MapsView @JvmOverloads constructor(
         })
     }
 
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        locationRepository.registerLocationRepositoryListener(locationRepositoryListener)
+        locationManager.requestLocationUpdates()
+        syncMarkers()
+    }
+
+    override fun onDetachedFromWindow() {
+        locationRepository.unregisterLocationRepositoryListener(locationRepositoryListener)
+        locationManager.stopLocationUpdates()
+        super.onDetachedFromWindow()
+    }
 
     fun onSaveInstanceState(outState: Bundle?) {
         mapFragment?.onSaveInstanceState(outState)
@@ -61,19 +72,6 @@ class MapsView @JvmOverloads constructor(
             this.googleMap = it
             syncMarkers()
         }
-    }
-
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        locationRepository.registerLocationRepositoryListener(locationRepositoryListener)
-        locationManager.requestLocationUpdates()
-        syncMarkers()
-    }
-
-    override fun onDetachedFromWindow() {
-        locationRepository.unregisterLocationRepositoryListener(locationRepositoryListener)
-        locationManager.stopLocationUpdates()
-        super.onDetachedFromWindow()
     }
 
     private fun createLocationRepositoryListener(): LocationRepository.LocationRepositoryListener {

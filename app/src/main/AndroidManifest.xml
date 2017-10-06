@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.mercandalli.tracker"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.mercandalli.tracker">
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -64,6 +64,23 @@
             android:name=".scheduler.JobSchedulerService"
             android:enabled="@bool/is_job_service_supported"
             android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <service android:name=".cloud_messaging.PushListenerService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <service android:name=".cloud_messaging.RefreshGcmListenerService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".cloud_messaging.CloudMessagingIdIntentService"
+            android:exported="false"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
     </application>
