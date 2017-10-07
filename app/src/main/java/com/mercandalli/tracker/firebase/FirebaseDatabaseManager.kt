@@ -5,18 +5,16 @@ import java.lang.Exception
 interface FirebaseDatabaseManager {
 
     fun getObject(
-            pathParent: List<String>,
-            key: String,
+            pathParentKeys: List<String>,
             listener: OnGetObjectListener)
 
     fun putObject(
-            pathParent: List<String>,
-            key: String,
+            pathParentKeys: List<String>,
             content: Any,
             listener: OnPutObjectListener)
 
     fun getObjects(
-            pathParent: List<String>,
+            pathParentKeys: List<String>,
             listener: OnGetObjectsListener)
 
     interface OnPutObjectListener {

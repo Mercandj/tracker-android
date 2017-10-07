@@ -1,6 +1,7 @@
 package com.mercandalli.tracker.device_online
 
 import com.google.gson.Gson
+import com.mercandalli.tracker.device_application.DeviceApplicationManager
 import com.mercandalli.tracker.device_specs.DeviceSpecsManager
 import com.mercandalli.tracker.firebase.FirebaseDatabaseManager
 import com.mercandalli.tracker.firebase.FirebaseStorageManager
@@ -16,15 +17,13 @@ class DeviceOnlineModule {
     fun provideDeviceOnlineManager(
             gson: Gson,
             deviceSpecsManager: DeviceSpecsManager,
+            deviceApplicationManager:DeviceApplicationManager,
             firebaseStorageManager: FirebaseStorageManager,
             firebaseDatabaseManager: FirebaseDatabaseManager): DeviceOnlineManager {
-        val deviceSpecsConvertor = DeviceSpecsConverter(gson)
-        val deviceFamiliesConvertor = DeviceFamiliesConverter(gson)
         return DeviceOnlineManagerImpl(
                 firebaseStorageManager,
                 firebaseDatabaseManager,
-                deviceSpecsConvertor,
-                deviceFamiliesConvertor,
-                deviceSpecsManager)
+                deviceSpecsManager,
+                deviceApplicationManager)
     }
 }

@@ -2,7 +2,7 @@ package com.mercandalli.tracker.device_online
 
 interface DeviceOnlineManager {
 
-    fun send()
+    fun initialize()
 
     fun getDeviceSpecs(deviceId: String)
 }

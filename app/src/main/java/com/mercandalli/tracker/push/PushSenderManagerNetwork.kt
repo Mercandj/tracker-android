@@ -52,7 +52,7 @@ import java.util.*
 
         val post = Request.Builder()
                 .headers(headers)
-                .url("https://fcm.googleapis.com/fcm/send")
+                .url("https://fcm.googleapis.com/fcm/initialize")
                 .method(
                         "POST",
                         RequestBody.create(

@@ -15,14 +15,15 @@
 
 ----
 
-## Firebase storage
+## Firebase database
 
 ```
-- device-family
-  - device-family.json
 - device
-   - <android-device-id>
-      - device-specs.json
+   - <device-id>
+      - device-specs
+        <DeviceSpecs>
+      - device-apps
+      - device-slaves
 ```
 
 ----

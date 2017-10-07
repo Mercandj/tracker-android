@@ -1,8 +1,12 @@
 package com.mercandalli.tracker.device_application
 
+import android.graphics.drawable.Drawable
+
 interface DeviceApplicationManager {
 
     fun getDeviceApplications(): List<DeviceApplication>
+
+    fun getDrawable(packageName:String): Drawable?
 
     fun refreshDeviceApplications()
 

@@ -74,9 +74,9 @@ object DeviceApplicationUtils {
      * @param onlyUserInstalledApp Only apps from manual installation.
      * `new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())`.
      */
-    fun sortingNativeFromUserApp(
+    internal fun sortingNativeFromUserApp(
             packageManager: PackageManager,
-            onlyUserInstalledApp: Boolean): List<DeviceApplication> {
+            onlyUserInstalledApp: Boolean): List<DeviceApplicationInternal> {
 
         val apps = packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
         val userApps = ArrayList<PackageInfo>()
@@ -119,11 +119,11 @@ object DeviceApplicationUtils {
             packageManager: PackageManager,
             nativeApp: List<PackageInfo>,
             userApp: List<PackageInfo>,
-            onlyUserInstalledApp: Boolean): List<DeviceApplication> {
-        val list = ArrayList<DeviceApplication>()
+            onlyUserInstalledApp: Boolean): List<DeviceApplicationInternal> {
+        val list = ArrayList<DeviceApplicationInternal>()
         if (!onlyUserInstalledApp) {
             nativeApp.mapTo(list) {
-                DeviceApplication(
+                DeviceApplicationInternal(
                         DeviceApplication.PRE_INSTALL,
                         it.applicationInfo.loadLabel(packageManager).toString(),
                         it.packageName,
@@ -137,7 +137,7 @@ object DeviceApplicationUtils {
             }
         }
         userApp.mapTo(list) {
-            DeviceApplication(
+            DeviceApplicationInternal(
                     DeviceApplication.USER_INSTALL,
                     it.applicationInfo.loadLabel(packageManager).toString(),
                     it.packageName,

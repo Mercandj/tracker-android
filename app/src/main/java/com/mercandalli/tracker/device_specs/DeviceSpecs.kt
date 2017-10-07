@@ -14,4 +14,6 @@ data class DeviceSpecs(
         @SerializedName("device-os-version")
         val deviceOsVersion: Int,
         @SerializedName("device-emulator")
-        val deviceEmulator: Boolean)
+        val deviceEmulator: Boolean,
+        @SerializedName("device-rooted")
+        val deviceRooted: Boolean)

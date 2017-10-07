@@ -24,6 +24,8 @@ import com.mercandalli.tracker.notification.NotificationManager
 import com.mercandalli.tracker.notification.NotificationModule
 import com.mercandalli.tracker.push.PushModule
 import com.mercandalli.tracker.push.PushSenderManager
+import com.mercandalli.tracker.root.RootManager
+import com.mercandalli.tracker.root.RootModule
 import com.mercandalli.tracker.scheduler.SchedulerModule
 import com.mercandalli.tracker.scheduler.SchedulerPeriodicTrigger
 import dagger.Component
@@ -34,6 +36,7 @@ import javax.inject.Singleton
 @Component(modules = arrayOf(
         CloudMessagingModule::class,
         DeviceApplicationModule::class,
+        DeviceOnlineModule::class,
         DeviceSpecsModule::class,
         FirebaseModule::class,
         GsonModule::class,
@@ -42,9 +45,9 @@ import javax.inject.Singleton
         NetworkModule::class,
         NotificationModule::class,
         PushModule::class,
+        RootModule::class,
         SchedulerModule::class,
-        TrackerModule::class,
-        DeviceOnlineModule::class)
+        TrackerModule::class)
 )
 interface TrackerComponent {
 
@@ -75,6 +78,8 @@ interface TrackerComponent {
     fun provideOkHttpClient(): OkHttpClient
 
     fun providePushSenderManager(): PushSenderManager
+
+    fun provideRootManager(): RootManager
 
     fun provideSchedulerPeriodicTrigger(): SchedulerPeriodicTrigger
 

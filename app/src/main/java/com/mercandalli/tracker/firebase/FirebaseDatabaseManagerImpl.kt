@@ -8,10 +8,9 @@ class FirebaseDatabaseManagerImpl constructor(
     private val mainReference: DatabaseReference = firebaseDatabase.reference
 
     override fun getObject(
-            pathParent: List<String>,
-            key: String,
+            pathParentKeys: List<String>,
             listener: FirebaseDatabaseManager.OnGetObjectListener) {
-        val reference = getReference(pathParent, key)
+        val reference = getReference(pathParentKeys)
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val value = dataSnapshot.getValue(Any::class.java)
@@ -29,18 +28,28 @@ class FirebaseDatabaseManagerImpl constructor(
     }
 
     override fun putObject(
-            pathParent: List<String>,
-            key: String,
+            pathParentKeys: List<String>,
             content: Any,
             listener: FirebaseDatabaseManager.OnPutObjectListener) {
-        val reference = getReference(pathParent, key)
-        reference.setValue(content)
+        val reference = getReference(pathParentKeys)
+        reference.setValue(
+                content) { e, r ->
+            if (e == null && r != null) {
+                listener.onPutObjectSucceeded()
+            } else {
+                listener.onPutObjectFailed(IllegalStateException(if (e == null) {
+                    "Error"
+                } else {
+                    e.message
+                }))
+            }
+        }
     }
 
     override fun getObjects(
-            pathParent: List<String>,
+            pathParentKeys: List<String>,
             listener: FirebaseDatabaseManager.OnGetObjectsListener) {
-        val reference = getReference(pathParent)
+        val reference = getReference(pathParentKeys)
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val result = ArrayList<Any>()
@@ -62,9 +71,5 @@ class FirebaseDatabaseManagerImpl constructor(
             }
         }
         return currentReference
-    }
-
-    private fun getReference(pathParentFolders: List<String>, filenameWithExt: String): DatabaseReference {
-        return getReference(pathParentFolders).child(filenameWithExt)
     }
 }

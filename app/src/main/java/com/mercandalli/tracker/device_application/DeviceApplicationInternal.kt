@@ -2,13 +2,15 @@ package com.mercandalli.tracker.device_application
 
 import android.support.annotation.StringDef
 import com.google.firebase.database.IgnoreExtraProperties
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import android.graphics.drawable.Drawable
 
 /**
  * Model of an app installed with some information.
  */
 @IgnoreExtraProperties
-data class DeviceApplication(
+internal class DeviceApplicationInternal(
 
         @KindInstallation
         @SerializedName("kind_installation")
@@ -36,7 +38,10 @@ data class DeviceApplication(
         val totalTimeInForeground: Long,
 
         @SerializedName("last_launch")
-        val lastLaunch: Long) {
+        val lastLaunch: Long,
+
+        @Expose
+        val icon: Drawable) {
 
     @Retention
     @StringDef(PRE_INSTALL, USER_INSTALL)

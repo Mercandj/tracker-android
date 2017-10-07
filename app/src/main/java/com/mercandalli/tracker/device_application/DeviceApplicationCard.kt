@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.mercandalli.tracker.R
+import com.mercandalli.tracker.main.TrackerApplication
 import java.text.SimpleDateFormat
 import java.util.concurrent.TimeUnit
 
@@ -18,6 +19,9 @@ class DeviceApplicationCard @kotlin.jvm.JvmOverloads constructor(
     companion object {
         val simpleDateFormat = SimpleDateFormat("HH'h'mm dd/MM")
     }
+
+    private val trackerComponent = TrackerApplication.appComponent
+    private val deviceApplicationManager = trackerComponent.provideDeviceApplicationManager()
 
     private val icon: ImageView
     private val title: TextView
@@ -34,7 +38,7 @@ class DeviceApplicationCard @kotlin.jvm.JvmOverloads constructor(
     }
 
     internal fun setDeviceApplication(deviceApplications: DeviceApplication) {
-        icon.setImageDrawable(deviceApplications.icon)
+        icon.setImageDrawable(deviceApplicationManager.getDrawable(deviceApplications.`package`))
         title.text = deviceApplications.androidAppName
 
         if (deviceApplications.totalTimeInForeground == 0L) {

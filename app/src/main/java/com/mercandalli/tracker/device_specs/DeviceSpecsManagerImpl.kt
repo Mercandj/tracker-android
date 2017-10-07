@@ -7,7 +7,8 @@ import java.util.regex.Pattern
 
 internal class DeviceSpecsManagerImpl constructor(
         private val deviceId: String,
-        private val deviceEmulator: Boolean) : DeviceSpecsManager {
+        private val deviceEmulator: Boolean,
+        private val deviceRooted: Boolean) : DeviceSpecsManager {
 
     private val deviceSpecs: DeviceSpecs
 
@@ -30,7 +31,8 @@ internal class DeviceSpecsManagerImpl constructor(
                 deviceModel,
                 deviceHardware,
                 deviceOsVersion,
-                deviceEmulator)
+                deviceEmulator,
+                deviceRooted)
     }
 
     override fun getCPUFrequencyCurrent(): IntArray {

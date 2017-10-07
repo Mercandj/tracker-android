@@ -4,6 +4,7 @@ import android.app.ActivityManager
 import android.app.usage.UsageStats
 import android.app.usage.UsageStatsManager
 import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.support.annotation.RequiresApi
 import com.mercandalli.tracker.main_thread.MainThreadPost
@@ -21,6 +22,7 @@ internal class DeviceApplicationManagerImpl constructor(
     private val deviceStatsPermissionListeners = ArrayList<DeviceApplicationManager.DeviceStatsPermissionListener>()
     private val deviceApplications = ArrayList<DeviceApplication>()
     private var needStatsPermission = needUsageStatsPermission()
+    private var deviceApplicationsDrawables = HashMap<String, Drawable>()
 
     init {
         refreshDeviceApplications()
@@ -28,6 +30,10 @@ internal class DeviceApplicationManagerImpl constructor(
 
     override fun getDeviceApplications(): List<DeviceApplication> {
         return deviceApplications
+    }
+
+    override fun getDrawable(packageName: String): Drawable? {
+        return deviceApplicationsDrawables[packageName]
     }
 
     override fun refreshDeviceApplications() {
@@ -83,13 +89,14 @@ internal class DeviceApplicationManagerImpl constructor(
         val sortingNativeFromUserApp = DeviceApplicationUtils.sortingNativeFromUserApp(packageManager, true)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val result = ArrayList<DeviceApplication>()
             val queryUsageStats: Map<String, UsageStats> = createUsageStats()
 
-            val result = ArrayList<DeviceApplication>()
             for (deviceApplication in sortingNativeFromUserApp) {
                 val usageStats = queryUsageStats[deviceApplication.`package`]
                 val totalTimeInForeground = usageStats?.totalTimeInForeground ?: 0
                 val lastLaunch = usageStats?.lastTimeUsed ?: 0
+                deviceApplicationsDrawables[deviceApplication.`package`] = deviceApplication.icon
                 result.add(DeviceApplication(
                         deviceApplication.kindInstallation,
                         deviceApplication.androidAppName,
@@ -99,12 +106,27 @@ internal class DeviceApplicationManagerImpl constructor(
                         deviceApplication.installedAt,
                         deviceApplication.updatedAt,
                         totalTimeInForeground,
-                        lastLaunch,
-                        deviceApplication.icon))
+                        lastLaunch))
             }
-            return result.sortedWith(compareBy({ it.totalTimeInForeground }, { it.installedAt })).reversed()
+            return result
+                    .sortedWith(compareBy({ it.totalTimeInForeground }, { it.installedAt }))
+                    .reversed()
         }
-        return sortingNativeFromUserApp.sortedWith(compareByDescending({ it.installedAt }))
+        return sortingNativeFromUserApp
+                .sortedWith(compareByDescending({ it.installedAt }))
+                .map {
+                    deviceApplicationsDrawables[it.`package`] = it.icon
+                    DeviceApplication(
+                            it.kindInstallation,
+                            it.androidAppName,
+                            it.`package`,
+                            it.versionCode,
+                            it.versionName,
+                            it.installedAt,
+                            it.updatedAt,
+                            it.totalTimeInForeground,
+                            it.lastLaunch)
+                }
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
