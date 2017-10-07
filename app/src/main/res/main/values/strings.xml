@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Tracker</string>
 
-    <string name="onglet_0">You</string>
-    <string name="onglet_1">Target</string>
+    <string name="onglet_0">Dashboard</string>
+    <string name="onglet_1">Sharing</string>
     <!--<string name="onglet_2">Maps</string>-->
     <string name="refresh">REFRESH</string>
     <string name="more">MORE</string>

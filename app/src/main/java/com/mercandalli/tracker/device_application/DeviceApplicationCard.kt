@@ -35,6 +35,7 @@ class DeviceApplicationCard @kotlin.jvm.JvmOverloads constructor(
         title = findViewById(R.id.view_application_card_title)
         totalUsage = findViewById(R.id.view_application_card_total_usage)
         lastLaunch = findViewById(R.id.view_application_card_last_launch)
+        setPadding(0, 0, 0, resources.getDimension(R.dimen.default_space).toInt())
     }
 
     internal fun setDeviceApplication(deviceApplications: DeviceApplication) {

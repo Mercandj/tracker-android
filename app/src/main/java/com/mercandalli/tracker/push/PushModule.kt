@@ -22,6 +22,6 @@ class PushModule {
 
     companion object {
 
-        private val CLOUD_MESSAGING_API_KEY = "AAAAy9qyE3M:APA91bEt8F9u7r_N8CL4mLvYUDPAJaAClu_GsiDavD0-7VmesKYGkSHx2jAPja8sSuCQ8QV4Q4Y1ZzAi8ykrdA7sQ2R_UhS6-BeAX8fzGrmafCeNcxZ9nfQ1HdGQJLJpDaTkRP_0by4c"
+        private val CLOUD_MESSAGING_API_KEY = "AAAAFnjUxws:APA91bGesReILlGlDKySySV0GWNxy4PMOboBdOB398p7Z-3o81A8a5l2E7fSgSz8u7ElJDqOOA4Kix_WBZndmSFJbadJmlC5gKQlRe5ChzK_FkdE4sgm9nOcdXtPLM5hFNd0K29pzJkV"
     }
 }

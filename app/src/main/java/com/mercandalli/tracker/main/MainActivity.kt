@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
                     when (item.itemId) {
                         R.id.action_ongle_0 -> onBottomBarYouClicked()
                         R.id.action_ongle_1 -> onBottomBarTargetClicked()
-                        //R.id.action_ongle_2 -> onBottomBarMapsClicked()
+                    //R.id.action_ongle_2 -> onBottomBarMapsClicked()
                         else -> throw IllegalStateException("Wrong id")
                     }
                     return@OnNavigationItemSelectedListener true
@@ -91,6 +91,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreateOptionsMenu(menu)
         val inflater = menuInflater
         inflater.inflate(R.menu.menu_main, menu)
+        menu.findItem(R.id.menu_main_item_picture_in_picture).isVisible =
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
         return true
     }
 
