@@ -1,6 +1,5 @@
 package com.mercandalli.tracker.location
 
-import android.util.Log
 import com.mercandalli.tracker.main_thread.MainThreadPost
 import java.util.ArrayList
 import kotlin.collections.HashMap
@@ -14,7 +13,6 @@ internal class LocationRepositoryRam(
     private val locationListeners = ArrayList<LocationRepository.LocationRepositoryListener>()
 
     override fun putLocation(location: Location) {
-        Log.d("jm/debug", "putLocation: " + location)
         locations.put(location.timestamp, location)
         if (location.timestamp > biggerLocationTimestamp) {
             biggerLocationTimestamp = location.timestamp

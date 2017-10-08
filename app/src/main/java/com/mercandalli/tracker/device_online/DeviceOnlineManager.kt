@@ -4,5 +4,5 @@ interface DeviceOnlineManager {
 
     fun initialize()
 
-    fun getDeviceSpecs(deviceId: String)
+    fun getDeviceSpecs()
 }

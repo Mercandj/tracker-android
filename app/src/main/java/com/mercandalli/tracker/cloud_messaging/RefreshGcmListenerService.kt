@@ -1,7 +1,5 @@
 package com.mercandalli.tracker.cloud_messaging
 
-import android.util.Log
-
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.iid.FirebaseInstanceIdService
 
@@ -18,6 +16,5 @@ class RefreshGcmListenerService : FirebaseInstanceIdService() {
     override fun onTokenRefresh() {
         // Get updated InstanceID token.
         val refreshedToken = FirebaseInstanceId.getInstance().token
-        Log.d("jm/debug", "gcm: " + refreshedToken!!)
     }
 }

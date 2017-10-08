@@ -9,20 +9,20 @@ class FirebaseDatabaseManagerImpl constructor(
 
     override fun getObject(
             pathParentKeys: List<String>,
-            listener: FirebaseDatabaseManager.OnGetObjectListener) {
+            listener: FirebaseDatabaseManager.OnGetObjectListener?) {
         val reference = getReference(pathParentKeys)
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val value = dataSnapshot.getValue(Any::class.java)
                 if (value == null) {
-                    listener.onGetObjectFailed(IllegalStateException("Data null"))
+                    listener?.onGetObjectFailed(IllegalStateException("Data null"))
                     return
                 }
-                listener.onGetObjectSucceeded(value)
+                listener?.onGetObjectSucceeded(value)
             }
 
             override fun onCancelled(error: DatabaseError) {
-                listener.onGetObjectFailed(IllegalStateException(error.message))
+                listener?.onGetObjectFailed(IllegalStateException(error.message))
             }
         })
     }
@@ -30,14 +30,14 @@ class FirebaseDatabaseManagerImpl constructor(
     override fun putObject(
             pathParentKeys: List<String>,
             content: Any,
-            listener: FirebaseDatabaseManager.OnPutObjectListener) {
+            listener: FirebaseDatabaseManager.OnPutObjectListener?) {
         val reference = getReference(pathParentKeys)
         reference.setValue(
                 content) { e, r ->
             if (e == null && r != null) {
-                listener.onPutObjectSucceeded()
+                listener?.onPutObjectSucceeded()
             } else {
-                listener.onPutObjectFailed(IllegalStateException(if (e == null) {
+                listener?.onPutObjectFailed(IllegalStateException(if (e == null) {
                     "Error"
                 } else {
                     e.message
@@ -48,17 +48,15 @@ class FirebaseDatabaseManagerImpl constructor(
 
     override fun getObjects(
             pathParentKeys: List<String>,
-            listener: FirebaseDatabaseManager.OnGetObjectsListener) {
+            listener: FirebaseDatabaseManager.OnGetObjectsListener?) {
         val reference = getReference(pathParentKeys)
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val result = ArrayList<Any>()
-                dataSnapshot.children.filterNotNullTo(result)
-                listener.onGetObjectsSucceeded(result)
+                listener?.onGetObjectsSucceeded(dataSnapshot)
             }
 
             override fun onCancelled(error: DatabaseError) {
-                listener.onGetObjectsFailed(IllegalStateException(error.message))
+                listener?.onGetObjectsFailed(IllegalStateException(error.message))
             }
         })
     }

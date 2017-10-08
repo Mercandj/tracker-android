@@ -1,6 +1,7 @@
 package com.mercandalli.tracker.device_online
 
 import com.google.gson.Gson
+import com.mercandalli.tracker.cloud_messaging.CloudMessagingIdManager
 import com.mercandalli.tracker.device_application.DeviceApplicationManager
 import com.mercandalli.tracker.device_specs.DeviceSpecsManager
 import com.mercandalli.tracker.firebase.FirebaseDatabaseManager
@@ -17,13 +18,15 @@ class DeviceOnlineModule {
     fun provideDeviceOnlineManager(
             gson: Gson,
             deviceSpecsManager: DeviceSpecsManager,
-            deviceApplicationManager:DeviceApplicationManager,
+            deviceApplicationManager: DeviceApplicationManager,
             firebaseStorageManager: FirebaseStorageManager,
-            firebaseDatabaseManager: FirebaseDatabaseManager): DeviceOnlineManager {
+            firebaseDatabaseManager: FirebaseDatabaseManager,
+            cloudMessagingIdManager: CloudMessagingIdManager): DeviceOnlineManager {
         return DeviceOnlineManagerImpl(
                 firebaseStorageManager,
                 firebaseDatabaseManager,
                 deviceSpecsManager,
-                deviceApplicationManager)
+                deviceApplicationManager,
+                cloudMessagingIdManager)
     }
 }
