@@ -27,7 +27,7 @@ internal class DeviceOnlineManagerImpl constructor(
     }
 
     private val deviceSpec: DeviceSpec = deviceSpecsManager.getDeviceSpec()
-    private val deviceSpecsList = ArrayList<DeviceSpec>()
+    private val deviceSpecs = ArrayList<DeviceSpec>()
     private val onDeviceSpecsListeners = ArrayList<DeviceOnlineManager.OnDeviceSpecsListener>()
 
     override fun initialize() {
@@ -40,7 +40,7 @@ internal class DeviceOnlineManagerImpl constructor(
 
     override fun getDeviceSpecsSync(): List<DeviceSpec> {
         val path = asList(DEVICE_REFERENCE_KEY)
-        if (deviceSpecsList.isEmpty()) {
+        if (deviceSpecs.isEmpty()) {
             firebaseDatabaseManager.getObjects(
                     path,
                     object : FirebaseDatabaseManager.OnGetObjectsListener {
@@ -49,20 +49,17 @@ internal class DeviceOnlineManagerImpl constructor(
                         }
 
                         override fun onGetObjectsSucceeded(dataSnapshot: DataSnapshot) {
-                            deviceSpecsList.clear()
-                            dataSnapshot.children
-                                    .map {
-                                        it
-                                                .child(DEVICE_SPEC_REFERENCE_KEY)
-                                                .getValue(DeviceSpecResponse::class.java)
-                                                ?.toDeviceSpecs()
-                                    }
-                                    .forEach { deviceSpecsList.add(deviceSpec) }
+                            deviceSpecs.clear()
+                            dataSnapshot.children.mapNotNullTo(deviceSpecs) {
+                                it.child(DEVICE_SPEC_REFERENCE_KEY)
+                                        .getValue(DeviceSpecResponse::class.java)
+                                        ?.toDeviceSpecs()
+                            }
                             notifyDeviceSpecsChanged()
                         }
                     })
         }
-        return ArrayList(deviceSpecsList)
+        return ArrayList(deviceSpecs)
     }
 
     override fun registerDeviceSpecsListener(listener: DeviceOnlineManager.OnDeviceSpecsListener) {
