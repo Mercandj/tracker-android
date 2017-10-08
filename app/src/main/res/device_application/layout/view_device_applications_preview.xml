@@ -85,7 +85,7 @@
                 android:id="@+id/view_device_applications_preview_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/default_space_1_5"
+                android:layout_marginBottom="@dimen/default_space"
                 android:layout_marginEnd="@dimen/default_space_1_5"
                 android:layout_marginStart="@dimen/default_space_1_5"
                 android:layout_marginTop="@dimen/default_space"
@@ -97,8 +97,9 @@
                 android:layout_marginBottom="@dimen/default_space_1_5"
                 android:layout_marginEnd="@dimen/default_space_1_5"
                 android:layout_marginStart="@dimen/default_space_1_5"
-                android:layout_marginTop="@dimen/default_space"
-                android:text="Most popular" />
+                android:layout_marginTop="@dimen/default_space_half"
+                android:text="Most popular:"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"

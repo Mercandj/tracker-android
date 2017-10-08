@@ -3,6 +3,7 @@ package com.mercandalli.tracker.device_online
 import android.util.Log
 import com.google.firebase.database.DataSnapshot
 import com.mercandalli.tracker.cloud_messaging.CloudMessagingIdManager
+import com.mercandalli.tracker.device.Device
 import com.mercandalli.tracker.device_application.DeviceApplicationManager
 import com.mercandalli.tracker.device_spec.DeviceSpec
 import com.mercandalli.tracker.device_spec.DeviceSpecsManager
@@ -21,14 +22,14 @@ internal class DeviceOnlineManagerImpl constructor(
     companion object {
         private val DEVICE_REFERENCE_KEY: String = "device"
 
-        private val DEVICE_SPEC_REFERENCE_KEY: String = "device-spec"
-        private val DEVICE_APP_REFERENCE_KEY: String = "device-app"
-        private val DEVICE_TOKEN_REFERENCE_KEY: String = "device-token"
+        private val DEVICE_SPEC_REFERENCE_KEY: String = "deviceSpec"
+        private val DEVICE_APPS_REFERENCE_KEY: String = "deviceApplications"
+        private val DEVICE_TOKEN_REFERENCE_KEY: String = "deviceToken"
     }
 
     private val deviceSpec: DeviceSpec = deviceSpecsManager.getDeviceSpec()
-    private val deviceSpecs = ArrayList<DeviceSpec>()
-    private val onDeviceSpecsListeners = ArrayList<DeviceOnlineManager.OnDeviceSpecsListener>()
+    private val devices = ArrayList<Device>()
+    private val onDeviceSpecsListeners = ArrayList<DeviceOnlineManager.OnDevicesListener>()
 
     override fun initialize() {
         sendDeviceSpec()
@@ -38,9 +39,9 @@ internal class DeviceOnlineManagerImpl constructor(
         cloudMessagingIdManager.registerCloudMessagingIdListener(createCloudMessagingIdListener())
     }
 
-    override fun getDeviceSpecsSync(): List<DeviceSpec> {
+    override fun getDevicesSync(): List<Device> {
         val path = asList(DEVICE_REFERENCE_KEY)
-        if (deviceSpecs.isEmpty()) {
+        if (devices.isEmpty()) {
             firebaseDatabaseManager.getObjects(
                     path,
                     object : FirebaseDatabaseManager.OnGetObjectsListener {
@@ -49,33 +50,31 @@ internal class DeviceOnlineManagerImpl constructor(
                         }
 
                         override fun onGetObjectsSucceeded(dataSnapshot: DataSnapshot) {
-                            deviceSpecs.clear()
-                            dataSnapshot.children.mapNotNullTo(deviceSpecs) {
-                                it.child(DEVICE_SPEC_REFERENCE_KEY)
-                                        .getValue(DeviceSpecResponse::class.java)
-                                        ?.toDeviceSpecs()
+                            devices.clear()
+                            dataSnapshot.children.mapNotNullTo(devices) {
+                                it.getValue(Device.Response::class.java)?.toDevice()
                             }
                             notifyDeviceSpecsChanged()
                         }
                     })
         }
-        return ArrayList(deviceSpecs)
+        return ArrayList(devices)
     }
 
-    override fun registerDeviceSpecsListener(listener: DeviceOnlineManager.OnDeviceSpecsListener) {
+    override fun registerDevicesListener(listener: DeviceOnlineManager.OnDevicesListener) {
         if (onDeviceSpecsListeners.contains(listener)) {
             return
         }
         onDeviceSpecsListeners.add(listener)
     }
 
-    override fun unregisterDeviceSpecsListener(listener: DeviceOnlineManager.OnDeviceSpecsListener) {
+    override fun unregisterDevicesListener(listener: DeviceOnlineManager.OnDevicesListener) {
         onDeviceSpecsListeners.remove(listener)
     }
 
     private fun notifyDeviceSpecsChanged() {
         for (listener in onDeviceSpecsListeners) {
-            listener.onDeviceSpecsChanged()
+            listener.onDevicesChanged()
         }
     }
 
@@ -89,7 +88,7 @@ internal class DeviceOnlineManagerImpl constructor(
         if (deviceApplications.isEmpty()) {
             return
         }
-        val path = asList(DEVICE_REFERENCE_KEY, deviceSpec.deviceId, DEVICE_APP_REFERENCE_KEY)
+        val path = asList(DEVICE_REFERENCE_KEY, deviceSpec.deviceId, DEVICE_APPS_REFERENCE_KEY)
         firebaseDatabaseManager.putObject(path, deviceApplications, null)
     }
 

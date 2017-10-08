@@ -1,18 +1,18 @@
 package com.mercandalli.tracker.device_online
 
-import com.mercandalli.tracker.device_spec.DeviceSpec
+import com.mercandalli.tracker.device.Device
 
 interface DeviceOnlineManager {
 
     fun initialize()
 
-    fun getDeviceSpecsSync(): List<DeviceSpec>
+    fun getDevicesSync(): List<Device>
 
-    fun registerDeviceSpecsListener(listener: OnDeviceSpecsListener)
+    fun registerDevicesListener(listener: OnDevicesListener)
 
-    fun unregisterDeviceSpecsListener(listener: OnDeviceSpecsListener)
+    fun unregisterDevicesListener(listener: OnDevicesListener)
 
-    interface OnDeviceSpecsListener {
-        fun onDeviceSpecsChanged()
+    interface OnDevicesListener {
+        fun onDevicesChanged()
     }
 }

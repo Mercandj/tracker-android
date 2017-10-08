@@ -6,21 +6,11 @@
     android:orientation="vertical"
     tools:parentTag="android.widget.LinearLayout">
 
-    <TextView
-        android:id="@+id/view_device_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/default_space_1_5"
-        android:layout_marginStart="@dimen/default_space_1_5"
-        android:layout_marginTop="@dimen/default_space_2"
-        android:text="@string/view_device_title_your_dashboard"
-        android:textColor="@color/color_text_title_1"
-        android:textSize="@dimen/text_size_xl"
-        android:textStyle="bold" />
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/view_device_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/default_space" />
 
 </merge>

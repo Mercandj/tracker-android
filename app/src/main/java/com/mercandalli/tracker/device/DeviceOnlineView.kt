@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
-import android.widget.TextView
 import com.mercandalli.tracker.R
 import com.mercandalli.tracker.device_online.DeviceOnlineManager
 import com.mercandalli.tracker.main.TrackerApplication
@@ -30,26 +29,34 @@ class DeviceOnlineView @JvmOverloads constructor(
         recyclerView!!.layoutManager = createLayoutManager(context)
         recyclerView!!.adapter = recyclerAdapter
 
-        val title = findViewById<TextView>(R.id.view_device_title)
-        title.text = "All devices"
-
-        recyclerAdapter.setDeviceSpecs(deviceOnlineManager.getDeviceSpecsSync())
+        syncDevices()
     }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        deviceOnlineManager.registerDeviceSpecsListener(deviceSpecsListener)
+        deviceOnlineManager.registerDevicesListener(deviceSpecsListener)
     }
 
     override fun onDetachedFromWindow() {
-        deviceOnlineManager.unregisterDeviceSpecsListener(deviceSpecsListener)
+        deviceOnlineManager.unregisterDevicesListener(deviceSpecsListener)
         super.onDetachedFromWindow()
     }
 
-    private fun createDeviceSpecsListener(): DeviceOnlineManager.OnDeviceSpecsListener {
-        return object : DeviceOnlineManager.OnDeviceSpecsListener {
-            override fun onDeviceSpecsChanged() {
-                recyclerAdapter.setDeviceSpecs(deviceOnlineManager.getDeviceSpecsSync())
+    private fun syncDevices() {
+        val devices = deviceOnlineManager.getDevicesSync()
+        val list = ArrayList<Any>()
+        for (device in devices) {
+            list.add(if (device.deviceNickname == "") device.deviceSpec.deviceId else device.deviceNickname)
+            list.add(device.deviceSpec)
+            list.add(device.deviceApplications)
+        }
+        recyclerAdapter.setObjects(list)
+    }
+
+    private fun createDeviceSpecsListener(): DeviceOnlineManager.OnDevicesListener {
+        return object : DeviceOnlineManager.OnDevicesListener {
+            override fun onDevicesChanged() {
+                syncDevices()
             }
         }
     }

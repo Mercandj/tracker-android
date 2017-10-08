@@ -11,7 +11,7 @@
         android:layout_marginBottom="@dimen/default_space"
         android:layout_marginEnd="@dimen/default_space_1_5"
         android:layout_marginStart="@dimen/default_space_1_5"
-        android:layout_marginTop="@dimen/default_space_2">
+        android:layout_marginTop="@dimen/default_space_1_5">
 
         <LinearLayout
             android:layout_width="match_parent"

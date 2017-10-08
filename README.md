@@ -20,10 +20,11 @@
 ```
 - device
    - <device-id>
-      - device-specs
-        <DeviceSpecs>
-      - device-apps
-      - device-slaves
+      - deviceSpec: DeviceSpec
+      - deviceApplications: List<DeviceApplication>
+      - deviceToken: String
+      - deviceNickname: String
+      - deviceSlaves: List<String> (<device-id>)
 ```
 
 ----

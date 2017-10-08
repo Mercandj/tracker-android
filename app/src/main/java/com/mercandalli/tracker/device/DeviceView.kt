@@ -30,6 +30,7 @@ class DeviceView @JvmOverloads constructor(
         recyclerView!!.layoutManager = createLayoutManager(context)
         recyclerView!!.adapter = recyclerAdapter
 
+        recyclerAdapter.setTitle(context.getString(R.string.view_device_title_your_dashboard))
         recyclerAdapter.setDeviceSpec(deviceSpecsManager.getDeviceSpec())
     }
 

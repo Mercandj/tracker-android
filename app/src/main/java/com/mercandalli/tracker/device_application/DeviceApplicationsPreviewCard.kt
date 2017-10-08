@@ -1,6 +1,10 @@
 package com.mercandalli.tracker.device_application
 
 import android.content.Context
+import android.graphics.Typeface
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.StyleSpan
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -55,7 +59,8 @@ class DeviceApplicationsPreviewCard @kotlin.jvm.JvmOverloads constructor(
     }
 
     internal fun setDeviceApplications(deviceApplications: List<DeviceApplication>) {
-        deviceApplicationsPreviewNumber.text = "Number of apps: " + deviceApplications.size.toString()
+        setText(deviceApplicationsPreviewNumber, "Number of apps: ", deviceApplications.size.toString())
+
         if (deviceApplications.size < 4) {
             return
         }
@@ -77,5 +82,11 @@ class DeviceApplicationsPreviewCard @kotlin.jvm.JvmOverloads constructor(
                 syncPermissionVisibility()
             }
         }
+    }
+
+    private fun setText(textView: TextView, bold: String, text: String) {
+        val str = SpannableString(bold + text)
+        str.setSpan(StyleSpan(Typeface.BOLD), 0, bold.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        textView.text = str
     }
 }

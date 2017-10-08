@@ -62,4 +62,29 @@ data class DeviceApplication(
 
         const val USER_INSTALL = "user_install"
     }
+
+    data class Response(
+            var kindInstallation: String = "",
+            var androidAppName: String = "",
+            var `package`: String = "",
+            var versionCode: Int = 0,
+            var versionName: String = "",
+            val installedAt: Long = 0,
+            val updatedAt: Long = 0,
+            val totalTimeInForeground: Long = 0,
+            val lastLaunch: Long = 0) {
+
+        fun toDeviceApplication(): DeviceApplication {
+            return DeviceApplication(
+                    kindInstallation,
+                    androidAppName,
+                    `package`,
+                    versionCode,
+                    versionName,
+                    installedAt,
+                    updatedAt,
+                    totalTimeInForeground,
+                    lastLaunch)
+        }
+    }
 }
