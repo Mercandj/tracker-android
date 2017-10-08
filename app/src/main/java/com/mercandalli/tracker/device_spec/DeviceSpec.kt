@@ -13,7 +13,11 @@ data class DeviceSpec(
         val deviceHardware: String,
         @SerializedName("device-os-version")
         val deviceOsVersion: Int,
+        @SerializedName("device-density")
+        val deviceDensity: String,
         @SerializedName("device-emulator")
         val deviceEmulator: Boolean,
         @SerializedName("device-rooted")
-        val deviceRooted: Boolean)
+        val deviceRooted: Boolean,
+        @SerializedName("device-battery-percent")
+        val deviceBatteryPercent: Float)

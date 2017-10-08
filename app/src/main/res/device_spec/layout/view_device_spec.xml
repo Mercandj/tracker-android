@@ -16,6 +16,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/default_space_1_5"
             android:orientation="vertical">
 
             <TextView
@@ -55,11 +56,55 @@
                 android:id="@+id/view_device_spec_device_os_version"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/default_space_1_5"
                 android:layout_marginEnd="@dimen/default_space_1_5"
                 android:layout_marginStart="@dimen/default_space_1_5"
                 android:layout_marginTop="@dimen/default_space_half"
                 tools:text="14" />
+
+            <TextView
+                android:id="@+id/view_device_spec_device_hardware"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/default_space_1_5"
+                android:layout_marginStart="@dimen/default_space_1_5"
+                android:layout_marginTop="@dimen/default_space_half"
+                tools:text="Hardware" />
+
+            <TextView
+                android:id="@+id/view_device_spec_device_density"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/default_space_1_5"
+                android:layout_marginStart="@dimen/default_space_1_5"
+                android:layout_marginTop="@dimen/default_space_half"
+                tools:text="Density" />
+
+            <TextView
+                android:id="@+id/view_device_spec_device_emulator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/default_space_1_5"
+                android:layout_marginStart="@dimen/default_space_1_5"
+                android:layout_marginTop="@dimen/default_space_half"
+                tools:text="Is emulator" />
+
+            <TextView
+                android:id="@+id/view_device_spec_device_rooted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/default_space_1_5"
+                android:layout_marginStart="@dimen/default_space_1_5"
+                android:layout_marginTop="@dimen/default_space_half"
+                tools:text="Is rooted" />
+
+            <TextView
+                android:id="@+id/view_device_spec_device_battery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/default_space_1_5"
+                android:layout_marginStart="@dimen/default_space_1_5"
+                android:layout_marginTop="@dimen/default_space_half"
+                tools:text="Battery" />
 
         </LinearLayout>
 

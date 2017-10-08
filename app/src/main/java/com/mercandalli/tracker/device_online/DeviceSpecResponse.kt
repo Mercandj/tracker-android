@@ -14,10 +14,14 @@ data class DeviceSpecResponse(
         var deviceHardware: String = "",
         @SerializedName("device-os-version")
         var deviceOsVersion: Int = 0,
+        @SerializedName("device-density")
+        var deviceDensity: String = "",
         @SerializedName("device-emulator")
         var deviceEmulator: Boolean = false,
         @SerializedName("device-rooted")
-        var deviceRooted: Boolean = false) {
+        var deviceRooted: Boolean = false,
+        @SerializedName("device-battery-percent")
+        var deviceBatteryPercent: Float = 0F) {
 
     fun toDeviceSpecs(): DeviceSpec {
         return DeviceSpec(
@@ -26,8 +30,10 @@ data class DeviceSpecResponse(
                 deviceModel,
                 deviceHardware,
                 deviceOsVersion,
+                deviceDensity,
                 deviceEmulator,
-                deviceRooted
+                deviceRooted,
+                deviceBatteryPercent
         )
     }
 }

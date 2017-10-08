@@ -2,9 +2,14 @@ package com.mercandalli.tracker.device_spec
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.os.BatteryManager
 import android.os.Build
 import android.provider.Settings
+import android.support.annotation.FloatRange
 import com.mercandalli.tracker.common.Preconditions
+
 
 object DeviceSpecUtils {
 
@@ -40,5 +45,13 @@ object DeviceSpecUtils {
         val deviceId = Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
         Preconditions.checkNotNull(deviceId)
         return deviceId
+    }
+
+    @FloatRange(from = 0.0, to = 1.0)
+    internal fun getBatteryPercent(context: Context): Float {
+        val batteryStatus = context.registerReceiver(null,
+                IntentFilter(Intent.ACTION_BATTERY_CHANGED)) ?: return 0f
+        return batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1) /
+                batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1).toFloat()
     }
 }

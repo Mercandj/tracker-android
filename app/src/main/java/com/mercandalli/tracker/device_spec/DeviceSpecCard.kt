@@ -1,6 +1,10 @@
 package com.mercandalli.tracker.device_spec
 
 import android.content.Context
+import android.graphics.Typeface
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.StyleSpan
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
@@ -14,17 +18,38 @@ class DeviceSpecCard @kotlin.jvm.JvmOverloads constructor(
     private val deviceManufacturer: TextView
     private val deviceModel: TextView
     private val deviceOsVersion: TextView
+    private val deviceHardware: TextView
+    private val deviceDensity: TextView
+    private val deviceEmulator: TextView
+    private val deviceRooted: TextView
+    private val deviceBattery: TextView
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_device_spec, this)
         deviceManufacturer = findViewById(R.id.view_device_spec_device_manufacturer)
         deviceModel = findViewById(R.id.view_device_spec_device_model)
         deviceOsVersion = findViewById(R.id.view_device_spec_device_os_version)
+        deviceHardware = findViewById(R.id.view_device_spec_device_hardware)
+        deviceDensity = findViewById(R.id.view_device_spec_device_density)
+        deviceEmulator = findViewById(R.id.view_device_spec_device_emulator)
+        deviceRooted = findViewById(R.id.view_device_spec_device_rooted)
+        deviceBattery = findViewById(R.id.view_device_spec_device_battery)
     }
 
     fun setDeviceSpecs(deviceSpec: DeviceSpec) {
-        deviceManufacturer.text = deviceSpec.deviceManufacturer
-        deviceModel.text = deviceSpec.deviceModel
-        deviceOsVersion.text = deviceSpec.deviceOsVersion.toString()
+        setText(deviceManufacturer, "Manufacturer: ", deviceSpec.deviceManufacturer)
+        setText(deviceModel, "Model: ", deviceSpec.deviceModel)
+        setText(deviceOsVersion, "Android version: ", deviceSpec.deviceOsVersion.toString())
+        setText(deviceHardware, "Hardware: ", deviceSpec.deviceHardware)
+        setText(deviceDensity, "Density: ", deviceSpec.deviceDensity)
+        setText(deviceEmulator, "Emulator: ", deviceSpec.deviceEmulator.toString())
+        setText(deviceRooted, "Rooted: ", deviceSpec.deviceRooted.toString())
+        setText(deviceBattery, "Battery: ", ((deviceSpec.deviceBatteryPercent * 100f).toInt()).toString() + "%")
+    }
+
+    private fun setText(textView: TextView, bold: String, text: String) {
+        val str = SpannableString(bold + text)
+        str.setSpan(StyleSpan(Typeface.BOLD), 0, bold.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        textView.text = str
     }
 }

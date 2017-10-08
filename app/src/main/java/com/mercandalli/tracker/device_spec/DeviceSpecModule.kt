@@ -1,11 +1,11 @@
 package com.mercandalli.tracker.device_spec
 
+import com.mercandalli.tracker.R
 import com.mercandalli.tracker.main.TrackerApplication
 import com.mercandalli.tracker.root.RootManager
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
-
 
 @Module
 class DeviceSpecModule {
@@ -16,8 +16,19 @@ class DeviceSpecModule {
             application: TrackerApplication,
             rootManager: RootManager): DeviceSpecsManager {
         val deviceId = DeviceSpecUtils.getDeviceId(application)
+        val deviceDensity = application.getString(R.string.device_spec_density)
         val deviceEmulator = DeviceSpecUtils.isEmulator()
         val deviceRooted = rootManager.isRooted()
-        return DeviceSpecManagerImpl(deviceId, deviceEmulator, deviceRooted)
+        val delegate: DeviceSpecManagerImpl.Delegate = object : DeviceSpecManagerImpl.Delegate {
+            override fun getBatteryPercent(): Float {
+                return DeviceSpecUtils.getBatteryPercent(application)
+            }
+        }
+        return DeviceSpecManagerImpl(
+                deviceId,
+                deviceDensity,
+                deviceEmulator,
+                deviceRooted,
+                delegate)
     }
 }

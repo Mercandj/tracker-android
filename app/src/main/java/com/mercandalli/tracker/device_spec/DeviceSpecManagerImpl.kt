@@ -7,8 +7,10 @@ import java.util.regex.Pattern
 
 internal class DeviceSpecManagerImpl constructor(
         private val deviceId: String,
+        private val deviceDensity: String,
         private val deviceEmulator: Boolean,
-        private val deviceRooted: Boolean) : DeviceSpecsManager {
+        private val deviceRooted: Boolean,
+        private val delegate: Delegate) : DeviceSpecsManager {
 
     private val deviceSpec: DeviceSpec
 
@@ -25,14 +27,17 @@ internal class DeviceSpecManagerImpl constructor(
         val deviceModel = Build.MODEL
         val deviceHardware = Build.HARDWARE
         val deviceOsVersion = Build.VERSION.SDK_INT
+        val deviceBatteryPercent = delegate.getBatteryPercent()
         return DeviceSpec(
                 deviceId,
                 deviceManufacturer,
                 deviceModel,
                 deviceHardware,
                 deviceOsVersion,
+                deviceDensity,
                 deviceEmulator,
-                deviceRooted)
+                deviceRooted,
+                deviceBatteryPercent)
     }
 
     override fun getCPUFrequencyCurrent(): IntArray {
@@ -77,5 +82,9 @@ internal class DeviceSpecManagerImpl constructor(
             Closer.closeSilently(br)
         }
         return 0
+    }
+
+    interface Delegate {
+        fun getBatteryPercent(): Float
     }
 }

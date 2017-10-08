@@ -1,49 +1,41 @@
 package com.mercandalli.tracker.root
 
+import android.os.Build
 import com.mercandalli.tracker.common.Closer
+import com.mercandalli.tracker.device_spec.DeviceSpecUtils.isEmulator
 import java.io.*
 
 /**
  * A helper class which goal is simply to determine whether the device is rooted.
  */
-object RootUtils {
+internal object RootUtils {
 
-    // get from build info
-    // check if /system/app/Superuser.apk is present
-    // ignore
-    // try executing commands
-    internal val isRooted: Boolean
-        get() {
-            val buildTags = android.os.Build.TAGS
-            if (buildTags != null && buildTags.contains("test-keys")) {
-                return true
-            }
-            try {
-                val file = File("/system/app/Superuser.apk")
-                if (file.exists()) {
-                    return true
-                }
-            } catch (e1: Exception) {
-            }
-
-            return (canExecuteCommand("/system/xbin/which su")
-                    || canExecuteCommand("/system/bin/which su") || canExecuteCommand("which su"))
+    /**
+     * su is the binary that is used to grant root access.
+     * It being on the phone is usually a good sign that the phone is rooted.
+     *
+     *
+     * Note that this only check that su exists. A more complete check would be to
+     * call su for the app, requests permission, and returns true if the app was
+     * successfully granted root permissions.
+     *
+     * @return `true` if su was found.
+     */
+    internal fun isRooted(): Boolean {
+        val isEmulator = isEmulator()
+        val buildTags = Build.TAGS
+        if (!isEmulator && buildTags != null && buildTags.contains("test-keys")) {
+            return true
         }
-
-    // executes a command on the system
-    private fun canExecuteCommand(command: String): Boolean {
-        var executedSuccesfully: Boolean
-        try {
-            Runtime.getRuntime().exec(command)
-            executedSuccesfully = true
-        } catch (e: Exception) {
-            executedSuccesfully = false
+        var file = File("/system/app/Superuser.apk")
+        if (file.exists()) {
+            return true
         }
-
-        return executedSuccesfully
+        file = File("/system/xbin/su")
+        return !isEmulator && file.exists()
     }
 
-    fun sudoForResult(vararg strings: String): String {
+    internal fun sudoForResult(vararg strings: String): String {
         var res = ""
         var outputStream: DataOutputStream? = null
         var response: InputStream? = null
@@ -85,4 +77,4 @@ object RootUtils {
         }
         return byteArrayOutputStream.toString("UTF-8")
     }
-}// no-op
+}
