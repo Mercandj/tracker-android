@@ -1,4 +1,4 @@
-package com.mercandalli.tracker.device_specs
+package com.mercandalli.tracker.device_spec
 
 import android.annotation.SuppressLint
 import android.content.Context

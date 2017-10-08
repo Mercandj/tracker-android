@@ -34,7 +34,7 @@
                 android:background="#999999" />
 
             <TextView
-                android:id="@+id/view_device_specs_device_manufacturer"
+                android:id="@+id/view_device_spec_device_manufacturer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/default_space_1_5"
@@ -43,7 +43,7 @@
                 tools:text="Samsung" />
 
             <TextView
-                android:id="@+id/view_device_specs_device_model"
+                android:id="@+id/view_device_spec_device_model"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/default_space_1_5"
@@ -52,7 +52,7 @@
                 tools:text="Galaxy Nexus" />
 
             <TextView
-                android:id="@+id/view_device_specs_device_os_version"
+                android:id="@+id/view_device_spec_device_os_version"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/default_space_1_5"

@@ -8,8 +8,8 @@ import com.mercandalli.tracker.device_application.DeviceApplicationManager
 import com.mercandalli.tracker.device_application.DeviceApplicationModule
 import com.mercandalli.tracker.device_online.DeviceOnlineManager
 import com.mercandalli.tracker.device_online.DeviceOnlineModule
-import com.mercandalli.tracker.device_specs.DeviceSpecsManager
-import com.mercandalli.tracker.device_specs.DeviceSpecsModule
+import com.mercandalli.tracker.device_spec.DeviceSpecsManager
+import com.mercandalli.tracker.device_spec.DeviceSpecModule
 import com.mercandalli.tracker.firebase.FirebaseDatabaseManager
 import com.mercandalli.tracker.firebase.FirebaseModule
 import com.mercandalli.tracker.firebase.FirebaseStorageManager
@@ -37,7 +37,7 @@ import javax.inject.Singleton
         CloudMessagingModule::class,
         DeviceApplicationModule::class,
         DeviceOnlineModule::class,
-        DeviceSpecsModule::class,
+        DeviceSpecModule::class,
         FirebaseModule::class,
         GsonModule::class,
         LocationModule::class,

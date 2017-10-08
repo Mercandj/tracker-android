@@ -1,4 +1,4 @@
-package com.mercandalli.tracker.device_specs
+package com.mercandalli.tracker.device_spec
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -6,7 +6,7 @@ import android.os.Build
 import android.provider.Settings
 import com.mercandalli.tracker.common.Preconditions
 
-object DeviceSpecsUtils {
+object DeviceSpecUtils {
 
     /**
      * https://stackoverflow.com/questions/2799097/how-can-i-detect-when-an-android-application-is-running-in-the-emulator

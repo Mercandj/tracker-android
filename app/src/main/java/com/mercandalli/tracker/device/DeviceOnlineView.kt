@@ -6,12 +6,13 @@ import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
+import android.widget.TextView
 import com.mercandalli.tracker.R
-import com.mercandalli.tracker.device_application.DeviceApplicationManager.DeviceApplicationsListener
+import com.mercandalli.tracker.device_online.DeviceOnlineManager
 import com.mercandalli.tracker.main.TrackerApplication
 import com.mercandalli.tracker.main.TrackerComponent
 
-class DeviceView @JvmOverloads constructor(
+class DeviceOnlineView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
@@ -19,9 +20,8 @@ class DeviceView @JvmOverloads constructor(
     private val recyclerAdapter = createRecyclerAdapter()
 
     private val appComponent: TrackerComponent = TrackerApplication.appComponent
-    private val deviceSpecsManager = appComponent.provideDeviceSpecsManager()
-    private val deviceApplicationsManager = appComponent.provideDeviceApplicationManager()
-    private val deviceApplicationsListener = createDeviceApplicationsListener()
+    private val deviceOnlineManager = appComponent.provideDeviceOnlineManager()
+    private val deviceSpecsListener = createDeviceSpecsListener()
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_device, this)
@@ -30,24 +30,26 @@ class DeviceView @JvmOverloads constructor(
         recyclerView!!.layoutManager = createLayoutManager(context)
         recyclerView!!.adapter = recyclerAdapter
 
-        recyclerAdapter.setDeviceSpec(deviceSpecsManager.getDeviceSpec())
+        val title = findViewById<TextView>(R.id.view_device_title)
+        title.text = "All devices"
+
+        recyclerAdapter.setDeviceSpecs(deviceOnlineManager.getDeviceSpecsSync())
     }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        deviceApplicationsManager.registerDeviceApplicationsListener(deviceApplicationsListener)
-        recyclerAdapter.setDeviceApplications(deviceApplicationsManager.getDeviceApplications())
+        deviceOnlineManager.registerDeviceSpecsListener(deviceSpecsListener)
     }
 
     override fun onDetachedFromWindow() {
-        deviceApplicationsManager.unregisterDeviceApplicationsListener(deviceApplicationsListener)
+        deviceOnlineManager.unregisterDeviceSpecsListener(deviceSpecsListener)
         super.onDetachedFromWindow()
     }
 
-    private fun createDeviceApplicationsListener(): DeviceApplicationsListener {
-        return object : DeviceApplicationsListener {
-            override fun onDeviceApplicationsChanged() {
-                recyclerAdapter.setDeviceApplications(deviceApplicationsManager.getDeviceApplications())
+    private fun createDeviceSpecsListener(): DeviceOnlineManager.OnDeviceSpecsListener {
+        return object : DeviceOnlineManager.OnDeviceSpecsListener {
+            override fun onDeviceSpecsChanged() {
+                recyclerAdapter.setDeviceSpecs(deviceOnlineManager.getDeviceSpecsSync())
             }
         }
     }

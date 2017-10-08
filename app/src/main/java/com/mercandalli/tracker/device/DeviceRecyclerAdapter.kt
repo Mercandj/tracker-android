@@ -8,25 +8,34 @@ import com.hannesdorfmann.adapterdelegates3.AdapterDelegate
 import com.hannesdorfmann.adapterdelegates3.ListDelegationAdapter
 import com.mercandalli.tracker.device_application.DeviceApplication
 import com.mercandalli.tracker.device_application.DeviceApplicationsPreviewCard
-import com.mercandalli.tracker.device_specs.DeviceSpecs
-import com.mercandalli.tracker.device_specs.DeviceSpecsCard
+import com.mercandalli.tracker.device_spec.DeviceSpec
+import com.mercandalli.tracker.device_spec.DeviceSpecCard
 
 internal class DeviceRecyclerAdapter : ListDelegationAdapter<List<Any>>() {
 
-    private var deviceSpecs: DeviceSpecs? = null
+    private var deviceSpec: DeviceSpec? = null
+    private var deviceSpecs = ArrayList<DeviceSpec>()
     private var deviceApplications = ArrayList<DeviceApplication>()
+    private var setDeviceApplicationCalled = false
 
     init {
         delegatesManager.addDelegate(DeviceSpecsAdapterDelegate() as AdapterDelegate<List<Any>>)
         delegatesManager.addDelegate(DeviceApplicationsPreviewAdapterDelegate() as AdapterDelegate<List<Any>>)
     }
 
-    fun setDeviceSpecs(deviceSpecs: DeviceSpecs) {
-        this.deviceSpecs = deviceSpecs
+    fun setDeviceSpec(deviceSpec: DeviceSpec) {
+        this.deviceSpec = deviceSpec
+        syncList()
+    }
+
+    fun setDeviceSpecs(deviceSpecs: List<DeviceSpec>) {
+        this.deviceSpecs.clear()
+        this.deviceSpecs.addAll(deviceSpecs)
         syncList()
     }
 
     fun setDeviceApplications(deviceApplications: List<DeviceApplication>) {
+        setDeviceApplicationCalled = true
         this.deviceApplications.clear()
         this.deviceApplications.addAll(deviceApplications)
         syncList()
@@ -34,8 +43,11 @@ internal class DeviceRecyclerAdapter : ListDelegationAdapter<List<Any>>() {
 
     private fun syncList() {
         val list = ArrayList<Any>()
-        deviceSpecs?.let { list.add(it) }
-        list.add(deviceApplications)
+        list.addAll(deviceSpecs)
+        deviceSpec?.let { list.add(it) }
+        if (setDeviceApplicationCalled) {
+            list.add(deviceApplications)
+        }
         setItems(list)
         notifyDataSetChanged()
     }
@@ -44,12 +56,12 @@ internal class DeviceRecyclerAdapter : ListDelegationAdapter<List<Any>>() {
             AbsListItemAdapterDelegate<Any, Any, DeviceSpecsViewHolder>() {
 
         override fun isForViewType(o: Any, list: List<Any>, i: Int): Boolean {
-            return o is DeviceSpecs
+            return o is DeviceSpec
         }
 
         override fun onCreateViewHolder(viewGroup: ViewGroup): DeviceSpecsViewHolder {
             val context = viewGroup.context
-            val deviceSpecsCard = DeviceSpecsCard(context)
+            val deviceSpecsCard = DeviceSpecCard(context)
             val layoutParams = RecyclerView.LayoutParams(
                     RecyclerView.LayoutParams.MATCH_PARENT,
                     RecyclerView.LayoutParams.WRAP_CONTENT)
@@ -59,15 +71,15 @@ internal class DeviceRecyclerAdapter : ListDelegationAdapter<List<Any>>() {
 
         override fun onBindViewHolder(
                 model: Any, deviceSpecsViewHolder: DeviceSpecsViewHolder, list: List<Any>) {
-            deviceSpecsViewHolder.bind(model as DeviceSpecs)
+            deviceSpecsViewHolder.bind(model as DeviceSpec)
         }
     }
 
     private class DeviceSpecsViewHolder(
-            private val view: DeviceSpecsCard) :
+            private val view: DeviceSpecCard) :
             RecyclerView.ViewHolder(view) {
-        fun bind(deviceSpecs: DeviceSpecs) {
-            view.setDeviceSpecs(deviceSpecs)
+        fun bind(deviceSpec: DeviceSpec) {
+            view.setDeviceSpecs(deviceSpec)
         }
     }
 

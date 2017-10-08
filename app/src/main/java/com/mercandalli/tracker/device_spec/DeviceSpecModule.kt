@@ -1,4 +1,4 @@
-package com.mercandalli.tracker.device_specs
+package com.mercandalli.tracker.device_spec
 
 import com.mercandalli.tracker.main.TrackerApplication
 import com.mercandalli.tracker.root.RootManager
@@ -8,16 +8,16 @@ import javax.inject.Singleton
 
 
 @Module
-class DeviceSpecsModule {
+class DeviceSpecModule {
 
     @Singleton
     @Provides
     fun provideDeviceSpecsManager(
             application: TrackerApplication,
             rootManager: RootManager): DeviceSpecsManager {
-        val deviceId = DeviceSpecsUtils.getDeviceId(application)
-        val deviceEmulator = DeviceSpecsUtils.isEmulator()
+        val deviceId = DeviceSpecUtils.getDeviceId(application)
+        val deviceEmulator = DeviceSpecUtils.isEmulator()
         val deviceRooted = rootManager.isRooted()
-        return DeviceSpecsManagerImpl(deviceId, deviceEmulator, deviceRooted)
+        return DeviceSpecManagerImpl(deviceId, deviceEmulator, deviceRooted)
     }
 }

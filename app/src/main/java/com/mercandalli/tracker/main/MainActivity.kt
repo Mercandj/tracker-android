@@ -15,8 +15,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.mercandalli.tracker.R
+import com.mercandalli.tracker.device.DeviceOnlineView
 import com.mercandalli.tracker.device.DeviceView
-import com.mercandalli.tracker.device_specs.DeviceCpuView
+import com.mercandalli.tracker.device_spec.DeviceCpuView
 import com.mercandalli.tracker.maps.MapsView
 import com.mercandalli.tracker.permission.PermissionActivity
 
@@ -38,6 +39,7 @@ class MainActivity : AppCompatActivity() {
     private var deviceView: DeviceView? = null
     private var mapsView: MapsView? = null
     private var deviceCpuView: DeviceCpuView? = null
+    private var deviceOnlineView: DeviceOnlineView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +54,7 @@ class MainActivity : AppCompatActivity() {
                 BottomNavigationView.OnNavigationItemSelectedListener { item ->
                     when (item.itemId) {
                         R.id.action_ongle_0 -> onBottomBarYouClicked()
-                        R.id.action_ongle_1 -> onBottomBarTargetClicked()
+                        R.id.action_ongle_1 -> onBottomBarOnlineClicked()
                     //R.id.action_ongle_2 -> onBottomBarMapsClicked()
                         else -> throw IllegalStateException("Wrong id")
                     }
@@ -145,8 +147,12 @@ class MainActivity : AppCompatActivity() {
         container?.addView(deviceView)
     }
 
-    private fun onBottomBarTargetClicked() {
-
+    private fun onBottomBarOnlineClicked() {
+        if (deviceOnlineView == null) {
+            deviceOnlineView = DeviceOnlineView(this)
+        }
+        container?.removeAllViews()
+        container?.addView(deviceOnlineView)
     }
 
     private fun onBottomBarMapsClicked() {

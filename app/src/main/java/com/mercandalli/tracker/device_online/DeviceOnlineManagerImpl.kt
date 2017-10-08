@@ -4,8 +4,8 @@ import android.util.Log
 import com.google.firebase.database.DataSnapshot
 import com.mercandalli.tracker.cloud_messaging.CloudMessagingIdManager
 import com.mercandalli.tracker.device_application.DeviceApplicationManager
-import com.mercandalli.tracker.device_specs.DeviceSpecs
-import com.mercandalli.tracker.device_specs.DeviceSpecsManager
+import com.mercandalli.tracker.device_spec.DeviceSpec
+import com.mercandalli.tracker.device_spec.DeviceSpecsManager
 import com.mercandalli.tracker.firebase.FirebaseDatabaseManager
 import com.mercandalli.tracker.firebase.FirebaseStorageManager
 import java.lang.Exception
@@ -21,47 +21,70 @@ internal class DeviceOnlineManagerImpl constructor(
     companion object {
         private val DEVICE_REFERENCE_KEY: String = "device"
 
-        private val DEVICE_SPECS_REFERENCE_KEY: String = "device-specs"
-        private val DEVICE_APPS_REFERENCE_KEY: String = "device-apps"
+        private val DEVICE_SPEC_REFERENCE_KEY: String = "device-spec"
+        private val DEVICE_APP_REFERENCE_KEY: String = "device-app"
         private val DEVICE_TOKEN_REFERENCE_KEY: String = "device-token"
     }
 
-    private val deviceSpecs: DeviceSpecs = deviceSpecsManager.getDeviceSpecs()
+    private val deviceSpec: DeviceSpec = deviceSpecsManager.getDeviceSpec()
+    private val deviceSpecsList = ArrayList<DeviceSpec>()
+    private val onDeviceSpecsListeners = ArrayList<DeviceOnlineManager.OnDeviceSpecsListener>()
 
     override fun initialize() {
-        sendDeviceSpecs()
+        sendDeviceSpec()
         sendDeviceApps()
         sendDeviceToken()
         deviceApplicationManager.registerDeviceApplicationsListener(createDeviceApplicationsListener())
         cloudMessagingIdManager.registerCloudMessagingIdListener(createCloudMessagingIdListener())
-
-        getDeviceSpecs()
     }
 
-    override fun getDeviceSpecs() {
+    override fun getDeviceSpecsSync(): List<DeviceSpec> {
         val path = asList(DEVICE_REFERENCE_KEY)
-        firebaseDatabaseManager.getObjects(
-                path,
-                object : FirebaseDatabaseManager.OnGetObjectsListener {
-                    override fun onGetObjectsFailed(e: Exception) {
-                        Log.e("jm/debug", "getDeviceSpecs failed", e)
-                    }
-
-                    override fun onGetObjectsSucceeded(dataSnapshot: DataSnapshot) {
-                        for (device in dataSnapshot.children) {
-                            val deviceSpecs = device
-                                    .child(DEVICE_SPECS_REFERENCE_KEY)
-                                    .getValue(DeviceSpecsResponse::class.java)
-                                    ?.toDeviceSpecs()
-                            Log.d("jm/debug", "getDeviceSpecs succeeded device:" + deviceSpecs)
+        if (deviceSpecsList.isEmpty()) {
+            firebaseDatabaseManager.getObjects(
+                    path,
+                    object : FirebaseDatabaseManager.OnGetObjectsListener {
+                        override fun onGetObjectsFailed(e: Exception) {
+                            Log.e("jm/debug", "getDeviceSpec failed", e)
                         }
-                    }
-                })
+
+                        override fun onGetObjectsSucceeded(dataSnapshot: DataSnapshot) {
+                            deviceSpecsList.clear()
+                            dataSnapshot.children
+                                    .map {
+                                        it
+                                                .child(DEVICE_SPEC_REFERENCE_KEY)
+                                                .getValue(DeviceSpecResponse::class.java)
+                                                ?.toDeviceSpecs()
+                                    }
+                                    .forEach { deviceSpecsList.add(deviceSpec) }
+                            notifyDeviceSpecsChanged()
+                        }
+                    })
+        }
+        return ArrayList(deviceSpecsList)
     }
 
-    private fun sendDeviceSpecs() {
-        val path = asList(DEVICE_REFERENCE_KEY, deviceSpecs.deviceId, DEVICE_SPECS_REFERENCE_KEY)
-        firebaseDatabaseManager.putObject(path, deviceSpecs, null)
+    override fun registerDeviceSpecsListener(listener: DeviceOnlineManager.OnDeviceSpecsListener) {
+        if (onDeviceSpecsListeners.contains(listener)) {
+            return
+        }
+        onDeviceSpecsListeners.add(listener)
+    }
+
+    override fun unregisterDeviceSpecsListener(listener: DeviceOnlineManager.OnDeviceSpecsListener) {
+        onDeviceSpecsListeners.remove(listener)
+    }
+
+    private fun notifyDeviceSpecsChanged() {
+        for (listener in onDeviceSpecsListeners) {
+            listener.onDeviceSpecsChanged()
+        }
+    }
+
+    private fun sendDeviceSpec() {
+        val path = asList(DEVICE_REFERENCE_KEY, deviceSpec.deviceId, DEVICE_SPEC_REFERENCE_KEY)
+        firebaseDatabaseManager.putObject(path, deviceSpec, null)
     }
 
     private fun sendDeviceApps() {
@@ -69,13 +92,13 @@ internal class DeviceOnlineManagerImpl constructor(
         if (deviceApplications.isEmpty()) {
             return
         }
-        val path = asList(DEVICE_REFERENCE_KEY, deviceSpecs.deviceId, DEVICE_APPS_REFERENCE_KEY)
+        val path = asList(DEVICE_REFERENCE_KEY, deviceSpec.deviceId, DEVICE_APP_REFERENCE_KEY)
         firebaseDatabaseManager.putObject(path, deviceApplications, null)
     }
 
     private fun sendDeviceToken() {
         val deviceToken = cloudMessagingIdManager.getCloudMessagingIdSync() ?: return
-        val path = asList(DEVICE_REFERENCE_KEY, deviceSpecs.deviceId, DEVICE_TOKEN_REFERENCE_KEY)
+        val path = asList(DEVICE_REFERENCE_KEY, deviceSpec.deviceId, DEVICE_TOKEN_REFERENCE_KEY)
         firebaseDatabaseManager.putObject(path, deviceToken, null)
     }
 

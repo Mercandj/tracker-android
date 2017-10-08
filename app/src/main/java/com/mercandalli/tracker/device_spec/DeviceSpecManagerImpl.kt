@@ -1,31 +1,31 @@
-package com.mercandalli.tracker.device_specs
+package com.mercandalli.tracker.device_spec
 
 import android.os.Build
 import com.mercandalli.tracker.common.Closer
 import java.io.*
 import java.util.regex.Pattern
 
-internal class DeviceSpecsManagerImpl constructor(
+internal class DeviceSpecManagerImpl constructor(
         private val deviceId: String,
         private val deviceEmulator: Boolean,
         private val deviceRooted: Boolean) : DeviceSpecsManager {
 
-    private val deviceSpecs: DeviceSpecs
+    private val deviceSpec: DeviceSpec
 
     init {
-        this.deviceSpecs = createDeviceSpecsSync()
+        this.deviceSpec = createDeviceSpecsSync()
     }
 
-    override fun getDeviceSpecs(): DeviceSpecs {
-        return deviceSpecs
+    override fun getDeviceSpec(): DeviceSpec {
+        return deviceSpec
     }
 
-    private fun createDeviceSpecsSync(): DeviceSpecs {
+    private fun createDeviceSpecsSync(): DeviceSpec {
         val deviceManufacturer = Build.MANUFACTURER
         val deviceModel = Build.MODEL
         val deviceHardware = Build.HARDWARE
         val deviceOsVersion = Build.VERSION.SDK_INT
-        return DeviceSpecs(
+        return DeviceSpec(
                 deviceId,
                 deviceManufacturer,
                 deviceModel,

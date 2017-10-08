@@ -1,9 +1,8 @@
 package com.mercandalli.tracker.device_online
 
-import com.google.gson.Gson
 import com.mercandalli.tracker.cloud_messaging.CloudMessagingIdManager
 import com.mercandalli.tracker.device_application.DeviceApplicationManager
-import com.mercandalli.tracker.device_specs.DeviceSpecsManager
+import com.mercandalli.tracker.device_spec.DeviceSpecsManager
 import com.mercandalli.tracker.firebase.FirebaseDatabaseManager
 import com.mercandalli.tracker.firebase.FirebaseStorageManager
 import dagger.Module
@@ -16,7 +15,6 @@ class DeviceOnlineModule {
     @Singleton
     @Provides
     fun provideDeviceOnlineManager(
-            gson: Gson,
             deviceSpecsManager: DeviceSpecsManager,
             deviceApplicationManager: DeviceApplicationManager,
             firebaseStorageManager: FirebaseStorageManager,

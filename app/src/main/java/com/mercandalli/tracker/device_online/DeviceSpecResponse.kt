@@ -1,9 +1,9 @@
 package com.mercandalli.tracker.device_online
 
 import com.google.gson.annotations.SerializedName
-import com.mercandalli.tracker.device_specs.DeviceSpecs
+import com.mercandalli.tracker.device_spec.DeviceSpec
 
-data class DeviceSpecsResponse(
+data class DeviceSpecResponse(
         @SerializedName("device-id")
         var deviceId: String = "",
         @SerializedName("device-manufacturer")
@@ -19,8 +19,8 @@ data class DeviceSpecsResponse(
         @SerializedName("device-rooted")
         var deviceRooted: Boolean = false) {
 
-    fun toDeviceSpecs(): DeviceSpecs {
-        return DeviceSpecs(
+    fun toDeviceSpecs(): DeviceSpec {
+        return DeviceSpec(
                 deviceId,
                 deviceManufacturer,
                 deviceModel,

@@ -1,8 +1,8 @@
-package com.mercandalli.tracker.device_specs
+package com.mercandalli.tracker.device_spec
 
 import com.google.gson.annotations.SerializedName
 
-data class DeviceSpecs(
+data class DeviceSpec(
         @SerializedName("device-id")
         val deviceId: String,
         @SerializedName("device-manufacturer")
