@@ -8,6 +8,7 @@ import android.os.Build
 import android.provider.Settings
 import android.support.annotation.RequiresApi
 import com.mercandalli.tracker.device_application.DeviceApplicationManagerImpl.Delegate
+import com.mercandalli.tracker.device_spec.DeviceSpecManager
 import com.mercandalli.tracker.main.TrackerApplication
 import com.mercandalli.tracker.main_thread.MainThreadPost
 import dagger.Module
@@ -21,10 +22,12 @@ class DeviceApplicationModule {
     @Provides
     fun provideDeviceApplicationManager(
             application: TrackerApplication,
+            deviceSpecManager: DeviceSpecManager,
             mainThreadPost: MainThreadPost): DeviceApplicationManager {
         val activityManager = application.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         val usageStatsManager = application.getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
         return DeviceApplicationManagerImpl(
+                deviceSpecManager.getDeviceSpec().deviceTrackerId,
                 application.packageManager,
                 activityManager,
                 usageStatsManager,

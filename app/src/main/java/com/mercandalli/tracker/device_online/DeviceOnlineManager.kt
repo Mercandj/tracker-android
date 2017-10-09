@@ -6,6 +6,8 @@ interface DeviceOnlineManager {
 
     fun initialize()
 
+    //fun getDeviceSync(deviceTrackerId:String): Device
+
     fun getDevicesSync(): List<Device>
 
     fun registerDevicesListener(listener: OnDevicesListener)

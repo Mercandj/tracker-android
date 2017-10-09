@@ -3,6 +3,7 @@ package com.mercandalli.tracker.device
 import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
@@ -46,7 +47,9 @@ class DeviceOnlineView @JvmOverloads constructor(
         val devices = deviceOnlineManager.getDevicesSync()
         val list = ArrayList<Any>()
         for (device in devices) {
-            list.add(if (device.deviceNickname == "") device.deviceSpec.deviceId else device.deviceNickname)
+            list.add(
+                    if (TextUtils.isEmpty(device.deviceNickname)) device.deviceSpec.deviceTrackerId
+                    else device.deviceNickname!!)
             list.add(device.deviceSpec)
             list.add(device.deviceApplications)
         }

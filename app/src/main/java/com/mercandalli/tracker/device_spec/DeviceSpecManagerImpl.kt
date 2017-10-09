@@ -10,7 +10,7 @@ internal class DeviceSpecManagerImpl constructor(
         private val deviceDensity: String,
         private val deviceEmulator: Boolean,
         private val deviceRooted: Boolean,
-        private val delegate: Delegate) : DeviceSpecsManager {
+        private val delegate: Delegate) : DeviceSpecManager {
 
     private val deviceSpec: DeviceSpec
 
@@ -28,8 +28,12 @@ internal class DeviceSpecManagerImpl constructor(
         val deviceHardware = Build.HARDWARE
         val deviceOsVersion = Build.VERSION.SDK_INT
         val deviceBatteryPercent = delegate.getBatteryPercent()
+        val deviceMacAddress = delegate.getMacAddress()
+        val deviceTrackerId = deviceMacAddress ?: deviceId
         return DeviceSpec(
+                deviceTrackerId,
                 deviceId,
+                deviceMacAddress,
                 deviceManufacturer,
                 deviceModel,
                 deviceHardware,
@@ -86,5 +90,6 @@ internal class DeviceSpecManagerImpl constructor(
 
     interface Delegate {
         fun getBatteryPercent(): Float
+        fun getMacAddress(): String?
     }
 }

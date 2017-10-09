@@ -4,9 +4,10 @@ import android.util.Log
 import com.google.firebase.database.DataSnapshot
 import com.mercandalli.tracker.cloud_messaging.CloudMessagingIdManager
 import com.mercandalli.tracker.device.Device
+import com.mercandalli.tracker.device.DeviceRepository
 import com.mercandalli.tracker.device_application.DeviceApplicationManager
 import com.mercandalli.tracker.device_spec.DeviceSpec
-import com.mercandalli.tracker.device_spec.DeviceSpecsManager
+import com.mercandalli.tracker.device_spec.DeviceSpecManager
 import com.mercandalli.tracker.firebase.FirebaseDatabaseManager
 import com.mercandalli.tracker.firebase.FirebaseStorageManager
 import java.lang.Exception
@@ -15,8 +16,9 @@ import java.util.Arrays.asList
 internal class DeviceOnlineManagerImpl constructor(
         private val firebaseStorageManager: FirebaseStorageManager,
         private val firebaseDatabaseManager: FirebaseDatabaseManager,
-        private val deviceSpecsManager: DeviceSpecsManager,
+        private val deviceSpecManager: DeviceSpecManager,
         private val deviceApplicationManager: DeviceApplicationManager,
+        private val deviceRepository: DeviceRepository,
         private val cloudMessagingIdManager: CloudMessagingIdManager) : DeviceOnlineManager {
 
     companion object {
@@ -27,7 +29,7 @@ internal class DeviceOnlineManagerImpl constructor(
         private val DEVICE_TOKEN_REFERENCE_KEY: String = "deviceToken"
     }
 
-    private val deviceSpec: DeviceSpec = deviceSpecsManager.getDeviceSpec()
+    private val deviceSpec: DeviceSpec = deviceSpecManager.getDeviceSpec()
     private val devices = ArrayList<Device>()
     private val onDeviceSpecsListeners = ArrayList<DeviceOnlineManager.OnDevicesListener>()
 
@@ -39,6 +41,24 @@ internal class DeviceOnlineManagerImpl constructor(
         cloudMessagingIdManager.registerCloudMessagingIdListener(createCloudMessagingIdListener())
     }
 
+    /*
+    override fun getDeviceSync(deviceTrackerId: String): Device {
+        val path = asList(DEVICE_REFERENCE_KEY, deviceTrackerId)
+        firebaseDatabaseManager.getObjects(
+                path,
+                object : FirebaseDatabaseManager.OnGetObjectsListener {
+                    override fun onGetObjectsFailed(e: Exception) {
+                        Log.e("jm/debug", "getDeviceSpec failed", e)
+                    }
+
+                    override fun onGetObjectsSucceeded(dataSnapshot: DataSnapshot) {
+                        val device = dataSnapshot.getValue(Device.Response::class.java)?.toDevice()
+                        deviceRepository.putDevice(device)
+                        notifyDeviceSpecsChanged()
+                    }
+                })
+    }*/
+
     override fun getDevicesSync(): List<Device> {
         val path = asList(DEVICE_REFERENCE_KEY)
         if (devices.isEmpty()) {
@@ -46,13 +66,15 @@ internal class DeviceOnlineManagerImpl constructor(
                     path,
                     object : FirebaseDatabaseManager.OnGetObjectsListener {
                         override fun onGetObjectsFailed(e: Exception) {
-                            Log.e("jm/debug", "getDeviceSpec failed", e)
+                            Log.e("jm/debug", "getDevicesSync failed", e)
                         }
 
                         override fun onGetObjectsSucceeded(dataSnapshot: DataSnapshot) {
                             devices.clear()
                             dataSnapshot.children.mapNotNullTo(devices) {
-                                it.getValue(Device.Response::class.java)?.toDevice()
+                                val device = it.getValue(Device.Response::class.java)?.toDevice()
+                                deviceRepository.putDevice(device)
+                                device
                             }
                             notifyDeviceSpecsChanged()
                         }
@@ -79,7 +101,7 @@ internal class DeviceOnlineManagerImpl constructor(
     }
 
     private fun sendDeviceSpec() {
-        val path = asList(DEVICE_REFERENCE_KEY, deviceSpec.deviceId, DEVICE_SPEC_REFERENCE_KEY)
+        val path = asList(DEVICE_REFERENCE_KEY, deviceSpec.deviceTrackerId, DEVICE_SPEC_REFERENCE_KEY)
         firebaseDatabaseManager.putObject(path, deviceSpec, null)
     }
 
@@ -88,13 +110,13 @@ internal class DeviceOnlineManagerImpl constructor(
         if (deviceApplications.isEmpty()) {
             return
         }
-        val path = asList(DEVICE_REFERENCE_KEY, deviceSpec.deviceId, DEVICE_APPS_REFERENCE_KEY)
+        val path = asList(DEVICE_REFERENCE_KEY, deviceSpec.deviceTrackerId, DEVICE_APPS_REFERENCE_KEY)
         firebaseDatabaseManager.putObject(path, deviceApplications, null)
     }
 
     private fun sendDeviceToken() {
         val deviceToken = cloudMessagingIdManager.getCloudMessagingIdSync() ?: return
-        val path = asList(DEVICE_REFERENCE_KEY, deviceSpec.deviceId, DEVICE_TOKEN_REFERENCE_KEY)
+        val path = asList(DEVICE_REFERENCE_KEY, deviceSpec.deviceTrackerId, DEVICE_TOKEN_REFERENCE_KEY)
         firebaseDatabaseManager.putObject(path, deviceToken, null)
     }
 

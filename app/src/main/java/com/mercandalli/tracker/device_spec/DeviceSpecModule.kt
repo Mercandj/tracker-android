@@ -14,12 +14,16 @@ class DeviceSpecModule {
     @Provides
     fun provideDeviceSpecsManager(
             application: TrackerApplication,
-            rootManager: RootManager): DeviceSpecsManager {
+            rootManager: RootManager): DeviceSpecManager {
         val deviceId = DeviceSpecUtils.getDeviceId(application)
         val deviceDensity = application.getString(R.string.device_spec_density)
         val deviceEmulator = DeviceSpecUtils.isEmulator()
         val deviceRooted = rootManager.isRooted()
         val delegate: DeviceSpecManagerImpl.Delegate = object : DeviceSpecManagerImpl.Delegate {
+            override fun getMacAddress(): String? {
+                return DeviceSpecUtils.getMacAddress(application)
+            }
+
             override fun getBatteryPercent(): Float {
                 return DeviceSpecUtils.getBatteryPercent(application)
             }

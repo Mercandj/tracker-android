@@ -4,11 +4,13 @@ import com.google.gson.Gson
 import com.mercandalli.tracker.cloud_messaging.CloudMessagingIdManager
 import com.mercandalli.tracker.cloud_messaging.CloudMessagingManager
 import com.mercandalli.tracker.cloud_messaging.CloudMessagingModule
+import com.mercandalli.tracker.device.DeviceModule
+import com.mercandalli.tracker.device.DeviceRepository
 import com.mercandalli.tracker.device_application.DeviceApplicationManager
 import com.mercandalli.tracker.device_application.DeviceApplicationModule
 import com.mercandalli.tracker.device_online.DeviceOnlineManager
 import com.mercandalli.tracker.device_online.DeviceOnlineModule
-import com.mercandalli.tracker.device_spec.DeviceSpecsManager
+import com.mercandalli.tracker.device_spec.DeviceSpecManager
 import com.mercandalli.tracker.device_spec.DeviceSpecModule
 import com.mercandalli.tracker.firebase.FirebaseDatabaseManager
 import com.mercandalli.tracker.firebase.FirebaseModule
@@ -36,6 +38,7 @@ import javax.inject.Singleton
 @Component(modules = arrayOf(
         CloudMessagingModule::class,
         DeviceApplicationModule::class,
+        DeviceModule::class,
         DeviceOnlineModule::class,
         DeviceSpecModule::class,
         FirebaseModule::class,
@@ -57,9 +60,13 @@ interface TrackerComponent {
 
     fun provideDeviceApplicationManager(): DeviceApplicationManager
 
+    fun provideDeviceApplicationRepository(): DeviceRepository
+
+    fun provideDeviceRepository(): DeviceRepository
+
     fun provideDeviceOnlineManager(): DeviceOnlineManager
 
-    fun provideDeviceSpecsManager(): DeviceSpecsManager
+    fun provideDeviceSpecsManager(): DeviceSpecManager
 
     fun provideFirebaseDatabaseManager(): FirebaseDatabaseManager
 

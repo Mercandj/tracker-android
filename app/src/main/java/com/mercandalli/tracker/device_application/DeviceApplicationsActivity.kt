@@ -9,6 +9,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.mercandalli.tracker.R
 import com.mercandalli.tracker.common.Preconditions
+import com.mercandalli.tracker.device.DeviceRepository
 import com.mercandalli.tracker.main.TrackerApplication
 import com.mercandalli.tracker.main.TrackerComponent
 
@@ -16,9 +17,12 @@ class DeviceApplicationsActivity : AppCompatActivity() {
 
     companion object {
 
-        fun start(context: Context) {
+        private val EXTRA_DEVICE_TRACKER_ID = "DeviceApplicationsActivity.Extra.EXTRA_DEVICE_TRACKER_ID"
+
+        fun start(context: Context, deviceTrackerId: String) {
             Preconditions.checkNotNull(context)
             val intent = Intent(context, DeviceApplicationsActivity::class.java)
+            intent.putExtra(EXTRA_DEVICE_TRACKER_ID, deviceTrackerId)
             if (context !is Activity) {
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
             }
@@ -30,31 +34,33 @@ class DeviceApplicationsActivity : AppCompatActivity() {
     private val recyclerAdapter = createRecyclerAdapter()
 
     private val appComponent: TrackerComponent = TrackerApplication.appComponent
-    private val deviceApplicationsManager = appComponent.provideDeviceApplicationManager()
-    private val deviceApplicationsListener = createDeviceApplicationsListener()
+    private val deviceRepository = appComponent.provideDeviceRepository()
+    private val deviceListener = createDeviceListener()
+    private var deviceTrackerId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_device_applications)
         setSupportActionBar(findViewById(R.id.activity_device_applications_toolbar))
+        deviceTrackerId = intent.getStringExtra(EXTRA_DEVICE_TRACKER_ID)
 
         recyclerView = findViewById(R.id.activity_device_applications_list)
         recyclerView!!.layoutManager = createLayoutManager(this)
         recyclerView!!.adapter = recyclerAdapter
 
-        deviceApplicationsManager.registerDeviceApplicationsListener(deviceApplicationsListener)
-        recyclerAdapter.setDeviceApplications(deviceApplicationsManager.getDeviceApplications())
+        deviceRepository.registerDevicesListener(deviceListener)
+        updateApps()
     }
 
     override fun onDestroy() {
-        deviceApplicationsManager.unregisterDeviceApplicationsListener(deviceApplicationsListener)
+        deviceRepository.unregisterDevicesListener(deviceListener)
         super.onDestroy()
     }
 
-    private fun createDeviceApplicationsListener(): DeviceApplicationManager.DeviceApplicationsListener {
-        return object : DeviceApplicationManager.DeviceApplicationsListener {
-            override fun onDeviceApplicationsChanged() {
-                recyclerAdapter.setDeviceApplications(deviceApplicationsManager.getDeviceApplications())
+    private fun createDeviceListener(): DeviceRepository.DevicesListener {
+        return object : DeviceRepository.DevicesListener {
+            override fun onDevicesChanged() {
+                updateApps()
             }
         }
     }
@@ -65,5 +71,13 @@ class DeviceApplicationsActivity : AppCompatActivity() {
 
     private fun createRecyclerAdapter(): DeviceApplicationRecyclerAdapter {
         return DeviceApplicationRecyclerAdapter()
+    }
+
+    private fun updateApps() {
+        if (deviceTrackerId == null) {
+            return
+        }
+        val device = deviceRepository.getDevice(deviceTrackerId!!) ?: return
+        recyclerAdapter.setDeviceApplications(device.deviceApplications)
     }
 }

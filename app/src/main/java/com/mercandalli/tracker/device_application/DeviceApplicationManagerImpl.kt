@@ -12,6 +12,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 internal class DeviceApplicationManagerImpl constructor(
+        private val deviceTrackerId: String,
         private val packageManager: PackageManager,
         private val activityManager: ActivityManager,
         private val usageStatsManager: UsageStatsManager,
@@ -20,16 +21,16 @@ internal class DeviceApplicationManagerImpl constructor(
 
     private val deviceApplicationsListeners = ArrayList<DeviceApplicationManager.DeviceApplicationsListener>()
     private val deviceStatsPermissionListeners = ArrayList<DeviceApplicationManager.DeviceStatsPermissionListener>()
-    private val deviceApplications = ArrayList<DeviceApplication>()
     private var needStatsPermission = needUsageStatsPermission()
     private var deviceApplicationsDrawables = HashMap<String, Drawable>()
+    private var deviceApplications = ArrayList<DeviceApplication>()
 
     init {
         refreshDeviceApplications()
     }
 
     override fun getDeviceApplications(): List<DeviceApplication> {
-        return deviceApplications
+        return ArrayList(deviceApplications)
     }
 
     override fun getDrawable(packageName: String): Drawable? {
@@ -39,11 +40,9 @@ internal class DeviceApplicationManagerImpl constructor(
     override fun refreshDeviceApplications() {
         Thread(Runnable {
             val deviceApplicationsSync = getDeviceApplicationsSync()
-            synchronized(deviceApplications) {
-                deviceApplications.clear()
-                deviceApplications.addAll(deviceApplicationsSync)
-                notifyDeviceApplicationsListeners()
-            }
+            deviceApplications.clear()
+            deviceApplications.addAll(deviceApplicationsSync)
+            notifyDeviceApplicationsListeners()
         }).start()
     }
 
@@ -98,6 +97,7 @@ internal class DeviceApplicationManagerImpl constructor(
                 val lastLaunch = usageStats?.lastTimeUsed ?: 0
                 deviceApplicationsDrawables[deviceApplication.`package`] = deviceApplication.icon
                 result.add(DeviceApplication(
+                        deviceTrackerId,
                         deviceApplication.kindInstallation,
                         deviceApplication.androidAppName,
                         deviceApplication.`package`,
@@ -117,6 +117,7 @@ internal class DeviceApplicationManagerImpl constructor(
                 .map {
                     deviceApplicationsDrawables[it.`package`] = it.icon
                     DeviceApplication(
+                            deviceTrackerId,
                             it.kindInstallation,
                             it.androidAppName,
                             it.`package`,

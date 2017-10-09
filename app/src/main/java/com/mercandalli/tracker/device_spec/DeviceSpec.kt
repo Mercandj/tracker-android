@@ -3,8 +3,12 @@ package com.mercandalli.tracker.device_spec
 import com.google.gson.annotations.SerializedName
 
 data class DeviceSpec(
+        @SerializedName("device-tracker-id")
+        val deviceTrackerId: String,
         @SerializedName("device-id")
         val deviceId: String,
+        @SerializedName("device-mac-address")
+        val deviceMacAddress: String?,
         @SerializedName("device-manufacturer")
         val deviceManufacturer: String,
         @SerializedName("device-model")
@@ -23,8 +27,12 @@ data class DeviceSpec(
         val deviceBatteryPercent: Float) {
 
     data class Response(
+            @SerializedName("device-tracker-id")
+            var deviceTrackerId: String = "",
             @SerializedName("device-id")
             var deviceId: String = "",
+            @SerializedName("device-mac-address")
+            var deviceMacAddress: String? = "",
             @SerializedName("device-manufacturer")
             var deviceManufacturer: String = "",
             @SerializedName("device-model")
@@ -44,7 +52,9 @@ data class DeviceSpec(
 
         fun toDeviceSpec(): DeviceSpec {
             return DeviceSpec(
+                    deviceTrackerId,
                     deviceId,
+                    deviceMacAddress,
                     deviceManufacturer,
                     deviceModel,
                     deviceHardware,

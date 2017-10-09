@@ -9,6 +9,8 @@ import com.google.gson.annotations.SerializedName
  */
 @IgnoreExtraProperties
 data class DeviceApplication(
+        @SerializedName("device-tracker-id")
+        val deviceTrackerId: String,
 
         @KindInstallation
         @SerializedName("kind_installation")
@@ -44,7 +46,8 @@ data class DeviceApplication(
 
     override fun toString(): String {
         return "DeviceApplication{" +
-                "kindInstallation='" + kindInstallation + '\'' +
+                "deviceTrackerId='" + deviceTrackerId + '\'' +
+                ", kindInstallation='" + kindInstallation + '\'' +
                 ", androidAppName='" + androidAppName + '\'' +
                 ", androidAppPackage='" + `package` + '\'' +
                 ", versionCode=" + versionCode +
@@ -64,6 +67,7 @@ data class DeviceApplication(
     }
 
     data class Response(
+            var deviceTrackerId: String = "",
             var kindInstallation: String = "",
             var androidAppName: String = "",
             var `package`: String = "",
@@ -76,6 +80,7 @@ data class DeviceApplication(
 
         fun toDeviceApplication(): DeviceApplication {
             return DeviceApplication(
+                    deviceTrackerId,
                     kindInstallation,
                     androidAppName,
                     `package`,

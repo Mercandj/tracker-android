@@ -1,6 +1,6 @@
 package com.mercandalli.tracker.device_spec
 
-interface DeviceSpecsManager {
+interface DeviceSpecManager {
 
     fun getDeviceSpec(): DeviceSpec
 

@@ -4,11 +4,16 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.net.wifi.WifiManager
 import android.os.BatteryManager
 import android.os.Build
 import android.provider.Settings
 import android.support.annotation.FloatRange
+import android.text.TextUtils
 import com.mercandalli.tracker.common.Preconditions
+import java.net.NetworkInterface
+import java.net.SocketException
+import java.util.*
 
 
 object DeviceSpecUtils {
@@ -53,5 +58,47 @@ object DeviceSpecUtils {
                 IntentFilter(Intent.ACTION_BATTERY_CHANGED)) ?: return 0f
         return batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1) /
                 batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1).toFloat()
+    }
+
+    /**
+     * Get the device mac address.
+     * Attention :
+     * Need `<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />`.
+     *
+     * @param context The current [Context].
+     * @return The device mac address.
+     */
+    @SuppressLint("HardwareIds")
+    internal fun getMacAddress(context: Context): String? {
+        val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        val wInfo = wifiManager.connectionInfo
+        val macAddress = wInfo.macAddress
+        if ("02:00:00:00:00:00".equals(macAddress, ignoreCase = true) || TextUtils.isEmpty(macAddress)) {
+            try {
+                val all = Collections.list(NetworkInterface.getNetworkInterfaces())
+                for (nif in all) {
+                    if ("wlan0" == nif.displayName || "wlan0" == nif.name) {
+                        val macBytes = nif.hardwareAddress
+                        if (macBytes != null) {
+                            val macAddressBuilder = StringBuilder()
+                            for (b in macBytes) {
+                                macAddressBuilder.append(String.format("%02X:", b))
+                            }
+                            if (macAddressBuilder.isNotEmpty()) {
+                                macAddressBuilder.deleteCharAt(macAddressBuilder.length - 1)
+                            }
+                            if (!"02:00:00:00:00:00".equals(macAddress, ignoreCase = true)) {
+                                return macAddressBuilder.toString()
+                            }
+                        }
+                    }
+                }
+            } catch (ignored: SocketException) {
+            }
+        }
+        if ("02:00:00:00:00:00".equals(macAddress, ignoreCase = true)) {
+            return null
+        }
+        return macAddress
     }
 }

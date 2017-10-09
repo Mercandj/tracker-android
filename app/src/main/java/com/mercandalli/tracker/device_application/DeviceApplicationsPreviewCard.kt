@@ -26,6 +26,7 @@ class DeviceApplicationsPreviewCard @kotlin.jvm.JvmOverloads constructor(
     private val refresh: View
     private val deviceStatsPermissionListener = createDeviceStatsPermissionListener()
     private val deviceApplicationManager = TrackerApplication.appComponent.provideDeviceApplicationManager()
+    private var deviceId: String? = null
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_device_applications_preview, this)
@@ -43,7 +44,7 @@ class DeviceApplicationsPreviewCard @kotlin.jvm.JvmOverloads constructor(
             deviceApplicationManager.refreshDeviceApplications()
         }
         findViewById<View>(R.id.view_device_applications_preview_more).setOnClickListener {
-            DeviceApplicationsActivity.start(context)
+            deviceId?.let { it1 -> DeviceApplicationsActivity.start(context, it1) }
         }
     }
 
@@ -60,7 +61,9 @@ class DeviceApplicationsPreviewCard @kotlin.jvm.JvmOverloads constructor(
 
     internal fun setDeviceApplications(deviceApplications: List<DeviceApplication>) {
         setText(deviceApplicationsPreviewNumber, "Number of apps: ", deviceApplications.size.toString())
-
+        if (deviceApplications.isNotEmpty()) {
+            deviceId = deviceApplications[0].deviceTrackerId
+        }
         if (deviceApplications.size < 4) {
             return
         }

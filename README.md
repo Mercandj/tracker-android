@@ -19,7 +19,7 @@
 
 ```
 - device
-   - <device-id>
+   - <device-tracker-id>
       - deviceSpec: DeviceSpec
       - deviceApplications: List<DeviceApplication>
       - deviceToken: String
