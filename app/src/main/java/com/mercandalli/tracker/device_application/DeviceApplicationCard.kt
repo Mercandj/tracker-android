@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.mercandalli.tracker.R
-import com.mercandalli.tracker.main.TrackerApplication
+import com.mercandalli.tracker.main.MainApplication
 import java.text.SimpleDateFormat
 import java.util.concurrent.TimeUnit
 
@@ -20,7 +20,7 @@ class DeviceApplicationCard @kotlin.jvm.JvmOverloads constructor(
         val simpleDateFormat = SimpleDateFormat("HH'h'mm dd/MM")
     }
 
-    private val trackerComponent = TrackerApplication.appComponent
+    private val trackerComponent = MainApplication.appComponent
     private val deviceApplicationManager = trackerComponent.provideDeviceApplicationManager()
 
     private val icon: ImageView

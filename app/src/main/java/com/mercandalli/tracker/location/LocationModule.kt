@@ -6,7 +6,7 @@ import android.content.Intent
 import android.os.AsyncTask
 import android.provider.Settings
 import com.mercandalli.tracker.location.LocationManagerImpl.Delegate
-import com.mercandalli.tracker.main.TrackerApplication
+import com.mercandalli.tracker.main.MainApplication
 import com.mercandalli.tracker.main_thread.MainThreadPost
 import dagger.Module
 import dagger.Provides
@@ -18,7 +18,7 @@ class LocationModule {
     @Provides
     @Singleton
     fun provideLocationManager(
-            application: TrackerApplication,
+            application: MainApplication,
             locationRepository: LocationRepository,
             mainThreadPost: MainThreadPost): LocationManager {
         val locationManager = application.getSystemService(Context.LOCATION_SERVICE) as android.location.LocationManager
@@ -36,7 +36,7 @@ class LocationModule {
     @Provides
     @Singleton
     fun provideLocationRepository(
-            application: TrackerApplication,
+            application: MainApplication,
             mainThreadPost: MainThreadPost): LocationRepository {
 
         val locationDatabase = Room.databaseBuilder(

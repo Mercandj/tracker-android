@@ -18,8 +18,8 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
 import com.mercandalli.tracker.R
 import com.mercandalli.tracker.location.LocationRepository
-import com.mercandalli.tracker.main.TrackerApplication
-import com.mercandalli.tracker.main.TrackerComponent
+import com.mercandalli.tracker.main.MainApplication
+import com.mercandalli.tracker.main.MainComponent
 
 class MapsView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -28,7 +28,7 @@ class MapsView @JvmOverloads constructor(
     private var mapFragment: SupportMapFragment? = null
     private var googleMap: GoogleMap? = null
 
-    private val appComponent: TrackerComponent = TrackerApplication.appComponent
+    private val appComponent: MainComponent = MainApplication.appComponent
     private val locationManager = appComponent.provideLocationManager()
     private val locationRepository = appComponent.provideLocationRepository()
     private val locationRepositoryListener = createLocationRepositoryListener()

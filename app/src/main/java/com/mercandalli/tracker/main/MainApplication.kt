@@ -2,11 +2,11 @@ package com.mercandalli.tracker.main
 
 import android.app.Application
 
-class TrackerApplication : Application() {
+class MainApplication : Application() {
 
     companion object {
         //platformStatic allow access it from java code
-        @JvmStatic lateinit var appComponent: TrackerComponent
+        @JvmStatic lateinit var appComponent: MainComponent
     }
 
     override fun onCreate() {
@@ -18,11 +18,11 @@ class TrackerApplication : Application() {
     }
 
     /**
-     * Set up the application dagger graph. See [TrackerComponent].
+     * Set up the application dagger graph. See [MainComponent].
      */
     private fun setupGraph() {
-        appComponent = DaggerTrackerComponent.builder()
-                .trackerModule(TrackerModule(this))
+        appComponent = DaggerMainComponent.builder()
+                .mainModule(MainModule(this))
                 .build()
     }
 }

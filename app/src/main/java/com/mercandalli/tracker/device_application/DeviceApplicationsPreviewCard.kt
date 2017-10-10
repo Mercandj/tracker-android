@@ -11,7 +11,7 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.mercandalli.tracker.R
-import com.mercandalli.tracker.main.TrackerApplication
+import com.mercandalli.tracker.main.MainApplication
 
 class DeviceApplicationsPreviewCard @kotlin.jvm.JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -25,7 +25,7 @@ class DeviceApplicationsPreviewCard @kotlin.jvm.JvmOverloads constructor(
     private val permission: View
     private val refresh: View
     private val deviceStatsPermissionListener = createDeviceStatsPermissionListener()
-    private val deviceApplicationManager = TrackerApplication.appComponent.provideDeviceApplicationManager()
+    private val deviceApplicationManager = MainApplication.appComponent.provideDeviceApplicationManager()
     private var deviceId: String? = null
 
     init {

@@ -5,10 +5,10 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class TrackerModule(
-        private val application: TrackerApplication) {
+class MainModule(
+        private val application: MainApplication) {
 
     @Provides
     @Singleton
-    fun provideTrackerApplication(): TrackerApplication = application
+    fun provideTrackerApplication(): MainApplication = application
 }

@@ -6,7 +6,7 @@ import android.content.Intent
 import android.os.Build
 import android.util.Log
 import com.google.firebase.iid.FirebaseInstanceId
-import com.mercandalli.tracker.main.TrackerApplication
+import com.mercandalli.tracker.main.MainApplication
 
 class CloudMessagingIdIntentService : IntentService(NAME) {
 
@@ -26,7 +26,7 @@ class CloudMessagingIdIntentService : IntentService(NAME) {
 
     override fun onHandleIntent(intent: Intent?) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationManager = TrackerApplication.appComponent.provideNotificationManager()
+            val notificationManager = MainApplication.appComponent.provideNotificationManager()
             val test = notificationManager.getNotification("Test")
             startForeground(1, test)
         }
@@ -34,7 +34,7 @@ class CloudMessagingIdIntentService : IntentService(NAME) {
         try {
             val gcmTokenId = FirebaseInstanceId.getInstance().token
             if (gcmTokenId != null) {
-                val appComponent = TrackerApplication.appComponent
+                val appComponent = MainApplication.appComponent
                 val cloudMessagingIdManager = appComponent.provideCloudMessagingIdManager()
                 cloudMessagingIdManager.onCloudMessagingIdReceived(gcmTokenId)
             }

@@ -44,15 +44,15 @@ import javax.inject.Singleton
         FirebaseModule::class,
         GsonModule::class,
         LocationModule::class,
+        MainModule::class,
         MainThreadModule::class,
         NetworkModule::class,
         NotificationModule::class,
         PushModule::class,
         RootModule::class,
-        SchedulerModule::class,
-        TrackerModule::class)
+        SchedulerModule::class)
 )
-interface TrackerComponent {
+interface MainComponent {
 
     fun provideCloudMessagingIdManager(): CloudMessagingIdManager
 
@@ -78,6 +78,8 @@ interface TrackerComponent {
 
     fun provideLocationRepository(): LocationRepository
 
+    fun provideMainApplication(): MainApplication
+
     fun provideMainThreadPost(): MainThreadPost
 
     fun provideNotificationManager(): NotificationManager
@@ -89,6 +91,4 @@ interface TrackerComponent {
     fun provideRootManager(): RootManager
 
     fun provideSchedulerPeriodicTrigger(): SchedulerPeriodicTrigger
-
-    fun provideTrackerApplication(): TrackerApplication
 }

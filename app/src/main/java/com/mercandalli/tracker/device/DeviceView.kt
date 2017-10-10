@@ -8,8 +8,8 @@ import android.view.LayoutInflater
 import android.widget.LinearLayout
 import com.mercandalli.tracker.R
 import com.mercandalli.tracker.device_application.DeviceApplicationManager.DeviceApplicationsListener
-import com.mercandalli.tracker.main.TrackerApplication
-import com.mercandalli.tracker.main.TrackerComponent
+import com.mercandalli.tracker.main.MainApplication
+import com.mercandalli.tracker.main.MainComponent
 
 class DeviceView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -18,7 +18,7 @@ class DeviceView @JvmOverloads constructor(
     private var recyclerView: RecyclerView? = null
     private val recyclerAdapter = createRecyclerAdapter()
 
-    private val appComponent: TrackerComponent = TrackerApplication.appComponent
+    private val appComponent: MainComponent = MainApplication.appComponent
     private val deviceSpecsManager = appComponent.provideDeviceSpecsManager()
     private val deviceApplicationsManager = appComponent.provideDeviceApplicationManager()
     private val deviceApplicationsListener = createDeviceApplicationsListener()

@@ -9,7 +9,7 @@ import android.view.View
 import android.widget.TextView
 import com.mercandalli.tracker.R
 import com.mercandalli.tracker.common.Preconditions
-import com.mercandalli.tracker.main.TrackerApplication
+import com.mercandalli.tracker.main.MainApplication
 
 class PermissionActivity : AppCompatActivity() {
 
@@ -25,7 +25,7 @@ class PermissionActivity : AppCompatActivity() {
     }
 
     private var applicationsStatsTextView: TextView? = null
-    private val appComponent = TrackerApplication.appComponent
+    private val appComponent = MainApplication.appComponent
     private val deviceApplicationManager = appComponent.provideDeviceApplicationManager()
 
     override fun onCreate(savedInstanceState: Bundle?) {

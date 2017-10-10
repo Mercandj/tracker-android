@@ -9,8 +9,8 @@ import android.view.LayoutInflater
 import android.widget.LinearLayout
 import com.mercandalli.tracker.R
 import com.mercandalli.tracker.device_online.DeviceOnlineManager
-import com.mercandalli.tracker.main.TrackerApplication
-import com.mercandalli.tracker.main.TrackerComponent
+import com.mercandalli.tracker.main.MainApplication
+import com.mercandalli.tracker.main.MainComponent
 
 class DeviceOnlineView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -19,7 +19,7 @@ class DeviceOnlineView @JvmOverloads constructor(
     private var recyclerView: RecyclerView? = null
     private val recyclerAdapter = createRecyclerAdapter()
 
-    private val appComponent: TrackerComponent = TrackerApplication.appComponent
+    private val appComponent: MainComponent = MainApplication.appComponent
     private val deviceOnlineManager = appComponent.provideDeviceOnlineManager()
     private val deviceSpecsListener = createDeviceSpecsListener()
 

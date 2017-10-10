@@ -1,6 +1,6 @@
 package com.mercandalli.tracker.cloud_messaging
 
-import com.mercandalli.tracker.main.TrackerApplication
+import com.mercandalli.tracker.main.MainApplication
 import com.mercandalli.tracker.main_thread.MainThreadPost
 import com.mercandalli.tracker.push.PushSenderManager
 import dagger.Module
@@ -13,7 +13,7 @@ class CloudMessagingModule {
     @Singleton
     @Provides
     internal fun provideCloudMessagingIdManager(
-            application: TrackerApplication,
+            application: MainApplication,
             mainThreadPost: MainThreadPost): CloudMessagingIdManager {
         val delegate = createCloudMessagingIdManagerImplDelegate(application)
         return CloudMessagingIdManagerImpl(
@@ -28,7 +28,7 @@ class CloudMessagingModule {
         return CloudMessagingManagerImpl(pushSenderManager)
     }
 
-    private fun createCloudMessagingIdManagerImplDelegate(application: TrackerApplication):
+    private fun createCloudMessagingIdManagerImplDelegate(application: MainApplication):
             CloudMessagingIdManagerImpl.Delegate {
         return object : CloudMessagingIdManagerImpl.Delegate {
             override fun startCloudMessagingIdIntentService() {

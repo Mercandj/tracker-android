@@ -1,7 +1,7 @@
 package com.mercandalli.tracker.notification
 
 import android.content.Context
-import com.mercandalli.tracker.main.TrackerApplication
+import com.mercandalli.tracker.main.MainApplication
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -11,7 +11,7 @@ class NotificationModule {
 
     @Singleton
     @Provides
-    internal fun provideNotificationManager(application: TrackerApplication): NotificationManager {
+    internal fun provideNotificationManager(application: MainApplication): NotificationManager {
         val notificationSystemService = application.getSystemService(Context.NOTIFICATION_SERVICE)
         val notificationManager = notificationSystemService as android.app.NotificationManager
         return NotificationManagerImpl(application, notificationManager)

@@ -21,7 +21,7 @@ package com.mercandalli.tracker.cloud_messaging
 
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.mercandalli.tracker.main.TrackerApplication
+import com.mercandalli.tracker.main.MainApplication
 
 class PushListenerService : FirebaseMessagingService() {
 
@@ -33,7 +33,7 @@ class PushListenerService : FirebaseMessagingService() {
             return
         }
         val data = message.data ?: return
-        val cloudMessagingManager = TrackerApplication.appComponent.provideCloudMessagingManager()
+        val cloudMessagingManager = MainApplication.appComponent.provideCloudMessagingManager()
         cloudMessagingManager.onMessageReceived(data["message"] as String)
     }
 }

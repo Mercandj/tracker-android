@@ -10,8 +10,8 @@ import android.support.v7.widget.RecyclerView
 import com.mercandalli.tracker.R
 import com.mercandalli.tracker.common.Preconditions
 import com.mercandalli.tracker.device.DeviceRepository
-import com.mercandalli.tracker.main.TrackerApplication
-import com.mercandalli.tracker.main.TrackerComponent
+import com.mercandalli.tracker.main.MainApplication
+import com.mercandalli.tracker.main.MainComponent
 
 class DeviceApplicationsActivity : AppCompatActivity() {
 
@@ -33,7 +33,7 @@ class DeviceApplicationsActivity : AppCompatActivity() {
     private var recyclerView: RecyclerView? = null
     private val recyclerAdapter = createRecyclerAdapter()
 
-    private val appComponent: TrackerComponent = TrackerApplication.appComponent
+    private val appComponent: MainComponent = MainApplication.appComponent
     private val deviceRepository = appComponent.provideDeviceRepository()
     private val deviceListener = createDeviceListener()
     private var deviceTrackerId: String? = null

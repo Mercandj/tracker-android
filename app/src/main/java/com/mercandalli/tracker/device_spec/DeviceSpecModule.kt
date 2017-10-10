@@ -1,7 +1,7 @@
 package com.mercandalli.tracker.device_spec
 
 import com.mercandalli.tracker.R
-import com.mercandalli.tracker.main.TrackerApplication
+import com.mercandalli.tracker.main.MainApplication
 import com.mercandalli.tracker.root.RootManager
 import dagger.Module
 import dagger.Provides
@@ -13,7 +13,7 @@ class DeviceSpecModule {
     @Singleton
     @Provides
     fun provideDeviceSpecsManager(
-            application: TrackerApplication,
+            application: MainApplication,
             rootManager: RootManager): DeviceSpecManager {
         val deviceId = DeviceSpecUtils.getDeviceId(application)
         val deviceDensity = application.getString(R.string.device_spec_density)

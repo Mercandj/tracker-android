@@ -3,7 +3,7 @@ package com.mercandalli.tracker.scheduler
 import android.app.job.JobScheduler
 import android.content.Context
 import android.os.Build
-import com.mercandalli.tracker.main.TrackerApplication
+import com.mercandalli.tracker.main.MainApplication
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -14,7 +14,7 @@ class SchedulerModule {
     @Singleton
     @Provides
     internal fun provideSchedulerPeriodicTrigger(
-            application: TrackerApplication): SchedulerPeriodicTrigger {
+            application: MainApplication): SchedulerPeriodicTrigger {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val jobScheduler = application.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
             SchedulerPeriodicTriggerImpl21(

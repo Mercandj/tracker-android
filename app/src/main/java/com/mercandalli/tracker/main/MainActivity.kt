@@ -50,25 +50,26 @@ class MainActivity : AppCompatActivity() {
         container = findViewById(R.id.activity_main_container)
         container?.addView(deviceView)
 
-        findViewById<BottomNavigationView>(R.id.activity_main_bottom_navigation).setOnNavigationItemSelectedListener(
-                BottomNavigationView.OnNavigationItemSelectedListener { item ->
-                    when (item.itemId) {
-                        R.id.action_ongle_0 -> onBottomBarYouClicked()
-                        R.id.action_ongle_1 -> onBottomBarOnlineClicked()
-                    //R.id.action_ongle_2 -> onBottomBarMapsClicked()
-                        else -> throw IllegalStateException("Wrong id")
-                    }
-                    return@OnNavigationItemSelectedListener true
-                })
+        findViewById<BottomNavigationView>(R.id.activity_main_bottom_navigation)
+                .setOnNavigationItemSelectedListener(
+                        BottomNavigationView.OnNavigationItemSelectedListener { item ->
+                            when (item.itemId) {
+                                R.id.action_ongle_0 -> onBottomBarYouClicked()
+                                R.id.action_ongle_1 -> onBottomBarOnlineClicked()
+                            //R.id.action_ongle_2 -> onBottomBarMapsClicked()
+                                else -> throw IllegalStateException("Wrong id")
+                            }
+                            return@OnNavigationItemSelectedListener true
+                        })
 
-        TrackerApplication.appComponent.provideDeviceOnlineManager().initialize()
+        MainApplication.appComponent.provideDeviceOnlineManager().initialize()
 
         //ActivityCompat.requestPermissions(this, PERMISSION_REQUIRED, PERMISSION_REQUEST_CODE)
     }
 
     override fun onResume() {
         super.onResume()
-        TrackerApplication.appComponent.provideDeviceApplicationManager().needUsageStatsPermission()
+        MainApplication.appComponent.provideDeviceApplicationManager().needUsageStatsPermission()
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
@@ -108,7 +109,7 @@ class MainActivity : AppCompatActivity() {
         }
         if (itemId == R.id.menu_main_item_permissions) {
             /*
-            val deviceApplicationManager = TrackerApplication.appComponent.provideDeviceApplicationManager()
+            val deviceApplicationManager = MainApplication.appComponent.provideDeviceApplicationManager()
             if (deviceApplicationManager.needUsageStatsPermission()) {
                 deviceApplicationManager.requestUsagePermission()
             }

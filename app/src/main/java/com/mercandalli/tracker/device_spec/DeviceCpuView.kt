@@ -6,14 +6,14 @@ import android.graphics.Color
 import android.util.AttributeSet
 import android.view.Gravity
 import android.widget.TextView
-import com.mercandalli.tracker.main.TrackerApplication
-import com.mercandalli.tracker.main.TrackerComponent
+import com.mercandalli.tracker.main.MainApplication
+import com.mercandalli.tracker.main.MainComponent
 
 class DeviceCpuView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : TextView(context, attrs, defStyleAttr), Runnable {
 
-    private val appComponent: TrackerComponent = TrackerApplication.appComponent
+    private val appComponent: MainComponent = MainApplication.appComponent
     private val deviceSpecsManager = appComponent.provideDeviceSpecsManager()
 
     init {
