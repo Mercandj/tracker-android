@@ -38,26 +38,14 @@ data class DeviceApplication(
         val totalTimeInForeground: Long,
 
         @SerializedName("last_launch")
-        val lastLaunch: Long) {
+        val lastLaunch: Long,
+
+        @SerializedName("target_sdk_version")
+        val targetSdkVersion: Int) {
 
     @Retention
     @StringDef(PRE_INSTALL, USER_INSTALL)
     annotation class KindInstallation
-
-    override fun toString(): String {
-        return "DeviceApplication{" +
-                "deviceTrackerId='" + deviceTrackerId + '\'' +
-                ", kindInstallation='" + kindInstallation + '\'' +
-                ", androidAppName='" + androidAppName + '\'' +
-                ", androidAppPackage='" + `package` + '\'' +
-                ", versionCode=" + versionCode +
-                ", versionName='" + versionName + '\'' +
-                ", installedAt='" + installedAt + '\'' +
-                ", updatedAt='" + updatedAt + '\'' +
-                ", totalTimeInForeground='" + totalTimeInForeground + '\'' +
-                ", lastLaunch='" + lastLaunch + '\'' +
-                '}'
-    }
 
     companion object {
 
@@ -76,7 +64,8 @@ data class DeviceApplication(
             val installedAt: Long = 0,
             val updatedAt: Long = 0,
             val totalTimeInForeground: Long = 0,
-            val lastLaunch: Long = 0) {
+            val lastLaunch: Long = 0,
+            val targetSdkVersion: Int = 0) {
 
         fun toDeviceApplication(): DeviceApplication {
             return DeviceApplication(
@@ -89,7 +78,8 @@ data class DeviceApplication(
                     installedAt,
                     updatedAt,
                     totalTimeInForeground,
-                    lastLaunch)
+                    lastLaunch,
+                    targetSdkVersion)
         }
     }
 }

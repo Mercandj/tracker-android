@@ -133,7 +133,8 @@ object DeviceApplicationUtils {
                         it.lastUpdateTime,
                         0,
                         0,
-                        it.applicationInfo.loadIcon(packageManager))
+                        it.applicationInfo.loadIcon(packageManager),
+                        it.applicationInfo.targetSdkVersion)
             }
         }
         userApp.mapTo(list) {
@@ -147,7 +148,8 @@ object DeviceApplicationUtils {
                     it.lastUpdateTime,
                     0,
                     0,
-                    it.applicationInfo.loadIcon(packageManager))
+                    it.applicationInfo.loadIcon(packageManager),
+                    it.applicationInfo.targetSdkVersion)
         }
         return list
     }

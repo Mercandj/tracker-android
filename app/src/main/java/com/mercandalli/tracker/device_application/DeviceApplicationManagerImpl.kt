@@ -106,7 +106,8 @@ internal class DeviceApplicationManagerImpl constructor(
                         deviceApplication.installedAt,
                         deviceApplication.updatedAt,
                         totalTimeInForeground,
-                        lastLaunch))
+                        lastLaunch,
+                        deviceApplication.targetSdkVersion))
             }
             return result
                     .sortedWith(compareBy({ it.totalTimeInForeground }, { it.installedAt }))
@@ -126,7 +127,8 @@ internal class DeviceApplicationManagerImpl constructor(
                             it.installedAt,
                             it.updatedAt,
                             it.totalTimeInForeground,
-                            it.lastLaunch)
+                            it.lastLaunch,
+                            it.targetSdkVersion)
                 }
     }
 

@@ -1,10 +1,10 @@
 package com.mercandalli.tracker.device_application
 
+import android.graphics.drawable.Drawable
 import android.support.annotation.StringDef
 import com.google.firebase.database.IgnoreExtraProperties
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import android.graphics.drawable.Drawable
 
 /**
  * Model of an app installed with some information.
@@ -41,25 +41,13 @@ internal class DeviceApplicationInternal(
         val lastLaunch: Long,
 
         @Expose
-        val icon: Drawable) {
+        val icon: Drawable,
+
+        val targetSdkVersion: Int) {
 
     @Retention
     @StringDef(PRE_INSTALL, USER_INSTALL)
     annotation class KindInstallation
-
-    override fun toString(): String {
-        return "DeviceApplication{" +
-                "kindInstallation='" + kindInstallation + '\'' +
-                ", androidAppName='" + androidAppName + '\'' +
-                ", androidAppPackage='" + `package` + '\'' +
-                ", versionCode=" + versionCode +
-                ", versionName='" + versionName + '\'' +
-                ", installedAt='" + installedAt + '\'' +
-                ", updatedAt='" + updatedAt + '\'' +
-                ", totalTimeInForeground='" + totalTimeInForeground + '\'' +
-                ", lastLaunch='" + lastLaunch + '\'' +
-                '}'
-    }
 
     companion object {
 
