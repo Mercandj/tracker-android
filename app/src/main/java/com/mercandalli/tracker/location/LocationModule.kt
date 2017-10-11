@@ -38,14 +38,14 @@ class LocationModule {
     fun provideLocationRepository(
             application: MainApplication,
             mainThreadPost: MainThreadPost): LocationRepository {
-
         val locationDatabase = Room.databaseBuilder(
                 application,
                 LocationDatabase::class.java,
                 "location_database").build()
-
         val locationDao = locationDatabase.locationDao()
-
-        return LocationRepositoryDatabase(mainThreadPost, locationDao, AsyncTask.THREAD_POOL_EXECUTOR)
+        return LocationRepositoryDatabase(
+                mainThreadPost,
+                locationDao,
+                AsyncTask.THREAD_POOL_EXECUTOR)
     }
 }
