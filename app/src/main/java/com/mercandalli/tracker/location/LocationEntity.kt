@@ -27,6 +27,7 @@ class LocationEntity constructor(
         @ColumnInfo(name = "timestamp")
         val timestamp: Long) {
 
+
     companion object {
         fun create(location: Location): LocationEntity {
             return LocationEntity(

@@ -31,8 +31,14 @@
 
 ## Techno
 
+https://gitpitch.com/Mercandj/tracker-android
+
 ### Picture in picture
 
-https://gitpitch.com/Mercandj/tracker-android
+* See config/picture-in-picture-presentation
+
+### Android Arch - Room
+
+* See config/room-presentation
 
 
