@@ -10,8 +10,8 @@
 ### <span style="color: #00B8D4; text-transform: none">Room</span> <span style="text-transform: none">goal</span>
 <br>
 
-* Avoid boilerplate code to convert: SQL queries <-> Java data objects
-* Provide compile-time verification
+* No boilerplate: SQL queries / Java data objects
+* Compile-time verification
 
 ---
 
@@ -46,14 +46,14 @@ abstract class ExampleDatabase : RoomDatabase() {
 @Entity(tableName = "example")
 class Example(
 
-        @PrimaryKey
-        val id: String,
-        
-        @ColumnInfo(name = "name") // Optional
-        val name: String,
-        
-        @Ignore
-        val picture: Bitmap)
+    @PrimaryKey
+    val id: String,
+    
+    @ColumnInfo(name = "name") // Optional
+    val name: String,
+    
+    @Ignore
+    val picture: Bitmap)
 ```
 
 <span style="color:gray; font-size:0.6em;">Example.kt</span>
