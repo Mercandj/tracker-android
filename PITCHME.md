@@ -1,7 +1,8 @@
 ![Logo](config/room-presentation/room.png )
 
-#### Room
-<span style="color:gray">android.arch.persistence.room</span>
+#### <span style="text-transform: none">Android Arch - Room</span>
+
+<span style="color:gray; font-size:0.6em;">android.arch.persistence.room</span>
 <br>
 <span style="color:gray; font-size:0.5em;">13-10-2017</span>
 
