@@ -176,6 +176,8 @@ fun provideExampleDAO(
 * RxJava
 * Live Data
 
+---
+
 ### Demo
 
 <span style="color:gray; font-size:0.5em;">Source: developer.android.com/topic/libraries/architecture/room.html</span>
