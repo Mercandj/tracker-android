@@ -124,16 +124,22 @@ class ConverterListString {
 interface ExampleDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(example: Example)
+    fun put(example: Example)
     
     @Insert
-    fun saveAll(vararg examples: Example)
+    fun putAll(vararg examples: Example)
 
     @Query("SELECT * FROM example ORDER BY name DESC")
-    fun load(): List<Example>
+    fun get(): List<Example>
     
     @Query("SELECT * FROM example WHERE timestamp > :minTimestamp")
     fun get(minTimestamp: Long): List<Example>
+    
+    @Query("SELECT * FROM example WHERE is IN (:ids)")
+    fun get(ids: List<String>): List<Example>
+    
+    @Update // Matches against the primary 
+    fun updateAll(vararg examples: Example)
 
     @Delete
     fun delete(example: Example)
@@ -165,6 +171,10 @@ fun provideExampleDAO(
 
 ---
 
+### <span style="text-transform: none">And so much more</span>
+<br>
+* RxJava
+* Live Data
 
 ### Demo
 
