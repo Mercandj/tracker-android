@@ -171,6 +171,13 @@ fun provideExampleDAO(
 
 ---
 
+### <span style="text-transform: none">Setup</span>
+<br>
+* google() or maven { url 'https://maven.google.com' }
+* android.arch.persistence.room compile + annotProc/kapt
+
+---
+
 ### <span style="text-transform: none">And so much more</span>
 <br>
 * RxJava
