@@ -128,6 +128,9 @@ interface ExampleDao {
     
     @Insert
     fun saveAll(vararg examples: Example)
+    
+    @Update // Matches against the primary 
+    fun updateAll(vararg examples: Example)
 
     @Query("SELECT * FROM example ORDER BY name DESC")
     fun get(): List<Example>
@@ -166,8 +169,15 @@ fun provideExampleDAO(
 
 <span style="color:gray; font-size:0.6em;">ExampleModule.kt</span>
 
----
 
+
+### <span style="text-transform: none">And so much more</span>
+<br>
+* RxJava
+* Live Data
+
+
+---
 
 ### Demo
 
