@@ -190,4 +190,4 @@ fun provideExampleDAO(
 
 <span style="color:gray; font-size:0.5em;">Source: developer.android.com/topic/libraries/architecture/room.html</span>
 </br>
-<span style="color:gray; font-size:0.5em;">Pres Source: github.com/Mercandj/tracker-android</span>
+<span style="color:gray; font-size:0.5em;">Presentation: github.com/Mercandj/tracker-android/blob/master/config/room-presentation/PITCHME.pdf</span>
