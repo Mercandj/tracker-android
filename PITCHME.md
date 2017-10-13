@@ -178,10 +178,11 @@ fun provideExampleDAO(
 
 ---
 
-### <span style="text-transform: none">And so much more</span>
+### <span style="color: #00B8D4; text-transform: none">And so much more</span>
 <br>
 * RxJava
 * Live Data
+* ForeignKey
 
 ---
 
