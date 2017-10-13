@@ -39,6 +39,6 @@ https://gitpitch.com/Mercandj/tracker-android
 
 ### Android Arch - Room
 
-* See config/room-presentation
+* See https://github.com/Mercandj/tracker-android/blob/master/config/room-presentation/PITCHME.pdf
 
 
