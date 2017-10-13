@@ -171,10 +171,20 @@ fun provideExampleDAO(
 
 ---
 
-### <span style="text-transform: none">And so much more</span>
+### <span style="text-transform: none">Setup</span>
+<br>
+* google() or maven { url 'https://maven.google.com' }
+* android.arch.persistence.room compile + annotProc/kapt
+
+---
+
+### <span style="color: #00B8D4; text-transform: none">And so much more</span>
 <br>
 * RxJava
 * Live Data
+* ForeignKey
+
+---
 
 ### Demo
 
