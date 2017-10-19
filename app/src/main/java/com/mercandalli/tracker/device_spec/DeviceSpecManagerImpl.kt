@@ -1,6 +1,5 @@
 package com.mercandalli.tracker.device_spec
 
-import android.os.Build
 import com.mercandalli.tracker.common.Closer
 import java.io.*
 import java.util.regex.Pattern
@@ -23,12 +22,12 @@ internal class DeviceSpecManagerImpl constructor(
     }
 
     private fun createDeviceSpecsSync(): DeviceSpec {
-        val deviceManufacturer = Build.MANUFACTURER
-        val deviceModel = Build.MODEL
-        val deviceHardware = Build.HARDWARE
-        val deviceOsVersion = Build.VERSION.SDK_INT
-        val deviceBatteryPercent = delegate.getBatteryPercent()
-        val deviceMacAddress = delegate.getMacAddress()
+        val deviceManufacturer = delegate.getDeviceManufacturer()
+        val deviceModel = delegate.getDeviceModel()
+        val deviceHardware = delegate.getDeviceHardware()
+        val deviceOsVersion = delegate.getDeviceOsVersion()
+        val deviceBatteryPercent = delegate.getDeviceBatteryPercent()
+        val deviceMacAddress = delegate.getDeviceMacAddress()
         val deviceTrackerId = deviceMacAddress ?: deviceId
         return DeviceSpec(
                 deviceTrackerId,
@@ -89,7 +88,17 @@ internal class DeviceSpecManagerImpl constructor(
     }
 
     interface Delegate {
-        fun getBatteryPercent(): Float
-        fun getMacAddress(): String?
+
+        fun getDeviceManufacturer(): String
+
+        fun getDeviceModel(): String
+
+        fun getDeviceHardware(): String
+
+        fun getDeviceOsVersion(): Int
+
+        fun getDeviceBatteryPercent(): Float
+
+        fun getDeviceMacAddress(): String?
     }
 }

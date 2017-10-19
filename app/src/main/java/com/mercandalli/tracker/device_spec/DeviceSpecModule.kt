@@ -1,5 +1,6 @@
 package com.mercandalli.tracker.device_spec
 
+import android.os.Build
 import com.mercandalli.tracker.R
 import com.mercandalli.tracker.main.MainApplication
 import com.mercandalli.tracker.root.RootManager
@@ -20,11 +21,28 @@ class DeviceSpecModule {
         val deviceEmulator = DeviceSpecUtils.isEmulator()
         val deviceRooted = rootManager.isRooted()
         val delegate: DeviceSpecManagerImpl.Delegate = object : DeviceSpecManagerImpl.Delegate {
-            override fun getMacAddress(): String? {
+
+            override fun getDeviceManufacturer(): String {
+                return Build.MANUFACTURER
+            }
+
+            override fun getDeviceModel(): String {
+                return Build.MODEL
+            }
+
+            override fun getDeviceHardware(): String {
+                return Build.HARDWARE
+            }
+
+            override fun getDeviceOsVersion(): Int {
+                return Build.VERSION.SDK_INT
+            }
+
+            override fun getDeviceMacAddress(): String? {
                 return DeviceSpecUtils.getMacAddress(application)
             }
 
-            override fun getBatteryPercent(): Float {
+            override fun getDeviceBatteryPercent(): Float {
                 return DeviceSpecUtils.getBatteryPercent(application)
             }
         }
