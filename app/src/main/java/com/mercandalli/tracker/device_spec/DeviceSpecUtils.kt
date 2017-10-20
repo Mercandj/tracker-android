@@ -87,8 +87,9 @@ object DeviceSpecUtils {
                             if (macAddressBuilder.isNotEmpty()) {
                                 macAddressBuilder.deleteCharAt(macAddressBuilder.length - 1)
                             }
-                            if (!"02:00:00:00:00:00".equals(macAddress, ignoreCase = true)) {
-                                return macAddressBuilder.toString()
+                            val newMacAddress = macAddressBuilder.toString()
+                            if (!"02:00:00:00:00:00".equals(newMacAddress, ignoreCase = true)) {
+                                return newMacAddress
                             }
                         }
                     }
