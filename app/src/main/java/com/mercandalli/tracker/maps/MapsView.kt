@@ -60,7 +60,9 @@ class MapsView @JvmOverloads constructor(
     }
 
     fun onSaveInstanceState(outState: Bundle?) {
-        mapFragment?.onSaveInstanceState(outState)
+        if (outState != null) {
+            mapFragment?.onSaveInstanceState(outState)
+        }
     }
 
     fun onRestoreInstanceState(savedInstanceState: Bundle?) {

@@ -27,6 +27,8 @@ class DeviceApplicationCard @kotlin.jvm.JvmOverloads constructor(
     private val title: TextView
     private val totalUsage: TextView
     private val lastLaunch: TextView
+    private val api: TextView
+    private val version: TextView
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_device_application_card, this)
@@ -35,12 +37,16 @@ class DeviceApplicationCard @kotlin.jvm.JvmOverloads constructor(
         title = findViewById(R.id.view_application_card_title)
         totalUsage = findViewById(R.id.view_application_card_total_usage)
         lastLaunch = findViewById(R.id.view_application_card_last_launch)
+        api = findViewById(R.id.view_application_card_api)
+        version = findViewById(R.id.view_application_card_version)
         setPadding(0, 0, 0, resources.getDimension(R.dimen.default_space).toInt())
     }
 
     internal fun setDeviceApplication(deviceApplications: DeviceApplication) {
         icon.setImageDrawable(deviceApplicationManager.getDrawable(deviceApplications.`package`))
         title.text = deviceApplications.androidAppName
+        api.text = "API: " + deviceApplications.targetSdkVersion
+        version.text = deviceApplications.versionCode.toString() + ":" + deviceApplications.versionName
 
         if (deviceApplications.totalTimeInForeground == 0L) {
             totalUsage.visibility = View.GONE

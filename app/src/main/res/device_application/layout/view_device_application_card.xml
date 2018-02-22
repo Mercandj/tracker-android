@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge android:id="@+id/cell_application_main"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cell_application_main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:selectableItemBackground"
@@ -17,8 +17,8 @@
         android:layout_marginLeft="7dp"
         android:layout_marginRight="7dp"
         android:layout_marginTop="7dp"
-        tools:src="@mipmap/ic_launcher"
-        android:contentDescription="Application icon" />
+        android:contentDescription="Application icon"
+        tools:src="@mipmap/ic_launcher" />
 
     <TextView
         android:id="@+id/view_application_card_title"
@@ -62,5 +62,33 @@
         android:textColor="#545454"
         android:textSize="10sp"
         tools:text="22h44 26/09" />
+
+    <TextView
+        android:id="@+id/view_application_card_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginEnd="4dp"
+        android:layout_marginStart="4dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"
+        android:textColor="#545454"
+        android:textSize="10sp"
+        tools:text="Version: 21" />
+
+    <TextView
+        android:id="@+id/view_application_card_api"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginEnd="4dp"
+        android:layout_marginStart="4dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"
+        android:textColor="#545454"
+        android:textSize="10sp"
+        tools:text="API: 21" />
 
 </merge>

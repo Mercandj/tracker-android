@@ -4,12 +4,13 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
     defaultConfig {
         applicationId "com.mercandalli.tracker"
-        minSdkVersion 14
-        targetSdkVersion 26
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -53,32 +54,32 @@ dependencies {
     implementation "com.android.support:design:$support_version"
 
     // Android
-    implementation 'android.arch.lifecycle:extensions:1.0.0-beta2'
-    annotationProcessor "android.arch.lifecycle:compiler:1.0.0-beta2"
-    kapt "android.arch.lifecycle:compiler:1.0.0-beta2"
-    implementation "android.arch.persistence.room:runtime:1.0.0-beta2"
-    annotationProcessor "android.arch.persistence.room:compiler:1.0.0-beta2"
-    kapt "android.arch.persistence.room:compiler:1.0.0-beta2"
+    implementation 'android.arch.lifecycle:extensions:1.1.0'
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.0"
+    kapt "android.arch.lifecycle:compiler:1.1.0"
+    implementation "android.arch.persistence.room:runtime:1.1.0-alpha2"
+    annotationProcessor "android.arch.persistence.room:compiler:1.1.0-alpha2"
+    kapt "android.arch.persistence.room:compiler:1.1.0-alpha2"
 
     // Google
     implementation 'com.google.code.gson:gson:2.8.2'
-    implementation 'com.google.dagger:dagger:2.12'
-    kapt 'com.google.dagger:dagger-compiler:2.12'
-    implementation 'com.google.android.gms:play-services-maps:11.4.2'
-    implementation 'com.google.firebase:firebase-core:11.4.2'
-    implementation "com.google.firebase:firebase-messaging:11.4.2"
-    implementation 'com.google.firebase:firebase-storage:11.4.2'
-    implementation 'com.google.firebase:firebase-database:11.4.2'
+    implementation 'com.google.dagger:dagger:2.14.1'
+    kapt 'com.google.dagger:dagger-compiler:2.14.1'
+    implementation 'com.google.android.gms:play-services-maps:11.8.0'
+    implementation 'com.google.firebase:firebase-core:11.8.0'
+    implementation "com.google.firebase:firebase-messaging:11.8.0"
+    implementation 'com.google.firebase:firebase-storage:11.8.0'
+    implementation 'com.google.firebase:firebase-database:11.8.0'
 
     // Third party
-    implementation "com.squareup.okhttp3:okhttp:3.9.0"
-    implementation "com.squareup.okhttp3:logging-interceptor:3.9.0"
+    implementation "com.squareup.okhttp3:okhttp:3.9.1"
+    implementation "com.squareup.okhttp3:logging-interceptor:3.9.1"
     implementation "com.squareup.okhttp:okhttp-urlconnection:2.7.5"
     implementation "com.hannesdorfmann:adapterdelegates3:3.0.1"
 
     // Unit tests
     testImplementation 'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-core:2.11.0'
+    testImplementation 'org.mockito:mockito-core:2.13.0'
 
     // Connected tests
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
